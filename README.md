@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Azzie Fuzzie Creative Website Bolierplate
 
 - 11ty (Eleventy): A light yet powerful static site generator offering swiftness in build times, data flexibility, and a broad template language support.
@@ -54,3 +55,7 @@ pnpm run build
 
 
 
+=======
+# Pigalle
+The home of exceptional seafood and grills.
+>>>>>>> a9615c3ed8618bd4d89a118902fd8c32ae0cf1a7
