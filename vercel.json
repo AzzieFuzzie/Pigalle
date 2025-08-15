@@ -3,10 +3,11 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "_site"
-      }
+      "use": "@vercel/static-build"
     }
-  ]
+  ],
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "_site",
+  "cleanUrls": true,
+  "trailingSlash": true
 }
