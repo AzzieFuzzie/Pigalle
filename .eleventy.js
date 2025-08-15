@@ -1,58 +1,55 @@
 import path from 'path';
 import htmlmin from 'html-minifier';
-import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
-import glslifyPlugin from 'vite-plugin-glslify';
-import vitePluginClean from 'vite-plugin-clean';
 import pluginPug from '@11ty/eleventy-plugin-pug';
-import fs from 'fs-extra';
 
-export default function (eleventyConfig) {
-  // Clean _site before each build
-  eleventyConfig.on('beforeBuild', () => {
-    fs.emptyDirSync('_site');
-  });
+// Only import Vite plugin in dev
+let EleventyVitePlugin, glslifyPlugin, vitePluginClean;
+if (process.env.ELEVENTY_ENV === 'development') {
+  EleventyVitePlugin = (await import('@11ty/eleventy-plugin-vite')).default;
+  glslifyPlugin = (await import('vite-plugin-glslify')).default;
+  vitePluginClean = (await import('vite-plugin-clean')).default;
+}
 
+export default async function (eleventyConfig) {
   // Set server port
   eleventyConfig.setServerOptions({ port: 3000 });
 
   // Add Pug plugin
   eleventyConfig.addPlugin(pluginPug);
 
-  // Vite plugin integration
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite', // separate folder for Vite assets
-    viteOptions: {
-      root: 'src',
-      publicDir: 'public',
-      build: {
-        outDir: '.11ty-vite', // explicit Vite output folder
-        emptyOutDir: true,
-      },
-      css: {
-        preprocessorOptions: {
-          scss: {
-            additionalData: `@import "@styles/utils/variables.scss";`,
+  // Only use Vite plugin in dev
+  if (process.env.ELEVENTY_ENV === 'development') {
+    eleventyConfig.addPlugin(EleventyVitePlugin, {
+      tempFolderName: '.11ty-vite',
+      viteOptions: {
+        publicDir: 'public',
+        root: 'src',
+        css: {
+          preprocessorOptions: {
+            scss: {
+              additionalData: `@import "@styles/utils/variables.scss";`,
+            },
+          },
+        },
+        plugins: [
+          vitePluginClean({ targets: ['_site'] }),
+          glslifyPlugin(),
+        ],
+        resolve: {
+          alias: {
+            '@styles': path.resolve(process.cwd(), 'src/styles'),
+            '@app': path.resolve(process.cwd(), 'src/app'),
+            '@utils': path.resolve(process.cwd(), 'src/app/utils'),
+            '@components': path.resolve(process.cwd(), 'src/app/components'),
+            '@shaders': path.resolve(process.cwd(), 'src/app/shaders'),
+            '@classes': path.resolve(process.cwd(), 'src/app/classes'),
+            '@animations': path.resolve(process.cwd(), 'src/app/animations'),
+            '@pages': path.resolve(process.cwd(), 'src/app/pages'),
           },
         },
       },
-      plugins: [
-        vitePluginClean({ targets: ['.11ty-vite'] }),
-        glslifyPlugin(),
-      ],
-      resolve: {
-        alias: {
-          '@styles': path.resolve(process.cwd(), 'src/styles'),
-          '@app': path.resolve(process.cwd(), 'src/app'),
-          '@utils': path.resolve(process.cwd(), 'src/app/utils'),
-          '@components': path.resolve(process.cwd(), 'src/app/components'),
-          '@shaders': path.resolve(process.cwd(), 'src/app/shaders'),
-          '@classes': path.resolve(process.cwd(), 'src/app/classes'),
-          '@animations': path.resolve(process.cwd(), 'src/app/animations'),
-          '@pages': path.resolve(process.cwd(), 'src/app/pages'),
-        },
-      },
-    },
-  });
+    });
+  }
 
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy('public');
