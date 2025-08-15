@@ -1,0 +1,24 @@
+.tagline__card__wrapper {
+
+  @include flex(column, center, center, nowrap);
+
+  text-align: center;
+}
+
+.tagline {
+  @include flex(column, center, center, nowrap);
+
+  text-align: center;
+  max-width: 100ch;
+
+
+
+  &__heading {
+    margin-bottom: var(--margin-xtiny);
+  }
+
+
+  @include media('<phone') {
+    max-width: 100ch;
+  }
+}

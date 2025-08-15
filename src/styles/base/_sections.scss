@@ -1,0 +1,91 @@
+:root {
+  --section-xtiny: 30px;
+  --section-tiny: 50px;
+  --section-small: 100px;
+  --section-medium: 160px;
+  --section-large: 200px;
+}
+
+@include media('<phone') {
+  :root {
+    --section-xtiny: 15px;
+    --section-tiny: 25px;
+    --section-small: 50px;
+    --section-medium: 80px;
+    --section-large: 100px;
+  }
+}
+
+@include media('<tablet') {
+  :root {
+    --section-xtiny: 15px;
+    --section-tiny: 25px;
+    --section-small: 50px;
+    --section-medium: 80px;
+    --section-large: 100px;
+  }
+}
+
+.section--relative {
+  position: relative;
+}
+
+.section--xtiny--padding {
+  padding-top: var(--section-xtiny);
+  padding-bottom: var(--section-xtiny);
+}
+
+.section--xtiny--margin {
+  padding-top: var(--section-xtiny);
+  padding-bottom: var(--section-xtiny);
+}
+
+.section--tiny--padding {
+  padding-top: var(--section-tiny);
+  padding-bottom: var(--section-tiny);
+}
+
+.section--tiny--margin {
+  margin-top: var(--section-tiny) !important;
+  margin-bottom: var(--section-tiny) !important;
+}
+
+.section--small--padding {
+  padding-top: var(--section-small);
+  padding-bottom: var(--section-small);
+}
+
+
+.section--small--margin {
+  margin-top: var(--section-small) !important;
+  margin-bottom: var(--section-small) !important;
+}
+
+.section--medium--padding {
+  padding-top: var(--section-medium);
+  padding-bottom: var(--section-medium);
+}
+
+.section--medium--margin {
+  margin-top: var(--section-medium);
+  margin-bottom: var(--section-medium);
+}
+
+.section--large--padding {
+  padding-top: var(--section-large);
+  padding-bottom: var(--section-large);
+}
+
+.section--large--margin {
+  margin-top: var(--section-large);
+  margin-bottom: var(--section-large);
+}
+
+.section--dark {
+  background-color: var(--color-background--dark);
+  color: var(--color-text--white);
+}
+
+.section--beige {
+  background-color: var(--color-background--beige);
+}

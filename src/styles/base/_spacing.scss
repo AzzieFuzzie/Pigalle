@@ -1,0 +1,42 @@
+:root {
+  --padding-xxtiny: 5px;
+  --padding-xtiny: 20px;
+  --padding-tiny: 30px;
+  --padding-xsmall: 40px;
+  --padding-small: 50px;
+  --padding-medium: 80px;
+  --padding-large: 150px;
+
+  --margin-xxtiny: 5px;
+  --margin-xtiny: 20px;
+  --margin-tiny: 30px;
+  --margin-xsmall: 40px;
+  --margin-small: 50px;
+  --margin-xmedium: 60px;
+  --margin-medium: 80px;
+  --margin-large: 150px;
+  --margin-xlarge: 250px;
+}
+
+@include media('<phone') {
+  :root {
+
+    --padding-xxtiny: 2.5px;
+    --padding-tiny: 10px;
+    --padding-xsmall: 20px;
+    --padding-small: 25px;
+    --padding-xmedium: 30px;
+    --padding-medium: 40px;
+    --padding-large: 125px;
+
+
+    --margin-xxtiny: 2.5px;
+    --margin-tiny: 10px;
+    --margin-xsmall: 20px;
+    --margin-small: 25px;
+    --margin-xmedium: 30px;
+    --margin-medium: 40px;
+    --margin-large: 125px;
+
+  }
+}

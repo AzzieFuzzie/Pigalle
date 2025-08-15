@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Roslindale Dsp Cd Lt';
+  src: url('fonts/RoslindaleDspCd-LtIt.woff2') format('woff2'),
+    url('fonts/RoslindaleDspCd-LtIt.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roslindale Dsp Nar';
+  src: url('fonts/RoslindaleDspNar-Regular.woff2') format('woff2'),
+    url('fonts/RoslindaleDspNar-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/Lato-Regular.woff2') format('woff2'),
+    url('fonts/Lato-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

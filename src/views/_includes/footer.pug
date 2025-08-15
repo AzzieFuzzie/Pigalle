@@ -1,0 +1,31 @@
+.footer 
+  .footer__wrapper  
+    each slice in prismic.footer.data.body
+      if slice.slice_type === 'opening_hours'
+        div.footer___hours
+          h6.footer___hours__heading= slice.primary.heading[0].text
+          each item in slice.items 
+            div.footer__hours__content
+              div.footer__hours__day
+                p=item.opening_day
+              div.footer__hours__time
+                p=item.opening_time
+
+      else if slice.slice_type === 'contact'
+        div.footer__contact
+          p.footer__contact__heading= slice.primary.heading
+          p.footer__contact__phone
+            a(href='tel:+27 11 884 8899')= slice.primary.phone_number
+          p.footer__contact__email
+            a(href='mailto:info@pigalle.co.za')= slice.primary.email
+          p.footer__contact__address= slice.primary.address
+      
+      else if slice.slice_type === 'social_media'
+        div.footer__social__media
+          h6.footer___social__media__heading= slice.primary.heading[0].text
+
+    div.footer__copyright
+      p= prismic.footer.data.all_rights_reserved
+
+    div.footer__logo
+      img.logo(src="./images/logo.svg" alt="Pigalle Logo" loading="lazy")

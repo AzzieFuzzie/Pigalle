@@ -1,0 +1,27 @@
+@import '../base/type-scale';
+
+%description-12 {
+  @include fluid-type(500px, 1440px, 60rem, 100rem);
+
+}
+
+%description-14 {
+  @include fluid-type(500px, 1440px, 6, 12rem);
+}
+
+%description-16 {
+  @include fluid-type(500px, 1440px, 6, 12rem);
+}
+
+
+%description-18 {
+  @include fluid-type(500px, 1440px, 6, 12rem);
+}
+
+%description-22 {
+  @include fluid-type(500px, 1440px, 6, 12rem);
+}
+
+%description-36 {
+  @include fluid-type(500px, 1440px, 6, 12rem);
+}

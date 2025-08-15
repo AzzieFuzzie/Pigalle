@@ -1,0 +1,38 @@
+.faq {
+  @include page-grid;
+
+
+  &__container {
+    grid-column: 4/ span 6;
+
+    @include media('<phone') {
+      grid-column: 1/ span 4;
+    }
+  }
+
+
+  &__heading {
+    margin-bottom: var(--margin-xtiny);
+  }
+
+  &__accordian {}
+
+  &__question {
+    padding: 0;
+  }
+
+  &__question__text {
+    text-transform: none;
+
+  }
+
+  &__answer {}
+
+  &__line {
+    background-color: colors(black);
+    height: 1px;
+    opacity: 0.3;
+    margin: var(--margin-xtiny) 0;
+  }
+
+}

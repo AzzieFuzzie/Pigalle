@@ -1,0 +1,95 @@
+extends _includes/layout
+block variables
+  - var template = 'menu'
+
+block content
+  .menu
+    .menu__wrapper
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_items'
+          ul 
+            each item in slice.items 
+              li=item.label
+
+      //- Appetizers
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_appetizers'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+
+      //- Salaads
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_salaads'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+
+      //- Meats
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_meats'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+      
+      //- Chooza
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_chooza'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+
+      //-Seafood
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_seafood'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+
+      //-Vegetarian
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_vegetarian'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+      
+      //-Platters
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_platters'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+      
+      //- Desserts
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_desserts'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+
+      //- Drinks
+      each slice in prismic.menu.data.body
+        if slice.slice_type === 'menu_drinks'
+          each item in slice.items 
+            //- img(src='')=item.image
+            h5=item.name
+            p=item.description
+            p=item.price
+      
+      

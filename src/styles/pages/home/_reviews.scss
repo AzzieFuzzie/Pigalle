@@ -1,0 +1,57 @@
+.reviews {
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__slider {
+    display: flex;
+    // gap: 40px;
+    margin-left: -30%; // space to cut off first slide
+    margin-right: -30%; // space to cut off last slide
+
+  }
+
+  &__item {
+    min-width: 30%;
+    text-align: center;
+
+  }
+
+  &__text {
+    margin-bottom: var(--margin-xtiny);
+  }
+
+  &__quote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--margin-xtiny);
+  }
+
+  &__quote span {
+    font-family: font(roslindale-regular), serif;
+    @include fluid-type(320px, 1440px, 100px, 120px);
+    line-height: 1;
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--margin-small);
+    margin-top: 1rem;
+
+    button.reviews__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background-color: colors(light-grey);
+      cursor: pointer;
+
+      &.active {
+        background-color: colors(black);
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+extends _includes/layout
+
+block variables
+  - var template = 'contact'
+
+block content
+  .contact
+    .contact__wrapper
+    h2= prismic.contact.data.heading[0].text
+    a.phone(href="tel:+1234567890")=prismic.contact.data.phone_label[0].text
+    a.email(href="mailto:info@pigalle.co.za")=prismic.contact.data.email_label[0].text
+    address.address=  prismic.contact.data.address_label[0].text

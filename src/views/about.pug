@@ -1,0 +1,25 @@
+extends _includes/layout
+
+block variables
+  - var template = 'about'
+
+block content
+  .about
+    .about__wrapper
+      each slice in prismic.about.data.body
+        if slice.slice_type === 'intro_card'
+          h1= slice.primary.heading[0].text
+          
+        if slice.slice_type === 'about_history'
+          h2= slice.primary.sub_heading[0].text
+          p= slice.primary.description
+          button= slice.primary.button_label
+
+        if slice.slice_type === 'image_slider'
+          
+
+        if slice.slice_type === 'about_quality_'
+          h2= slice.primary.sub_heading[0].text
+          p= slice.primary.halaal_description
+          p= slice.primary.team_description
+          button= slice.primary.button_label

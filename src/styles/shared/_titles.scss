@@ -1,0 +1,11 @@
+%title-16 {
+  font-family: font(lato), serif;
+  line-height: 130%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+  text-transform: uppercase;
+  @include fluid-type(320px, 1440px, 16px, 16px);
+
+  @include media('<phone') {
+    line-height: 130%;
+  }
+}

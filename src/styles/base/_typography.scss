@@ -1,0 +1,130 @@
+html {
+  // @extend %cover;
+  // overflow: hidden;
+  font-size: calc(100vw / 1440 * 10);
+  line-height: 1;
+  overflow-x: hidden;
+  // position: fixed;
+  overscroll-behavior: none;
+  text-rendering: optimizeSpeed;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  // @extend %cover;
+  // position: relative;
+  font-family: font(lato);
+  font-size: clamp(16px, 1.6rem, 1.6rem);
+  font-weight: 400;
+  font-style: normal;
+  text-size-adjust: 100%;
+  line-height: 1.5;
+}
+
+p {
+  font-family: font(lato), serif;
+  @include fluid-type(320px, 1440px, 16px, 16px);
+  line-height: 130%;
+
+}
+
+em {
+  font-family: font(roslindale-light-italic), serif;
+}
+
+a,
+button,
+.button {
+  font-family: font(lato), serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  @include fluid-type(320px, 1440px, 14px, 16px);
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {}
+
+h1,
+.h1 {
+  font-family: font(roslindale-regular), serif;
+  line-height: 100%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+
+  @include fluid-type(320px, 1440px, 40px, 90px);
+
+  @include media('<phone') {
+    line-height: 110%;
+  }
+}
+
+
+h2,
+.h2 {
+  font-family: font(roslindale-regular), serif;
+  line-height: 120%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+
+  @include fluid-type(320px, 1440px, 28px, 50px);
+
+  @include media('<phone') {
+    line-height: 110%;
+  }
+}
+
+h3,
+.h3 {
+  font-family: font(roslindale-regular), serif;
+  line-height: 130%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+
+  @include fluid-type(320px, 1440px, 24px, 36px);
+
+  @include media('<phone') {
+    line-height: 110%;
+  }
+}
+
+h4,
+.h4 {
+  font-family: font(lato), serif;
+  line-height: 120%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 1%;
+
+  @include fluid-type(320px, 1440px, 26px, 30px);
+
+  @include media('<phone') {
+    line-height: 120%;
+  }
+}
+
+h5,
+.h5 {
+  font-family: font(lato), serif;
+  line-height: 110%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+
+  @include fluid-type(320px, 1440px, 18px, 24px);
+
+  @include media('<phone') {
+    line-height: 130%;
+  }
+}
+
+h6,
+.h6 {
+  font-family: font(lato), serif;
+  line-height: 130%; // mobile value, will shrink visually on desktop due to scale
+  letter-spacing: 0;
+  text-transform: uppercase;
+  @include fluid-type(320px, 1440px, 16px, 16px);
+
+  @include media('<phone') {
+    line-height: 130%;
+  }
+}

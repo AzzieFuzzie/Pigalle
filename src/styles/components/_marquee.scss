@@ -1,0 +1,25 @@
+.marquee {
+  overflow: hidden;
+  @include flex(row, space-between, center);
+
+
+
+  &__image {
+    margin-right: var(--margin-tiny);
+
+  }
+
+  &__text {
+    font-family: font(roslindale-regular), serif;
+    line-height: 100%; // mobile value, will shrink visually on desktop due to scale
+    letter-spacing: 0;
+
+    @include fluid-type(320px, 1440px, 24px, 30px);
+  }
+
+  &__book__wrapper {
+    padding: var(--margin-xtiny) 0;
+    border-top: 1px solid colors(light-grey); // top border
+    border-bottom: 1px solidcolors(light-grey);
+  }
+}

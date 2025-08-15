@@ -1,0 +1,72 @@
+.navigation {
+  @extend %title-16;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px; // your preferred height
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--padding-xsmall);
+
+  align-items: center;
+  color: colors(white);
+
+
+  &__links {
+    &--desktop {
+      display: flex;
+      gap: 2rem;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    &--mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+
+      &.active {
+        transform: translateX(0);
+      }
+
+      .navigation__icon--close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__icon--open {
+    display: none;
+    flex-direction: column;
+    gap: 0.3rem;
+    cursor: pointer;
+
+    span {
+      width: 25px;
+      height: 3px;
+      background: #000;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+}

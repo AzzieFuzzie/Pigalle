@@ -1,0 +1,33 @@
+.button,
+button,
+a {
+  @include flex(row, space-between, center, nowrap, 0.8rem);
+  text-transform: uppercase;
+  max-width: max-content;
+  max-height: max-content;
+  display: block;
+
+
+  // &__line {
+  //   display: block;
+  //   height: 1px;
+  //   width: 100%;
+  //   background-color: colors(black);
+
+  //   &--white {
+  //     display: block;
+  //     height: 1px;
+  //     width: 100%;
+  //     background-color: colors(white);
+  //   }
+  // }
+
+
+}
+
+.button__label {
+  @extend %link;
+
+  // padding: var(--padding-xtiny) var(--padding-xxtiny)var(--padding-xtiny) var(--padding-xxtiny);
+
+}

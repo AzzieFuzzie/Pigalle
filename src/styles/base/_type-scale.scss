@@ -1,0 +1,26 @@
+@use 'sass:math';
+
+@function strip-unit($value) {
+  @return math.div($value, ($value * 0 + 1));
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  // Convert font sizes to rem if needed
+  $min-font-size-stripped: strip-unit($min-font-size);
+  $max-font-size-stripped: strip-unit($max-font-size);
+  $min-vw-stripped: strip-unit($min-vw);
+  $max-vw-stripped: strip-unit($max-vw);
+
+  // Output in the unit of font size (assumes both use same units, rem or px)
+  $font-unit: unit($min-font-size);
+
+  font-size: $min-font-size;
+
+  @media screen and (min-width: $min-vw) {
+    font-size: calc(#{$min-font-size} + #{$max-font-size-stripped - $min-font-size-stripped} * ((100vw - #{$min-vw}) / #{$max-vw-stripped - $min-vw-stripped}));
+  }
+
+  @media screen and (min-width: $max-vw) {
+    font-size: $max-font-size;
+  }
+}
