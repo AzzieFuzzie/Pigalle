@@ -9,8 +9,8 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "cross-env ELEVENTY_ENV=development eleventy --config=.eleventy.js --serve --incremental",
-    "build": "cross-env ELEVENTY_ENV=production eleventy --config=.eleventy.js"
+    "dev": "eleventy --config=.eleventy.js --serve --incremental",
+    "build": "eleventy --config=.eleventy.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
