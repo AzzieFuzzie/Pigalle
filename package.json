@@ -9,8 +9,8 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "ELEVENTY_ENV=development  eleventy --config=.eleventy.js --serve --incremental ",
-    "build": " eleventy --config=.eleventy.js"
+    "dev": "cross-env ELEVENTY_ENV=development eleventy --config=.eleventy.js --serve --incremental",
+    "build": "cross-env ELEVENTY_ENV=production eleventy --config=.eleventy.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
@@ -24,6 +24,7 @@
     "@types/ogl": "npm:ogl-types@^0.0.102",
     "@types/ua-parser-js": "^0.7.39",
     "axios": "^1.6.8",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
