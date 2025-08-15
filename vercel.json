@@ -8,9 +8,10 @@
   ],
   "buildCommand": "pnpm build",
   "outputDirectory": "_site",
+  "cleanUrls": true,
   "headers": [
     {
-      "source": "/index.html",
+      "source": "/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

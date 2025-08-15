@@ -9,7 +9,7 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "eleventy --config=.eleventy.js --serve --incremental ",
+    "dev": "ELEVENTY_ENV=development  eleventy --config=.eleventy.js --serve --incremental ",
     "build": " eleventy --config=.eleventy.js"
   },
   "devDependencies": {
