@@ -1,28 +1,40 @@
 import path from 'path';
+import fs from 'fs-extra';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
 import glslifyPlugin from 'vite-plugin-glslify';
 import vitePluginClean from 'vite-plugin-clean';
 import pluginPug from '@11ty/eleventy-plugin-pug';
-// import imgix from './src/views/_data/imgix.js';
-
 
 export default function (eleventyConfig) {
-  //Global Data
-  // eleventyConfig.addGlobalData('imgix', imgix);
+  // ----------------------------
+  // Clean _site before each build
+  // ----------------------------
+  eleventyConfig.on('beforeBuild', () => {
+    fs.emptyDirSync('_site');
+  });
 
-  // Set server port
+  // ----------------------------
+  // Set server port for dev
+  // ----------------------------
   eleventyConfig.setServerOptions({ port: 3000 });
 
+  // ----------------------------
   // Add Pug plugin
+  // ----------------------------
   eleventyConfig.addPlugin(pluginPug);
 
+  // ----------------------------
   // Vite plugin integration
+  // ----------------------------
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: '.11ty-vite',
     viteOptions: {
-      publicDir: 'public',
       root: 'src',
+      publicDir: 'public',
+      build: {
+        outDir: '.11ty-vite', // ensure Vite writes to temp folder
+      },
       css: {
         preprocessorOptions: {
           scss: {
@@ -49,14 +61,18 @@ export default function (eleventyConfig) {
     },
   });
 
+  // ----------------------------
   // Passthrough copy for static assets
+  // ----------------------------
   eleventyConfig.addPassthroughCopy('public');
   eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
 
+  // ----------------------------
   // HTML minify transform
+  // ----------------------------
   eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       return htmlmin.minify(content, {
@@ -68,9 +84,12 @@ export default function (eleventyConfig) {
     return content;
   });
 
+  // ----------------------------
+  // Directory configuration
+  // ----------------------------
   return {
     dir: {
-      input: 'src/views/',
+      input: 'src/views',
       output: '_site',
       includes: '_includes',
       data: '_data',
