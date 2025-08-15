@@ -2,19 +2,19 @@ import path from 'path';
 import htmlmin from 'html-minifier';
 import pluginPug from '@11ty/eleventy-plugin-pug';
 
-// Only import Vite plugin in dev (using require inside function)
-export default function (eleventyConfig) {
+// Eleventy config must be an async function if using dynamic import
+export default async function (eleventyConfig) {
   // Set server port
   eleventyConfig.setServerOptions({ port: 3000 });
 
   // Add Pug plugin
   eleventyConfig.addPlugin(pluginPug);
 
-  // Only use Vite in dev
+  // Only use Vite plugin in development
   if (process.env.ELEVENTY_ENV !== 'production') {
-    const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite');
-    const glslifyPlugin = require('vite-plugin-glslify');
-    const vitePluginClean = require('vite-plugin-clean');
+    const { default: EleventyVitePlugin } = await import('@11ty/eleventy-plugin-vite');
+    const { default: glslifyPlugin } = await import('vite-plugin-glslify');
+    const { default: vitePluginClean } = await import('vite-plugin-clean');
 
     eleventyConfig.addPlugin(EleventyVitePlugin, {
       tempFolderName: '.11ty-vite',
