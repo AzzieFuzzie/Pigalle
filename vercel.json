@@ -1,19 +1,19 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "/src/views/api/:path*.js"
-    },
-    {
-      "source": "/product/:uid",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "package.json",
+      "use": "@vercel/static-build"
     }
   ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "buildCommand": "pnpm build",
+  "outputDirectory": "_site",
   "headers": [
     {
       "source": "/index.html",

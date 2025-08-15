@@ -24,10 +24,6 @@ Azzie Fuzzie Creative Website Bolierplate
 
 ## Getting Started
 
-```sh
-nvm install 18.7.1
-```
-
 ### Installation
 
 Install the project dependencies using:
@@ -53,9 +49,6 @@ pnpm run build
 ```
 
 
-
-
 =======
 # Pigalle
 The home of exceptional seafood and grills.
->>>>>>> a9615c3ed8618bd4d89a118902fd8c32ae0cf1a7
