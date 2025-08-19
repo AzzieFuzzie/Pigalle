@@ -1,13 +1,36 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build"
+      "source": "/api/:path*",
+      "destination": "/src/views/api/:path*.js"
+    },
+    {
+      "source": "/product/:uid",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
-  "buildCommand": "pnpm build",
-  "outputDirectory": "_site",
-  "cleanUrls": true,
-  "trailingSlash": true
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
+        }
+      ]
+    }
+  ]
 }

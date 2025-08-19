@@ -1,4 +1,5 @@
 extends _includes/layout
+include _includes/mixins
 
 block variables
   - var template = 'book'
@@ -6,3 +7,20 @@ block variables
 block content
   .book
     .book__wrapper
+      section.book__intro.section--small--margin
+        each slice in prismic.book.data.body
+          if slice.slice_type === 'book'
+            h1.book__heading=slice.primary.heading[0].text
+            p.book__description__1=slice.primary.description_1
+            p.book__description__2=slice.primary.description_2
+        
+        each slice in prismic.footer.data.body
+          if slice.slice_type === 'contact'
+            div.book__content
+              a.book__phone(href='tel:+27 11 884 8899')= slice.primary.phone_number 
+              span.book__separator /   
+              a.book__email(href='mailto:info@pigalle.co.za')= slice.primary.email
+                
+      +svg-decorative('plant')
+      +svg-decorative('blueberry')
+    include ./_includes/marquee

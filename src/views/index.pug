@@ -1,15 +1,17 @@
 extends _includes/layout
+include _includes/mixins
 
 block variables
   - var template = 'home'
+
 
 block content
   .home
     .home__wrapper
       section.hero.container
-        .hero__text!=prismic.homeHeadingsHTML[0]
+        .hero__text!=prismic.homeHeadingsHTML[0] 
       video.hero__video(autoplay muted loop playsinline preload="auto")
-          source(src="/reels/background_reel.mp4" type="video/mp4")
+        source(src="/reels/background_reel" type="video/mp4")
         
       each slice in prismic.home.data.body
         // Tagline Section
@@ -27,19 +29,20 @@ block content
             div.about
               div.about__left
                 div.image__wrapper
-                  - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', fit: 'crop', q:85 }, [400, 665, 1000, 1440, 1600])
+                  - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000, 1440, 1600])
                   img.about__image(
                   
                     src=aboutImage.src
                     srcset=aboutImage.srcset
-                    sizes="(max-width: 600px) 100vw, (max-width: 1440px) 50vw, 700px"
+                    sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                     alt=aboutImage.alt
                     loading="lazy"
                   )
+                +svg-decorative('mint')
               div.about__right
                 h6.about__heading= slice.primary.heading[0].text
                 p.h4.about__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
-                a(href='/menu/')
+                a.button(href='/menu/')
                   span.button__label= slice.primary.button_label 
                   //- span.button__line
 
@@ -50,20 +53,20 @@ block content
               div.food__left
                 h6.food__heading= slice.primary.heading[0].text
                 p.h4.food__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
-                a(href='/')
+                a.button(href='/')
                   span.button__label= slice.primary.button_label
                   //- span.button__line
               div.food__right
                 div.image__wrapper
-                  - const sliderImage = imgix.imgix(slice.items[0].slider_image, { auto:'compress', fit: 'crop', q:85 }, [400, 665, 1000, 1440, 1600])
+                  - const sliderImage = imgix.imgix(slice.items[0].slider_image, { auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000, 1440, 1600])
                   img.food__image(
                     src=sliderImage.src
                     srcset=sliderImage.srcset
-                    sizes="(max-width: 600px) 100vw, (max-width: 1440px) 50vw, 700px"
+                    sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                     alt=sliderImage.alt
                     loading="lazy"
                   )
-
+                +svg-decorative('rosemary')
                 div.food__slider 
                   button.food__button 
                     span.food__button__label  next 
@@ -74,15 +77,19 @@ block content
         // Private Events Section
         if slice.slice_type === 'private_events_card'
           section.section.section--small--margin.events__card__wrapper
-            - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto:'compress', fit: 'crop' })
-            div.events(style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`)
+            - const backgroundImage = imgix.imgix(slice.primary.background_image, {  auto: 'compress',crop: 'top'  }, [400, 600, 800])
+            div.events(
+              style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position: top;`
+              data-srcset=backgroundImage.srcset
+            )
+
               div.events__content
                 h2.events__heading= slice.primary.heading[0].text
                 p.events__description= slice.primary.intro_text
                 a.events__button(href='/')
                   span.events__button__label= slice.primary.button_label
                 
-              
+            
               //- img.events__image(
               //-   src=backgroundImage.src
               //-   srcset=backgroundImage.srcset
@@ -115,54 +122,32 @@ block content
         button.reviews__dot(data-index=2)
 
       // FAQ Section - back inside slice loop
-    each slice in prismic.home.data.body
-      if slice.slice_type === 'faq_card'
-        section.section.section--small--margin
-          .faq
-            .faq__container
-              h2.faq__heading= slice.primary.heading[0].text
-              dl.faq__accordian
-                each item in slice.items
-                  button.faq__question
-                    dt.h6.faq__question__text= item.question
-                    svg.faq__icon(
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 22 23" 
-                    height="23" 
-                    width="22"
-                    )
-                    path(
-                      fill="black" 
-                      d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"
+      each slice in prismic.home.data.body
+        if slice.slice_type === 'faq_card'
+          section.section.section--small--margin
+            .faq
+              .faq__container
+                h2.faq__heading= slice.primary.heading[0].text
+                dl.faq__accordian
+                  each item in slice.items
+                    button.faq__question
+                      dt.faq__question__text= item.question
+                      svg.faq__icon(
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 22 23"
+                        height="23"
+                        width="22"
                       )
-                  dd.faq__answer= item.answer
-                  .faq__line
+                        path(
+                          fill="black"
+                          d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"
+                        )
+                    dd.faq__answer= item.answer
+                    .faq__line
+      
   
-    each slice in prismic.home.data.body
-      if slice.slice_type === 'marquee'
-        section.section.section--tiny--margin
-          div.marquee.container
-            each item in slice.items
-              - const marqueeImage = imgix.imgix(item.image, { auto:'compress', fit: 'crop' })
-              img.marquee__image(
-                src=marqueeImage.src
-                srcset=marqueeImage.srcset
-                sizes="(max-width: 600px) 200px, 250px"
-                alt=marqueeImage.alt
-                loading="lazy"
-              )
-    
-    //- Marquee container
-    section.marquee__book.section.section--xtiny--margin
-      div.marquee__book__wrapper
-        - const marqueeItems = 'Book Now /'
-        - const repeatCount = 10
-        - for(let i = 0; i < repeatCount; i++)
-          each item in marqueeItems
-            span.marquee__text(aria-hidden="true")= item
-
-
+      include ./_includes/marquee
 
     
       

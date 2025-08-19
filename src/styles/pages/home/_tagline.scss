@@ -7,10 +7,9 @@
 
 .tagline {
   @include flex(column, center, center, nowrap);
+  max-width: 90ch; // optional: limit line length for readability
 
-  text-align: center;
-  max-width: 100ch;
-
+  // optional: limit line length for readability
 
 
   &__heading {
@@ -19,6 +18,6 @@
 
 
   @include media('<phone') {
-    max-width: 100ch;
+    // max-width: 100ch;
   }
 }

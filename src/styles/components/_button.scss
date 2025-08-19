@@ -28,6 +28,6 @@ a {
 .button__label {
   @extend %link;
 
-  // padding: var(--padding-xtiny) var(--padding-xxtiny)var(--padding-xtiny) var(--padding-xxtiny);
+  padding: var(--padding-xtiny) var(--padding-xxtiny)var(--padding-xtiny) var(--padding-xxtiny);
 
 }

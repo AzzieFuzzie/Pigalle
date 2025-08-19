@@ -1,25 +1,72 @@
 extends _includes/layout
+include _includes/mixins
 
 block variables
   - var template = 'about'
 
 block content
-  .about
-    .about__wrapper
+  .story
+    .story__wrapper
       each slice in prismic.about.data.body
         if slice.slice_type === 'intro_card'
-          h1= slice.primary.heading[0].text
+          - if (slice.primary.background_image && slice.primary.background_image.url)
+            - const aboutBackgroundImage = imgix.imgix(slice.primary.background_image,{ auto: 'compress', crop: 'top' }, [400, 800, 1200, 1600, 2000])
+            section.story__intro__wrapper(
+              style=`background-image: url('${aboutBackgroundImage.src}');background-size: cover; background-position: top;`
+              data-srcset=aboutBackgroundImage.srcset
+              sizes="100vw")
+              .story__intro
+                .story__intro__heading!= prismic.aboutHeadingsHTML[0]
+           
+
+
+    
+
+
           
         if slice.slice_type === 'about_history'
-          h2= slice.primary.sub_heading[0].text
-          p= slice.primary.description
-          button= slice.primary.button_label
+          section.container.section--small--margin.story__history
+            div.story__history__wrapper
+              h2.story__history__heading= slice.primary.sub_heading[0].text
+              p.story__history__description= slice.primary.description
+              button.button__label.story__history__button= slice.primary.button_label
 
         if slice.slice_type === 'image_slider'
-          
+          section.section--small--margin.story__slider
+            each item in slice.items
+              div.story__slider__item
+                - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800])
+                img.story__slider__image(
+                  src=imgData.src
+                  srcset=imgData.srcset
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  alt=item.alt || "Slider image"
+                  loading="lazy"
+                )
+            +svg-decorative('tomato')
+          //- +svg-decorative('avocado')
 
         if slice.slice_type === 'about_quality_'
-          h2= slice.primary.sub_heading[0].text
-          p= slice.primary.halaal_description
-          p= slice.primary.team_description
-          button= slice.primary.button_label
+          section.section--small--margin.story__quality
+            div.story__quality__wrapper
+              h2.story__quality__heading= slice.primary.sub_heading[0].text
+              div.story__quality__content 
+                //- Halaal
+                div.quality__halaal__wrapper
+                  img.story__halaal__image(
+                    src=slice.primary.halaal_image.url
+                  )
+                  p.story__quality__halaal__description= slice.primary.halaal_description
+                //- Team
+                div.quality__team__wrapper
+                  img.story__team__image(
+                    src=slice.primary.team_image.url
+                  )
+                  p.story__quality__team__description= slice.primary.team_description
+
+          
+
+                  
+                
+                    
+                button.button__label.story__quality__button= slice.primary.button_label

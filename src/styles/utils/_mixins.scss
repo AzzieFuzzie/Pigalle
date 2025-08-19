@@ -10,21 +10,26 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center
 }
 
 @mixin placeholder {
   &.placeholder {
     @content;
   }
+
   &::-webkit-input-placeholder {
     @content;
   }
+
   &::-moz-placeholder {
     @content;
   }
+
   &:-moz-placeholder {
     @content;
   }
+
   &:-ms-input-placeholder {
     @content;
   }
@@ -43,11 +48,11 @@
   }
 }
 
-@mixin stagger(
-  $step: 50ms,
+@mixin stagger($step: 50ms,
   $initial: 0ms,
   $max: 20,
   $prop: 'transition-delay'
+
 ) {
   @for $i from 1 through $max {
     &:nth-of-type(#{$i}) {

@@ -1,0 +1,107 @@
+.menu {
+
+  &__section {}
+
+
+  &__item {
+    @include page-grid;
+
+
+
+    @include media('<phone') {
+      max-width: 100%;
+      overflow: hidden;
+      @include flex(column, flex-start, flex-start, nowrap);
+    }
+  }
+
+
+  &__text__wrapper {
+    grid-column: 6 / span 6;
+
+
+
+    @include media('<tablet') {
+      grid-column: 6 / span 7;
+
+    }
+
+    @include media('<phone') {
+      grid-column: 1 / -1;
+      width: 100%; // fills container
+      grid-column: unset;
+      grid-row: unset;
+      max-height: none;
+      overflow-y: visible;
+
+
+    }
+  }
+
+
+
+  &__image__wrapper {
+    grid-column: 1 / span 4;
+    grid-row: 1 / span 7;
+    overflow: hidden;
+
+    @include media('<phone') {
+      width: 100%; // fills viewport width
+      grid-column: unset;
+      grid-row: unset;
+      margin-bottom: var(--margin-medium);
+      max-height: none; // allow image to scale naturally
+    }
+  }
+
+  &__image {
+    width: 100%;
+    aspect-ratio: 2 / 3; // keeps height proportional to width
+    object-fit: cover;
+    object-position: top;
+    max-height: 50vh;
+
+    @include media('<phone') {
+      width: 100%; // slightly smaller than viewport for padding
+      height: auto; // scales height naturally
+      aspect-ratio: 16 / 9;
+      // remove previous max-height
+    }
+  }
+
+
+
+  &__name {
+    margin-bottom: var(--margin-xtiny);
+  }
+
+  &__flex__wrapper {
+    width: 100%;
+    @include flex(row, space-between, flex-start, nowrap);
+  }
+
+  &__description {
+    text-transform: none;
+    // margin-bottom: var(--margin-xtiny);
+
+    max-width: 45%;
+
+    @include media('<phone') {}
+  }
+
+  &__price {
+    font-weight: bold;
+  }
+
+
+  &__line {
+
+    margin: var(--margin-xtiny) 0 var(--margin-xtiny) 0;
+    display: block;
+    height: 1px;
+    background-color: colors(accent-grey);
+
+    @include media('<phone') {}
+  }
+
+}

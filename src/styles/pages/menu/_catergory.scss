@@ -1,0 +1,33 @@
+.menu__catergory {
+  @include flex(row, center, center, wrap);
+
+
+  @include media('<tablet') {
+    @include flex(row, flex-start, center, nowrap);
+  }
+
+  &__wrapper {
+    @include flex(row, center, center, wrap);
+
+    max-width: 120ch;
+    text-align: center;
+
+    @include media('<tablet') {
+      @include flex(row, flex-start, center, nowrap);
+    }
+
+  }
+
+  &__label {
+    text-transform: capitalize;
+    padding: 0;
+    margin-right: var(--margin-xtiny);
+
+  }
+
+  &__label span {
+
+    margin-left: var(--margin-xtiny);
+
+  }
+}

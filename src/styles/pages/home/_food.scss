@@ -7,6 +7,7 @@
     grid-column: 1 / span 6;
     justify-self: center;
     align-self: center;
+    position: relative;
 
     @include media('<phone') {
       grid-column: 1 / span 4;
@@ -17,6 +18,7 @@
 
   &__right {
     grid-column: 7 / span 6;
+    position: relative;
 
     @include media('<phone') {
       grid-column: 1 / span 4;

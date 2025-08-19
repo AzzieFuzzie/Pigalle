@@ -1,0 +1,24 @@
+//- Image marquee
+each slice in prismic.home.data.body
+  if slice.slice_type === 'marquee'
+    section.section.section--tiny--margin
+      div.marquee.marquee__images.container
+        each item in slice.items
+          - const marqueeImage = imgix.imgix(item.image, { auto:'compress', crop:'entropy' })
+          img.marquee__image(
+            src=marqueeImage.src
+            srcset=marqueeImage.srcset
+            sizes="(max-width: 600px) 200px, 250px"
+            alt=marqueeImage.alt
+            loading="lazy"
+          )
+
+//- Text marquee
+section.marquee.marquee__text.section.section--xtiny--margin
+  div.marquee.marquee__text__wrapper
+    - const marqueeItems = 'Book Now'
+    - const repeatCount = 15
+    - for(let i = 0; i < repeatCount; i++)
+      span.marquee__text(aria-hidden="true")= marqueeItems
+      if i < repeatCount - 1
+        span.marquee__dot(aria-hidden="true") •

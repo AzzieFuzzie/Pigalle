@@ -28,10 +28,18 @@
     grid-column: 1 / span 6;
     margin-bottom: var(--margin-small);
 
+    position: relative;
+
     @include media('<phone') {
       grid-column: 1 / span 4;
 
     }
+  }
+
+
+
+  &__image__wrapper {
+    position: relative
   }
 
   &__image {

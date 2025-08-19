@@ -1,42 +1,72 @@
 .footer {
-  padding: var(--margin-xsmall) 0;
   background-color: colors(black);
 
-  color: colors(gold);
+  color: colors(white);
 
   &__wrapper {
     @include page-grid;
 
   }
 
-  &___hours__heading {
+  &__hours__heading {
     margin-bottom: var(--margin-xxtiny);
+
+    color: colors(gold);
+
+    @include media('<phone') {
+      align-self: center;
+      justify-self: center;
+    }
   }
 
   &__hours {
-    grid-column: 1 / span 6;
+    grid-column: 1 / span 3;
     grid-row: 1 / span 1;
     margin-bottom: var(--margin-xxtiny);
+
+    @include media('<tablet') {
+      grid-column: 1 / span 5;
+      grid-row: 1 / span 1;
+      margin-bottom: var(--margin-xtiny);
+    }
 
     @include media('<phone') {
       grid-column: 1 / span 4;
       grid-row: 1 / span 1;
+      margin-bottom: var(--margin-xtiny);
     }
   }
 
   &__hours__content {
     @include flex(row, space-between, center, nowrap); // change to row
-
+    gap: 20px;
     margin-bottom: var(--margin-xxtiny);
     min-width: 100%;
+
+    @include media('<phone') {
+      grid-column: 1 / span 4;
+      grid-row: 1 / span 1;
+      @include flex(column, center, center, nowrap); // change to row
+    }
   }
 
+
   &__hours__day {
-    flex: 0 0 auto;
+    // @include flex(row, space-between, center, nowrap);
+
+
   }
 
   &__hours__hours {
-    flex: 0 0 auto;
+    // @include flex(row, space-between, center, nowrap);
+
+
+  }
+
+  &__hours__time {
+    // @include flex(row, space-between, center, nowrap);
+    margin-right: var(--margin-tiny);
+
   }
 
 
@@ -44,7 +74,7 @@
   &__contact {
     grid-column: 10 / span 3;
     grid-row: 1 / span 1;
-    margin-bottom: var(--margin-xxtiny);
+    margin-bottom: var(--margin-small);
     text-align: right;
     justify-items: end;
 
@@ -52,14 +82,16 @@
     @include media('<phone') {
       grid-column: 1 / span 4;
       grid-row: 2 / span 1;
-      justify-self: center;
-      align-self: center;
+      justify-items: center;
+      align-items: center;
+      text-align: center;
+      margin-bottom: var(--margin-xtiny);
     }
   }
 
   &__contact__heading {
     margin-bottom: var(--margin-xxtiny);
-
+    color: colors(gold);
   }
 
 
@@ -79,17 +111,38 @@
 
   }
 
-  &__social__media {
-    grid-column: 11 / span 2;
-    grid-row: 2 / span 1;
-    text-align: right;
-    justify-items: end;
+  .socials {
+    @include flex(row, flex-end, flex-end, nowrap);
+
+  }
+
+  .socials__item:not(:last-child) {
+    margin-right: var(--margin-xtiny);
   }
 
 
-  &social__media__heading {
-    justify-self: end;
-    align-self: end;
+  &__social__media {
+    grid-column: 10 / span 3;
+    grid-row: 2 / span 1;
+    text-align: right;
+    justify-items: end;
+    margin-bottom: var(--margin-small);
+
+    @include media('<phone') {
+      grid-column: 1 / span 4;
+      grid-row: 3 / span 1;
+      justify-self: center;
+      align-self: center;
+      margin-bottom: var(--margin-medium);
+    }
+  }
+
+
+  &__social__media__heading {
+    color: colors(gold);
+    // justify-self: end;
+    // align-self: end;
+
   }
 
 
@@ -101,7 +154,10 @@
 
     @include media('<phone') {
       grid-column: 1 / span 4;
-      grid-row: 3 / span 1;
+      grid-row: 4 / span 1;
+      align-self: center;
+      margin-bottom: var(--margin-xtiny);
+      justify-self: center;
     }
   }
 
@@ -110,13 +166,21 @@
     grid-column: 9 / span 4;
     grid-row: 3 / span 1;
     color: colors(light-grey);
-    align-self: end;
 
+    align-self: end;
     justify-self: end;
 
+    white-space: nowrap; // <-- prevents line break
+
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 3/ span 1;
+      grid-column: 1 / -1; // span all columns
+      grid-row: 5 / span 1;
+
+      justify-self: center; // stick to right
+      align-self: center;
+
+      white-space: nowrap; // still prevent wrapping
     }
   }
+
 }

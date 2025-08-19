@@ -1,7 +1,7 @@
 nav.navigation
-  .navigation__logo
+  div.navigation__logo
     a(href="/")
-      img(src="./images/logo.svg", alt="Pigalle by Viallamoura logo")  
+      img.navigation__logo__image(src="/images/logo.svg", alt="Pigalle by Viallamoura logo")  
 
   // Desktop links
   .navigation__links.navigation__links--desktop
@@ -16,9 +16,17 @@ nav.navigation
     span
   .navigation__links.navigation__links--mobile
     .navigation__icon.navigation__icon--close 
-      <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z" fill="black"/>
-      </svg>
+      svg(
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 22 23" 
+        height="23" 
+        width="22"
+        )
+        path(
+          fill="black" 
+          d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"
+          )
     a(href="/menu") Menu
     a(href="/about") About
     a(href="/contact") Contact

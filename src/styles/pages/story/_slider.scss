@@ -1,0 +1,33 @@
+.story__slider {
+  @include page-grid; // 12-column grid
+  gap: var(--margin-small); // space between images
+  margin-bottom: var(--margin-large);
+  text-align: center;
+  position: relative;
+
+  &__item {
+    grid-column: span 4; // 12 / 3 = 4 columns per image
+    display: flex;
+    justify-content: center; // center image horizontally
+    align-items: center;
+
+    img.story__slider__image {
+      width: 100%; // fill the column
+      height: auto; // maintain aspect ratio
+      display: block;
+      border-radius: var(--radius-small); // optional styling
+    }
+  }
+
+  @include media('<tablet') {
+    &__item {
+      grid-column: span 6; // 2 images per row on tablet
+    }
+  }
+
+  @include media('<phone') {
+    &__item {
+      grid-column: span 12; // 1 image per row on mobile
+    }
+  }
+}

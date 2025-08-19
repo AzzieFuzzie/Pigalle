@@ -2,15 +2,16 @@
   "name": "Starter Template",
   "version": "1.0.0",
   "type": "module",
-  "description": "Starter Template",
+  "description": "Pigalle by Villamoura Restaurant",
   "private": true,
   "author": "Muaaz Matwadia",
   "repository": {
     "type": "git"
   },
   "scripts": {
-    "dev": "eleventy --config=.eleventy.js --serve --incremental",
-    "build": "eleventy --config=.eleventy.js"
+    "dev": "eleventy --config=.eleventy.js --serve ",
+    "build": "eleventy --config=.eleventy.js",
+    "clean": "rimraf _site"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
@@ -32,6 +33,7 @@
     "lil-gui": "^0.18.2",
     "prettier": "^3.2.5",
     "pug": "^3.0.3",
+    "rimraf": "^6.0.1",
     "sass": "^1.76.0",
     "stats.js": "^0.17.0",
     "typescript": "^5.4.5",
@@ -45,7 +47,6 @@
     "curtainsjs": "^8.1.6",
     "events": "^3.3.0",
     "fontfaceobserver": "^2.3.0",
-    "fs-extra": "^11.3.1",
     "gsap": "^3.12.5",
     "include-media": "^2.0.0",
     "lenis": "^1.3.1",

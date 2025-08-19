@@ -22,8 +22,9 @@ body {
   line-height: 1.5;
 }
 
-p {
-  font-family: font(lato), serif;
+p,
+.p {
+  font-family: font(lato);
   @include fluid-type(320px, 1440px, 16px, 16px);
   line-height: 130%;
 

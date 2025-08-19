@@ -1,6 +1,7 @@
 // All your design tokens are here
 $_colors: (
   light-grey:#6A6A6A,
+  accent-grey:#CBC4B1,
   grey: #EFEDEA,
   white: #fff,
   black: #000,
@@ -35,7 +36,7 @@ $_easings: (
 );
 
 $breakpoints: (
-  'phone': 768px,
+  'phone':768px,
   'tablet': 1024px,
   'desktop': 1440px,
   ) !default;

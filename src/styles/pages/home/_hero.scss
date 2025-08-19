@@ -5,6 +5,9 @@
   position: relative;
   overflow: hidden;
 
+  .hero__video {}
+
+
 
   &__video {
     position: absolute;
@@ -24,7 +27,7 @@
 
   &__text {
     text-align: right;
-    max-width: 100ch;
+    // max-width: 60ch;
     color: colors(white);
     margin-bottom: var(--margin-xmedium);
 

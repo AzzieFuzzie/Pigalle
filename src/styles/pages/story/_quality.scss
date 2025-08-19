@@ -1,0 +1,68 @@
+.story {
+  &__quality {}
+
+  &__quality__wrapper {
+    @include page-grid;
+    row-gap: var(--margin-tiny); // space between rows
+  }
+
+  &__quality__heading {
+    grid-column: 3 / 11;
+    grid-row: 1 / 2;
+    text-align: center;
+    margin-bottom: var(--margin-tiny);
+
+    @include media('<tablet') {
+      grid-column: 2 / -2;
+    }
+
+    @include media('<phone') {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* NEW wrapper to hold team + halaal side by side */
+  &__quality__content {
+    grid-column: 4 / 10;
+    grid-row: 2 / 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--margin-medium);
+    align-self: center;
+    justify-self: center;
+
+    @include media('<tablet') {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr; // stack on mobile
+      grid-row: auto;
+    }
+  }
+
+  /* TEAM + HALAAL blocks */
+  .quality__team__wrapper,
+  .quality__halaal__wrapper {
+    @include flex(row, flex-start, flex-start, nowrap);
+    max-width: 40ch;
+
+
+    p {
+      max-width: 35ch;
+    }
+  }
+
+  &__halaal__image,
+  &__team__image {
+    margin-right: var(--margin-tiny);
+  }
+
+  &__quality__button {
+    grid-column: 1 / -1; // span all 12 columns
+    justify-self: center;
+
+    @include media('<tablet') {
+      grid-column: 1 / -1;
+      justify-self: center;
+      margin-top: var(--margin-medium);
+    }
+  }
+}

@@ -15,6 +15,7 @@ html.lenis {
 body {
   visibility: hidden;
   background-color: colors(grey);
+  overflow-x: hidden;
 }
 
 body.fonts-loaded {

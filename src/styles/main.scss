@@ -20,6 +20,7 @@
 @import './shared/pages';
 @import './shared/titles';
 @import './shared/vertical-titles';
+@import './shared/icons';
 
 // ------------------------------------
 // Base
@@ -63,3 +64,15 @@
 @import './pages/home/events';
 @import './pages/home/faq';
 @import './pages/home/reviews';
+
+@import './pages/menu/catergory';
+@import './pages/menu/menu-items';
+
+@import './pages/story/intro';
+@import './pages/story/history';
+@import './pages/story/slider';
+@import './pages/story/quality';
+
+@import './pages/contact/contact';
+
+@import './pages/book/intro';

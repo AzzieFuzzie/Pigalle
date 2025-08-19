@@ -1,25 +1,49 @@
 .marquee {
   overflow: hidden;
-  @include flex(row, space-between, center);
+  @include flex(row, flex-start, center, nowrap);
+
+  &__images {
+    display: flex;
+    gap: var(--margin-small); // spacing between images
+
+    &.container {
+      width: 100%;
+    }
+
+    &__image {
+      margin-right: var(--margin-small); // space between images
+      flex-shrink: 0; // prevent shrinking
+    }
+  }
 
 
-
-  &__image {
-    margin-right: var(--margin-tiny);
-
+  &__text__wrapper {
+    display: flex;
+    gap: var(--margin-xsmall); // spacing between repeated items
+    padding: var(--padding-xtiny) 0;
+    border-top: 1px solid colors(black); // top border only on wrapper
+    border-bottom: 1px solid colors(black); // bottom border only on wrapper
   }
 
   &__text {
-    font-family: font(roslindale-regular), serif;
-    line-height: 100%; // mobile value, will shrink visually on desktop due to scale
+    display: flex;
+    align-items: center;
+    @include fluid-type(320px, 1440px, 24px, 40px);
+    font-family: font(lato), serif;
+    line-height: 100%;
     letter-spacing: 0;
-
-    @include fluid-type(320px, 1440px, 24px, 30px);
+    text-transform: uppercase;
+    margin-right: var(--margin-xxtiny);
+    flex-shrink: 0; // prevent shrinking on smaller screens
+    white-space: nowrap;
   }
 
-  &__book__wrapper {
-    padding: var(--margin-xtiny) 0;
-    border-top: 1px solid colors(light-grey); // top border
-    border-bottom: 1px solidcolors(light-grey);
+  &__dot {
+    flex-shrink: 0;
+    margin: 0 var(--margin-xxtiny);
+    font-size: 16px; // adjust as needed
+    line-height: 1;
+    color: currentColor;
   }
+
 }
