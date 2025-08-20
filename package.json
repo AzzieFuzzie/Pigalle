@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "eleventy --config=.eleventy.js --serve ",
     "build": "pnpm run prebuild && eleventy --config=.eleventy.js",
-    "prebuild": "mkdir -p .11ty-vite",
+    "prebuild": "rimraf .11ty-vite && mkdir -p .11ty-vite",
     "clean": "rimraf _site"
   },
   "devDependencies": {
