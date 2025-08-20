@@ -35,7 +35,7 @@ export default function (eleventyConfig) {
         },
       },
       plugins: [
-        glslifyPlugin(),
+
         // don't clean _site directly in Vercel builds
         // vitePluginClean({ targets: ['_site'] }),
       ],
