@@ -23,6 +23,10 @@ export default function (eleventyConfig) {
     viteOptions: {
       publicDir: 'public',
       root: 'src',
+      build: {
+        outDir: '.11ty-vite', // make sure Vite builds here, not _site
+        emptyOutDir: true,
+      },
       css: {
         preprocessorOptions: {
           scss: {
@@ -31,8 +35,9 @@ export default function (eleventyConfig) {
         },
       },
       plugins: [
-        vitePluginClean({ targets: ['_site'] }),
         glslifyPlugin(),
+        // don't clean _site directly in Vercel builds
+        // vitePluginClean({ targets: ['_site'] }),
       ],
       resolve: {
         alias: {
@@ -48,6 +53,7 @@ export default function (eleventyConfig) {
       },
     },
   });
+
 
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy('public');
