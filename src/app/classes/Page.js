@@ -27,17 +27,25 @@ export default class Page extends EventEmitter {
 
     this.transformPrefix = Prefix('transform');
     this.create();
-    this.smoothScroll();
+    this._createLenis();
   }
 
-  smoothScroll() {
-    // Initialize Lenis
+
+
+  _createLenis() {
     this.lenis = new Lenis({
-      autoRaf: true,
+      smooth: true,
       lerp: 0.15,
-      smoothWheel: true,
+      autoRaf: false,
     });
+
+    const raf = (time) => {
+      this.lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
   }
+
 
   create() {
     this.element = document.querySelector(this.selector);
@@ -85,12 +93,10 @@ export default class Page extends EventEmitter {
   }
 
   show(_url) {
-    if (this.lenis) {
-      this.lenis.scrollTo(0, {
-        offset: 0,
-        immediate: true // or false for smooth transition
-      });
-    }
+    this.lenis.scrollTo(0, {
+      offset: 0,       // start at top
+      immediate: true, // jump instantly
+    });
 
 
     this.addEventListeners();

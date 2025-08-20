@@ -3,9 +3,10 @@ doctype html
 html(class= isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" lang="en")
   head
     include ../_includes/head
-    include ../_includes/navigation
-  body
     
+  body
+    header 
+      include ../_includes/navigation
     #content.content(data-template=template)
       block content
 

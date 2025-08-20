@@ -1,19 +1,24 @@
 .footer {
   background-color: colors(black);
-
   color: colors(white);
+  padding: var(--padding-small) 0 var(--padding-tiny) 0;
+
+
+  @include media('<phone') {
+    padding: var(--padding-large) 0 var(--padding-small) 0;
+  }
 
   &__wrapper {
     @include page-grid;
-
   }
 
   &__hours__heading {
     margin-bottom: var(--margin-xxtiny);
-
     color: colors(gold);
 
     @include media('<phone') {
+      grid-column: 1 / -1;
+      text-align: center;
       align-self: center;
       justify-self: center;
     }
@@ -31,45 +36,37 @@
     }
 
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 1 / span 1;
+      grid-column: 1 / -1;
+      grid-row: auto;
       margin-bottom: var(--margin-xtiny);
+      text-align: center;
+      justify-self: center;
     }
   }
 
   &__hours__content {
-    @include flex(row, space-between, center, nowrap); // change to row
-    gap: 20px;
+    @include flex(row, space-between, center, nowrap);
+    gap: var(--margin-small);
     margin-bottom: var(--margin-xxtiny);
     min-width: 100%;
 
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 1 / span 1;
-      @include flex(column, center, center, nowrap); // change to row
+      margin-bottom: var(--margin-xsmall);
+      grid-column: 1 / -1;
+      grid-row: auto;
+      gap: 0;
+      @include flex(column, center, center, nowrap);
+      text-align: center;
     }
   }
 
+  &__hours__day {}
 
-  &__hours__day {
-    // @include flex(row, space-between, center, nowrap);
-
-
-  }
-
-  &__hours__hours {
-    // @include flex(row, space-between, center, nowrap);
-
-
-  }
+  &__hours__hours {}
 
   &__hours__time {
-    // @include flex(row, space-between, center, nowrap);
     margin-right: var(--margin-tiny);
-
   }
-
-
 
   &__contact {
     grid-column: 10 / span 3;
@@ -78,48 +75,52 @@
     text-align: right;
     justify-items: end;
 
-
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 2 / span 1;
-      justify-items: center;
+      grid-column: 1 / -1;
+      grid-row: auto;
+      text-align: center; // ✅ center text inside
+      justify-self: center;
+      align-self: center;
+      margin-bottom: var(--margin-large);
+
+      // make children align in the middle
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      text-align: center;
-      margin-bottom: var(--margin-xtiny);
     }
   }
 
   &__contact__heading {
     margin-bottom: var(--margin-xxtiny);
     color: colors(gold);
+
+    @include media('<phone') {
+      text-align: center; // ✅ center heading too
+    }
   }
 
-
-
-  &__contact__phone {
-
-    margin-bottom: var(--margin-xxtiny);
-  }
-
-  &__contact__email {
-
-    margin-bottom: var(--margin-xxtiny);
-  }
-
+  &__contact__phone,
+  &__contact__email,
   &__contact__address {
     margin-bottom: var(--margin-xxtiny);
 
+    @include media('<phone') {
+      text-align: center; // ✅ each line centers
+    }
   }
+
 
   .socials {
     @include flex(row, flex-end, flex-end, nowrap);
 
+    @include media('<phone') {
+      justify-content: center;
+    }
   }
 
   .socials__item:not(:last-child) {
     margin-right: var(--margin-xtiny);
   }
-
 
   &__social__media {
     grid-column: 10 / span 3;
@@ -129,58 +130,49 @@
     margin-bottom: var(--margin-small);
 
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 3 / span 1;
+      grid-column: 1 / -1;
+      grid-row: auto;
+      text-align: center;
       justify-self: center;
       align-self: center;
       margin-bottom: var(--margin-medium);
     }
   }
 
-
   &__social__media__heading {
     color: colors(gold);
-    // justify-self: end;
-    // align-self: end;
-
+    margin-bottom: var(--margin-xxtiny);
   }
-
-
-
 
   &__logo {
     grid-column: 1 / span 4;
     grid-row: 3 / span 1;
 
     @include media('<phone') {
-      grid-column: 1 / span 4;
-      grid-row: 4 / span 1;
+      grid-column: 1 / -1;
+      grid-row: 4;
       align-self: center;
-      margin-bottom: var(--margin-xtiny);
       justify-self: center;
+      text-align: center;
+      margin-bottom: var(--margin-xtiny);
     }
   }
-
 
   &__copyright {
     grid-column: 9 / span 4;
     grid-row: 3 / span 1;
     color: colors(light-grey);
-
     align-self: end;
     justify-self: end;
-
-    white-space: nowrap; // <-- prevents line break
+    white-space: nowrap;
 
     @include media('<phone') {
-      grid-column: 1 / -1; // span all columns
-      grid-row: 5 / span 1;
-
-      justify-self: center; // stick to right
+      grid-column: 1 / -1;
+      grid-row: 5;
+      text-align: center;
+      justify-self: center;
       align-self: center;
-
-      white-space: nowrap; // still prevent wrapping
+      white-space: nowrap;
     }
   }
-
 }

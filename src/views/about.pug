@@ -29,7 +29,8 @@ block content
             div.story__history__wrapper
               h2.story__history__heading= slice.primary.sub_heading[0].text
               p.story__history__description= slice.primary.description
-              button.button__label.story__history__button= slice.primary.button_label
+              a.story__history__button(href='/book/')
+                span.button__label= slice.primary.button_label 
 
         if slice.slice_type === 'image_slider'
           section.section--small--margin.story__slider
@@ -64,9 +65,6 @@ block content
                   )
                   p.story__quality__team__description= slice.primary.team_description
 
-          
+                a.story__quality__button(href='/menu/')
+                  span.button__label= slice.primary.button_label 
 
-                  
-                
-                    
-                button.button__label.story__quality__button= slice.primary.button_label

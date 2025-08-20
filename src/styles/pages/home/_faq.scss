@@ -6,7 +6,8 @@
     grid-column: 4/ span 6;
 
     @include media('<phone') {
-      grid-column: 1/ span 4;
+      grid-column: 1/ -1;
+
     }
   }
 
@@ -30,21 +31,25 @@
 
     @include flex(row, space-between, center, nowrap);
     min-width: 100%;
+
     margin-bottom: var(--margin-xtiny);
     padding: 0;
   }
 
   &__question__text {
-    text-transform: none;
+    @include flex(row, space-between, center, nowrap);
+    flex: 1;
 
+    text-transform: none;
   }
 
-  &__answer {}
+  &__answer {
+    padding-right: 22px;
+  }
 
   &__line {
     background-color: colors(accent-grey);
     height: 1px;
-    opacity: 0.3;
     margin: var(--margin-xtiny) 0;
   }
 

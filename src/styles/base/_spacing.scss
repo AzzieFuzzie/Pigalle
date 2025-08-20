@@ -1,42 +1,72 @@
 :root {
+  /* Desktop / Default */
   --padding-xxtiny: 5px;
-  --padding-xtiny: 20px;
-  --padding-tiny: 30px;
+  --padding-xtiny: 15px;
+  --padding-tiny: 25px;
   --padding-xsmall: 40px;
-  --padding-small: 50px;
-  --padding-medium: 80px;
-  --padding-large: 150px;
+  --padding-small: 60px;
+  --padding-xmedium: 90px;
+  --padding-medium: 120px;
+  --padding-large: 180px;
+  --padding-xlarge: 240px;
 
   --margin-xxtiny: 5px;
-  --margin-xtiny: 20px;
-  --margin-tiny: 30px;
+  --margin-xtiny: 15px;
+  --margin-tiny: 25px;
   --margin-xsmall: 40px;
-  --margin-small: 50px;
-  --margin-xmedium: 60px;
-  --margin-medium: 80px;
-  --margin-large: 150px;
-  --margin-xlarge: 250px;
+  --margin-small: 60px;
+  --margin-xmedium: 90px;
+  --margin-medium: 120px;
+  --margin-large: 180px;
+  --margin-xlarge: 240px;
 }
 
+/* Tablet (~70% of desktop values) */
+@include media('<tablet') {
+  :root {
+    --padding-xxtiny: 4px;
+    --padding-xtiny: 12px;
+    --padding-tiny: 20px;
+    --padding-xsmall: 30px;
+    --padding-small: 45px;
+    --padding-xmedium: 65px;
+    --padding-medium: 90px;
+    --padding-large: 130px;
+    --padding-xlarge: 180px;
+
+    --margin-xxtiny: 4px;
+    --margin-xtiny: 12px;
+    --margin-tiny: 20px;
+    --margin-xsmall: 30px;
+    --margin-small: 45px;
+    --margin-xmedium: 65px;
+    --margin-medium: 90px;
+    --margin-large: 130px;
+    --margin-xlarge: 180px;
+  }
+}
+
+/* Phone (~50% of desktop values) */
 @include media('<phone') {
   :root {
-
-    --padding-xxtiny: 2.5px;
-    --padding-tiny: 10px;
+    --padding-xxtiny: 4px;
+    --padding-xtiny: 8px;
+    --padding-tiny: 15px;
     --padding-xsmall: 20px;
-    --padding-small: 25px;
-    --padding-xmedium: 30px;
-    --padding-medium: 40px;
-    --padding-large: 125px;
+    --padding-small: 30px;
+    --padding-xmedium: 45px;
+    --padding-medium: 60px;
+    --padding-large: 90px;
+    --padding-xlarge: 120px;
 
-
-    --margin-xxtiny: 2.5px;
-    --margin-tiny: 10px;
+    --margin-xxtiny: 4px;
+    --margin-xtiny: 8px;
+    --margin-tiny: 15px;
     --margin-xsmall: 20px;
-    --margin-small: 25px;
-    --margin-xmedium: 30px;
-    --margin-medium: 40px;
-    --margin-large: 125px;
-
+    --margin-small: 30px;
+    --margin-xmedium: 45px;
+    --margin-medium: 60px;
+    --margin-large: 90px;
+    --margin-xlarge: 120px;
   }
 }

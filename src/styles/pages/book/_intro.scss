@@ -29,14 +29,22 @@
   &__content {
     @include flex(row, flex-start, flex-start, nowrap);
 
+    @include media("<phone") {
+      @include flex(column, center, center, nowrap);
+    }
   }
 
   &__phone,
   &__email {
     font-weight: bold;
+    margin-bottom: var(--margin-xxtiny);
   }
 
   .book__separator {
     margin: 0 var(--margin-xtiny);
+
+    @include media("<phone") {
+      display: none;
+    }
   }
 }

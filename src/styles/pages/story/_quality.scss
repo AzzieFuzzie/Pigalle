@@ -62,7 +62,7 @@
     @include media('<tablet') {
       grid-column: 1 / -1;
       justify-self: center;
-      margin-top: var(--margin-medium);
+      // margin-top: var(--margin-medium);
     }
   }
 }

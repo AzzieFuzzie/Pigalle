@@ -35,6 +35,20 @@
   }
 }
 
+// widow-fix mixin
+@mixin widow-fix {
+  // Modern: balance text wrapping across lines
+  text-wrap: balance;
+
+  // Fallback: if browser doesn't support balance,
+  // ensure last 2 words stick together
+  &::after {
+    content: '\00A0'; // non-breaking space
+    display: none; // invisible trick
+  }
+}
+
+
 @mixin ratio($height, $width) {
   font-size: 0;
   overflow: hidden;

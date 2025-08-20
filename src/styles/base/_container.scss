@@ -1,7 +1,14 @@
 .container {
-  margin: 0 40px;
+  margin-left: var(--margin-xsmall);
+  margin-right: var(--margin-xsmall);
 
-  @include media('<phone') {
-    margin: 0 20px;
-  }
+  // @include media('<tablet') {
+  //   margin-left: var(--margin-xtiny);
+  //   margin-right: var(--margin-xtiny);
+  // }
+
+  // @include media('<phone') {
+  //   margin-left: var(--margin-xxtiny);
+  //   margin-right: var(--margin-xxtiny);
+  // }
 }

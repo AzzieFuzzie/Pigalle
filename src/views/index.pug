@@ -8,7 +8,7 @@ block variables
 block content
   .home
     .home__wrapper
-      section.hero.container
+      section.hero
         .hero__text!=prismic.homeHeadingsHTML[0] 
       video.hero__video(autoplay muted loop playsinline preload="auto")
         source(src="/reels/background_reel" type="video/mp4")
@@ -16,16 +16,16 @@ block content
       each slice in prismic.home.data.body
         // Tagline Section
         if slice.slice_type === 'tagline_card'
-          section.section.section--large--margin.tagline__card__wrapper
-            div.tagline.container
+          section.section--large--margin.tagline__card__wrapper
+            div.tagline
               h2.tagline__heading= slice.primary.tagline[0].text
-              a.button(href='/')
+              a.button(href='/book/')
                 span.button__label= slice.primary.button_label 
                 //- span.button__line
 
         // About Section
         if slice.slice_type === 'about_card'
-          section.section.section--small--margin.about__card__wrapper
+          section.section--small--margin.about__card__wrapper
             div.about
               div.about__left
                 div.image__wrapper
@@ -42,7 +42,7 @@ block content
               div.about__right
                 h6.about__heading= slice.primary.heading[0].text
                 p.h4.about__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
-                a.button(href='/menu/')
+                a.button(href='/about/')
                   span.button__label= slice.primary.button_label 
                   //- span.button__line
 
@@ -53,7 +53,7 @@ block content
               div.food__left
                 h6.food__heading= slice.primary.heading[0].text
                 p.h4.food__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
-                a.button(href='/')
+                a.button(href='/menu/')
                   span.button__label= slice.primary.button_label
                   //- span.button__line
               div.food__right
@@ -86,8 +86,8 @@ block content
               div.events__content
                 h2.events__heading= slice.primary.heading[0].text
                 p.events__description= slice.primary.intro_text
-                a.events__button(href='/')
-                  span.events__button__label= slice.primary.button_label
+                a.events__button(href='/book/')
+                  span.button__label.events__button__label= slice.primary.button_label
                 
             
               //- img.events__image(
@@ -121,17 +121,19 @@ block content
         button.reviews__dot(data-index=1)
         button.reviews__dot(data-index=2)
 
-      // FAQ Section - back inside slice loop
-      each slice in prismic.home.data.body
-        if slice.slice_type === 'faq_card'
-          section.section.section--small--margin
-            .faq
-              .faq__container
-                h2.faq__heading= slice.primary.heading[0].text
-                dl.faq__accordian
-                  each item in slice.items
+    // FAQ Section
+    each slice in prismic.home.data.body
+      if slice.slice_type === 'faq_card'
+        section.section.section--small--margin
+          .faq
+            .faq__container
+              h2.faq__heading= slice.primary.heading[0].text
+              dl.faq__accordian
+                each item in slice.items
+                  .faq__item
                     button.faq__question
-                      dt.faq__question__text= item.question
+                      dt.faq__question__text
+                        span= item.question
                       svg.faq__icon(
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -145,9 +147,10 @@ block content
                         )
                     dd.faq__answer= item.answer
                     .faq__line
+
       
   
-      include ./_includes/marquee
+    include ./_includes/marquee
 
     
       

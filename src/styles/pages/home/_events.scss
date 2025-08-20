@@ -43,7 +43,10 @@
     margin-bottom: var(--margin-xtiny);
   }
 
-  &__button {}
+  &__button {
+    display: inline-block; // ensures margin auto works
+    margin: 0 auto;
+  }
 
 
 
