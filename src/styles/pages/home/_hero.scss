@@ -1,7 +1,7 @@
 .hero {
   @include flex(column, flex-end, flex-end, wrap);
   height: calc(100vh - 80px);
-  // min-width: 100%;
+
   position: relative;
   overflow: hidden;
 

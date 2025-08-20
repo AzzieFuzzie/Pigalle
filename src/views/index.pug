@@ -1,5 +1,5 @@
-extends _includes/layout
-include _includes/mixins
+extends ./_includes/layout
+include ./_includes/mixins
 
 block variables
   - var template = 'home'
@@ -11,7 +11,7 @@ block content
       section.hero
         .hero__text!=prismic.homeHeadingsHTML[0] 
       video.hero__video(autoplay muted loop playsinline preload="auto")
-        source(src="/reels/background_reel" type="video/mp4")
+        source(src="/reels/background_reel.mp4" type="video/mp4")
         
       each slice in prismic.home.data.body
         // Tagline Section
@@ -29,7 +29,7 @@ block content
             div.about
               div.about__left
                 div.image__wrapper
-                  - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000, 1440, 1600])
+                  - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000])
                   img.about__image(
                   
                     src=aboutImage.src
@@ -58,7 +58,7 @@ block content
                   //- span.button__line
               div.food__right
                 div.image__wrapper
-                  - const sliderImage = imgix.imgix(slice.items[0].slider_image, { auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000, 1440, 1600])
+                  - const sliderImage = imgix.imgix(slice.items[0].slider_image, { auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000])
                   img.food__image(
                     src=sliderImage.src
                     srcset=sliderImage.srcset

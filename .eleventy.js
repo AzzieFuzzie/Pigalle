@@ -1,15 +1,11 @@
 import path from 'path';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
-import glslifyPlugin from 'vite-plugin-glslify';
-import vitePluginClean from 'vite-plugin-clean';
 import pluginPug from '@11ty/eleventy-plugin-pug';
-// import imgix from './src/views/_data/imgix.js';
+
 
 
 export default function (eleventyConfig) {
-  //Global Data
-  // eleventyConfig.addGlobalData('imgix', imgix);
 
   // Set server port
   eleventyConfig.setServerOptions({ port: 3000 });

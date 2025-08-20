@@ -1,7 +1,7 @@
 nav.navigation
   div.navigation__logo
     a(href="/")
-      img.navigation__logo__image(src="/images/logo.svg", alt="Pigalle by Viallamoura logo")  
+      img.navigation__logo__image(src="/images/logo.svg", alt="Pigalle by Viallamoura logo")
 
   // Desktop links
   .navigation__links.navigation__links--desktop
@@ -9,24 +9,28 @@ nav.navigation
     a(href="/about/") Our Story
     a(href="/contact/") Contact
     a(href="/book/") Make a booking
-  // Mobile hamburger
+
+  // Mobile hamburger icon
   .navigation__icon.navigation__icon--open
     span
     span
     span
+
+  // Mobile links
   .navigation__links.navigation__links--mobile
-    .navigation__icon.navigation__icon--close 
-      svg(
-        xmlns="http://www.w3.org/2000/svg" 
-        fill="none" 
-        viewBox="0 0 22 23" 
-        height="23" 
-        width="22"
-        )
-        path(
-          fill="black" 
-          d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"
-          )
-    a(href="/menu") Menu
-    a(href="/about") About
-    a(href="/contact") Contact
+    .mobile-header
+      div.navigation__logo
+        a(href="/")
+          img.navigation__logo__image(src="/images/logo.svg", alt="Logo")
+      .navigation__icon.navigation__icon--close
+        svg(...close icon...)
+
+    .mobile-links
+      a.h2(href="/menu/") Menu
+      a.h2(href="/about/") Our Story
+      a.h2(href="/contact/") Contact
+      a.h2(href="/book/") Make a booking
+
+    .mobile-socials
+      a(href="#") svg(...facebook icon...)
+      a(href="#") svg(...instagram icon...)

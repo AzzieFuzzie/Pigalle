@@ -1,17 +1,12 @@
 {
-  "name": "Starter Template",
+  "name": "Pigalle by Villamoura Restaurant",
   "version": "1.0.0",
   "type": "module",
-  "description": "Pigalle by Villamoura Restaurant",
   "private": true,
-  "author": "Muaaz Matwadia",
-  "repository": {
-    "type": "git"
-  },
   "scripts": {
-    "dev": "eleventy --config=.eleventy.js --serve --incremental ",
-    "build": "pnpm run prebuild && eleventy --config=.eleventy.js",
     "prebuild": "rimraf .11ty-vite && mkdir -p .11ty-vite",
+    "build": "npm run prebuild && eleventy --config=.eleventy.js",
+    "dev": "eleventy --config=.eleventy.js --serve --incremental",
     "clean": "rimraf _site"
   },
   "devDependencies": {
@@ -23,9 +18,7 @@
     "@types/html-minifier": "^4.0.5",
     "@types/lodash": "^4.17.1",
     "@types/normalize-wheel": "^1.0.4",
-    "@types/ogl": "npm:ogl-types@^0.0.102",
     "@types/ua-parser-js": "^0.7.39",
-    "axios": "^1.6.8",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
@@ -38,7 +31,6 @@
     "sass": "^1.76.0",
     "stats.js": "^0.17.0",
     "typescript": "^5.4.5",
-    "vite-plugin-clean": "^1.0.0",
     "vite-plugin-pwa": "^1.0.0"
   },
   "dependencies": {
@@ -54,10 +46,8 @@
     "lodash": "^4.17.21",
     "nodelist-foreach-polyfill": "^1.2.0",
     "normalize-wheel": "^1.0.1",
-    "ogl": "^1.0.6",
     "prefix": "^1.0.0",
     "ua-parser-js": "^1.0.37",
-    "vite": "^6.3.1",
-    "vite-plugin-glslify": "^2.2.0"
+    "vite": "^6.3.1"
   }
 }

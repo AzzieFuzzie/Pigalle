@@ -4,6 +4,11 @@
   column-gap: 30px;
   margin: 0 40px;
 
+  @include media('<tablet') {
+    column-gap: 25px;
+    margin: 0 32px;
+  }
+
   @include media('<phone') {
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
