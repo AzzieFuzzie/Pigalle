@@ -9,9 +9,9 @@
     "type": "git"
   },
   "scripts": {
-    "prebuild": "mkdir -p .11ty-vite",
     "dev": "eleventy --config=.eleventy.js --serve ",
-    "build": "eleventy --config=.eleventy.js",
+    "build": "pnpm run prebuild && eleventy --config=.eleventy.js",
+    "prebuild": "mkdir -p .11ty-vite",
     "clean": "rimraf _site"
   },
   "devDependencies": {
