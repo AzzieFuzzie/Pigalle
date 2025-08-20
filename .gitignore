@@ -15,6 +15,9 @@ dist-ssr
 *.local
 
 
+# vercel
+.11ty-vite/
+
 
 
 Environment files
