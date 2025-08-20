@@ -13,7 +13,7 @@ export default function (eleventyConfig) {
 
   // Set server port
   eleventyConfig.setServerOptions({ port: 3000 });
-  eleventyConfig.ignores.add("public/reels/*.mp4");  // temporarily ignore during dev
+
   // Add Pug plugin
   eleventyConfig.addPlugin(pluginPug);
 

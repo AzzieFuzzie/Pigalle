@@ -9,7 +9,7 @@
     "type": "git"
   },
   "scripts": {
-    "dev": "eleventy --config=.eleventy.js --serve ",
+    "dev": "eleventy --config=.eleventy.js --serve --incremental ",
     "build": "pnpm run prebuild && eleventy --config=.eleventy.js",
     "prebuild": "rimraf .11ty-vite && mkdir -p .11ty-vite",
     "clean": "rimraf _site"
