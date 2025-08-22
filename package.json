@@ -37,6 +37,7 @@
     "@11ty/eleventy-plugin-pug": "^1.0.0",
     "@imgix/js-core": "^3.8.0",
     "auto-bind": "^5.0.1",
+    "axios": "^1.11.0",
     "curtainsjs": "^8.1.6",
     "events": "^3.3.0",
     "fontfaceobserver": "^2.3.0",

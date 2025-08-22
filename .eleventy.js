@@ -15,12 +15,12 @@ export default function (eleventyConfig) {
 
   // Vite plugin integration
   eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: '.11ty-vite',
+    tempFolderName: 'vite-temp',
     viteOptions: {
       publicDir: 'public',
       root: 'src',
       build: {
-        outDir: '.11ty-vite', // make sure Vite builds here, not _site
+        outDir: 'vite-temp', // make sure Vite builds here, not _site
         emptyOutDir: true,
       },
       css: {

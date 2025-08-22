@@ -1,49 +1,22 @@
 .marquee {
   overflow: hidden;
-  @include flex(row, flex-start, center, nowrap);
+  border-top: 1px solid colors(black);
+  border-bottom: 1px solid colors(black);
 
-  &__images {
+  &__wrapper {
     display: flex;
-    gap: var(--margin-small); // spacing between images
-
-    &.container {
-      width: 100%;
-    }
-
-    &__image {
-      margin-right: var(--margin-small); // space between images
-      flex-shrink: 0; // prevent shrinking
-    }
+    gap: var(--margin-xsmall);
+    flex-wrap: nowrap;
   }
 
-
-  &__text__wrapper {
-    display: flex;
-    gap: var(--margin-xsmall); // spacing between repeated items
-    padding: var(--padding-xtiny) 0;
-    border-top: 1px solid colors(black); // top border only on wrapper
-    border-bottom: 1px solid colors(black); // bottom border only on wrapper
-  }
-
-  &__text {
-    display: flex;
-    align-items: center;
-    @include fluid-type(320px, 1440px, 24px, 40px);
-    font-family: font(lato), serif;
-    line-height: 100%;
-    letter-spacing: 0;
-    text-transform: uppercase;
-    margin-right: var(--margin-xxtiny);
-    flex-shrink: 0; // prevent shrinking on smaller screens
+  &__item {
+    flex-shrink: 0;
     white-space: nowrap;
+    @include fluid-type(320px, 1440px, 24px, 40px);
   }
 
   &__dot {
     flex-shrink: 0;
     margin: 0 var(--margin-xxtiny);
-    font-size: 16px; // adjust as needed
-    line-height: 1;
-    color: currentColor;
   }
-
 }

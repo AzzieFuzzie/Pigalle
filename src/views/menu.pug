@@ -1,4 +1,4 @@
-extends _includes/layout
+extends ./_includes/layout
 block variables
   - var template = 'menu'
 
@@ -14,7 +14,7 @@ block content
                 li
                   button.h3.menu__catergory__label=item.label
                     if index !== slice.items.length - 1
-                      span /
+                      span.menu__catergory__slash /
       //- Appetizers
       each slice in prismic.menu.data.body
         if slice.slice_type === 'menu_appetizers'

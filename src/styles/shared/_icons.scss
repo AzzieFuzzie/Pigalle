@@ -1,86 +1,77 @@
 .icon {
   position: absolute;
-  width: auto;
-  height: auto;
-  max-width: clamp(400px, 12vw, 500px); // desktop
   pointer-events: none;
-  display: block;
   z-index: 3;
-  transform-origin: center;
-  transition: transform 0.3s ease;
+  width: clamp(300px, 12vw, 500px);
+  height: auto;
 
   // Tablet
   @include media('<tablet') {
-    max-width: clamp(350px, 25vw, 400px); // medium size for tablets
+    width: clamp(150px, 25vw, 250px);
   }
 
   // Mobile
   @include media('<phone') {
-    max-width: clamp(250px, 50vw, 350px); // bigger mobile icons
+    width: clamp(120px, 50vw, 180px);
   }
 }
 
 
 // Mint
 .icon.mint {
-  bottom: clamp(-150px, -8vh, -200px);
-  left: clamp(-120px, -5vw, -150px);
+  bottom: clamp(-8vh, -8vh, -12vh);
+  left: clamp(-5vw, -5vw, -12vw);
   transform: rotate(-12deg);
 
   @include media('<phone') {
-    bottom: clamp(-20px, -5vh, -60px);
-    right: clamp(-20px, -5vw, -80px);
+    bottom: clamp(-5vh, -5vh, -8vh);
+    right: clamp(-5vw, -5vw, -10vw);
     left: auto;
-    transform: rotate(-8deg);
   }
 }
 
 // Rosemary
 .icon.rosemary {
-  right: clamp(-30px, -3vw, -60px);
-  bottom: clamp(-20px, 2vh, 40px);
-  transform: rotate(6deg);
+  right: clamp(-3vw, -3vw, -7vw);
+  bottom: clamp(2vh, 2vh, 6vh);
 }
 
 // Wheat
 .icon.wheat {
-  right: 0;
-  bottom: clamp(0px, 5vh, 60px);
-  transform: rotate(-5deg);
+  right: 0%;
+  bottom: clamp(0vh, 5vh, 10vh);
 }
 
 // Avocado
 .icon.avocado {
-  right: clamp(-120px, -3vw, -200px);
-  bottom: clamp(-100px, 2vh, -130px);
-  transform: rotate(10deg);
+  right: clamp(-5vw, -3vw, -10vw);
+  bottom: clamp(-10vh, 2vh, -15vh);
 }
 
 // Tomato
 .icon.tomato {
-  left: clamp(-40px, -5vw, -110px);
-  top: clamp(-10px, -10vh, -100px);
-  transform: rotate(-7deg);
+  left: clamp(-5vw, -5vw, -10vw);
+  top: clamp(-10vh, -10vh, -15vh);
 }
 
 // Plant
+
 .icon.plant {
-  left: clamp(-80px, -3vw, -60px);
-  bottom: clamp(-40px, -8vh, -120px);
-  transform: rotate(15deg);
+  top: clamp(20vh, 5vw, 35vh); // adjust vertical position
+  left: clamp(-12vh, 5vw, -15vh);
+  overflow: visible;
 
   @include media('<phone') {
-    display: none;
+    display: none; // hide on mobile
   }
 }
 
 // Blueberry
 .icon.blueberry {
-  right: clamp(-50px, -3vw, -150px);
-  top: clamp(40px, 3vh, 40px);
-  transform: rotate(-10deg);
+  top: clamp(5vh, 5vw, 10vh); // adjust vertical position
+  right: clamp(-8vw, -3vw, -10vw);
 
   @include media('<phone') {
-    display: none;
+    display: none; // hide on mobile
   }
 }

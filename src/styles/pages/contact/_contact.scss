@@ -1,8 +1,10 @@
 .contact {
+  position: relative;
+
+
   &__wrapper {
     @include page-grid;
-    margin-bottom: var(--margin-large);
-    position: relative;
+
 
     @include media("<phone") {
       display: flex;
@@ -29,6 +31,8 @@
   &__content {
     grid-column: 7/-1;
     grid-row: 1/2;
+
+    margin-bottom: var(--margin-large);
 
     @include media("<phone") {
       grid-column: 1/-1;

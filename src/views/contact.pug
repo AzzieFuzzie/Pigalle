@@ -6,8 +6,8 @@ block variables
 
 block content
   .contact
-    section.section--xtiny--margin
-      .contact__wrapper
+    section.section--xtiny--padding
+      div.contact__wrapper
         each slice in prismic.footer.data.body
           if slice.slice_type === 'contact'
             // Heading
@@ -101,6 +101,6 @@ block content
                 address
                   a(href="https://maps.google.com/?q=Michelangelo+Towers+Sandton" target="_blank")
                     p.h5.contact__address= slice.primary.address
-        +svg-decorative('plant')
-        +svg-decorative('blueberry')
+    +svg-decorative('plant')
+    +svg-decorative('blueberry')
     include ./_includes/marquee  

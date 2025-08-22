@@ -110,7 +110,7 @@
   }
 
 
-  .socials {
+  .social {
     @include flex(row, flex-end, flex-end, nowrap);
 
     @include media('<phone') {
@@ -118,7 +118,7 @@
     }
   }
 
-  .socials__item:not(:last-child) {
+  .social__item:not(:last-child) {
     margin-right: var(--margin-xtiny);
   }
 
@@ -142,6 +142,12 @@
   &__social__media__heading {
     color: colors(gold);
     margin-bottom: var(--margin-xxtiny);
+  }
+
+  &__social__icon {
+    width: 14px; // increase size
+    height: 14px;
+
   }
 
   &__logo {

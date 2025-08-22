@@ -1,31 +1,24 @@
 import Page from '@classes/Page';
+import Marquee from '../../animations/Marquee';
 
 export default class Home extends Page {
   constructor() {
-
     super({
       element: '.home',
       elements: {
-        wrapper: '.home__wrapper',
+        wrapper: '.home__wrapper', // target by data-animation
+        marquee: '.home[data-animation="marquee"]'  // double quotes inside single quotes
+
       },
     });
+    console.log(this.elements.marquee);
   }
 
-  /**
-   * Animations.
-   */
-  // async show(url) {
-  //   // console.log(this.classes.active);
-  //   // console.log('Showing Home Page', this.element);
-  //   this.element.classList.add(this.classes.active);
+  create() {
+    super.create();
 
-  //   return super.show(url);
-  // }
-
-  // async hide(url) {
-  //   // console.log('Hiding Home Page', this.element);
-  //   this.element.classList.remove(this.classes.active);
-
-  //   return super.hide(url);
-  // }
+    this.marquee = new Marquee({
+      element: this.elements.marquee,
+    });
+  }
 }

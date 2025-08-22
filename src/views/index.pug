@@ -77,9 +77,9 @@ block content
         // Private Events Section
         if slice.slice_type === 'private_events_card'
           section.section.section--small--margin.events__card__wrapper
-            - const backgroundImage = imgix.imgix(slice.primary.background_image, {  auto: 'compress',crop: 'top'  }, [400, 600, 800])
+            - const backgroundImage = imgix.imgix(slice.primary.background_image, {  auto: 'compress',crop: 'top'  }, [400, 600, 800,1200])
             div.events(
-              style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position: top;`
+              style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
               data-srcset=backgroundImage.srcset
             )
 
@@ -103,18 +103,22 @@ block content
     // Reviews Section 
     section.section.section--small--margin.reviews
       div.reviews__wrapper
-        div.reviews__quote 
-          span &ldquo; 
-        div.reviews__slider
-          div.reviews__item.active
-            h3.reviews__text Great Experience had a blast at Pigalle. The night is still young!
-            h6.reviews__name -Jack Daniels
-          div.reviews__item
-            h3.reviews__text What a great experience we had one night - thanks to all the staff and ofcourse the chefs
-            h6.reviews__name -Jane Doe
-          div.reviews__item
-            h3.reviews__text Best night out with friends, loved it!
-            h6.reviews__name -John Smith
+        div.reviews__track
+            div.reviews__quote 
+              span &ldquo; 
+            div.reviews__slider
+              //- Loop through Google reviews
+              if google_reviews.length
+                each review, index in google_reviews
+                  div.reviews__item(class=index === 0 ? 'active' : '')
+                    h3.reviews__text= review.text
+                    h6.reviews__name - #{review.author_name}
+              else
+                //- fallback if no reviews
+                div.reviews__item.active
+                  h3.reviews__text No reviews found yet.
+                  h6.reviews__name -
+
 
       .reviews__dots
         button.reviews__dot.active(data-index=0)
@@ -131,7 +135,7 @@ block content
               dl.faq__accordian
                 each item in slice.items
                   .faq__item
-                    button.faq__question
+                    button.faq__questiong
                       dt.faq__question__text
                         span= item.question
                       svg.faq__icon(
