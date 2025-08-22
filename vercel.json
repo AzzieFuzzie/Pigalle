@@ -1,36 +1,28 @@
 {
-  "version": 2,
-  "rewrites": [
+  "version": 3,
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "/src/views/api/:path*.js"
-    },
-    {
-      "source": "/product/:uid",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_site"
+      }
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate"
-        },
-        {
-          "key": "Pragma",
-          "value": "no-cache"
-        },
-        {
-          "key": "Expires",
-          "value": "0"
-        }
-      ]
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PRISMIC_API_KEY": "@prismic_api_key",
+      "NODE_ENV": "production"
+    },
+    "command": "pnpm build:vercel"
+  }
 }
