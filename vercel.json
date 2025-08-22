@@ -17,12 +17,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "build": {
-    "env": {
-      "PRISMIC_API_KEY": "@prismic_api_key",
-      "NODE_ENV": "production"
-    },
-    "command": "pnpm build:vercel"
-  }
+  ]
 }
