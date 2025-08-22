@@ -1,5 +1,6 @@
 import Page from '@classes/Page';
-import Marquee from '../../animations/Marquee';
+
+// import Marquee from '../../animations/Marquee';
 
 export default class Home extends Page {
   constructor() {
@@ -14,11 +15,11 @@ export default class Home extends Page {
     console.log(this.elements.marquee);
   }
 
-  create() {
-    super.create();
+  // create() {
+  //   super.create();
 
-    this.marquee = new Marquee({
-      element: this.elements.marquee,
-    });
-  }
+  //   this.marquee = new Marquee({
+  //     element: this.elements.marquee,
+  //   });
+  // }
 }
