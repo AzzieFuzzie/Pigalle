@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf .11ty-vite && mkdir .11ty-vite",
-    "build": "powershell -ExecutionPolicy Bypass -File build.ps1",
+    "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
+    "build:vercel": "rimraf _site .11ty-vite && mkdir -p .11ty-vite && npx eleventy --config=.eleventy-build.js && npx vite build",
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
     "clean": "rimraf _site .11ty-vite"
   },
