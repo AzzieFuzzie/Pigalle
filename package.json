@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf _site .11ty-vite && node -e \"require('fs').mkdirSync('.11ty-vite', { recursive: true })\"",
-    "build:vercel": "npm run prebuild && npx eleventy --config=.eleventy.js",
+    "build:vercel": "pnpm run prebuild && npx eleventy --config=.eleventy.js",
     "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
     "clean": "rimraf _site .11ty-vite"
