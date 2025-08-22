@@ -4,10 +4,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf .11ty-vite && mkdir -p .11ty-vite",
-    "build": "npm run prebuild && eleventy --config=.eleventy.js",
+    "prebuild": "rimraf .11ty-vite && mkdir .11ty-vite",
+    "build": "powershell -ExecutionPolicy Bypass -File build.ps1",
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
-    "clean": "rimraf _site"
+    "clean": "rimraf _site .11ty-vite"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
