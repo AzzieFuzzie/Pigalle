@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf .11ty-vite && mkdir .11ty-vite",
+    "prebuild": "rimraf _site .11ty-vite && node -e \"require('fs').mkdirSync('.11ty-vite', { recursive: true })\"",
+    "build:vercel": "npm run prebuild && npx eleventy --config=.eleventy.js",
     "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
-    "build:vercel": "rimraf _site .11ty-vite && npx eleventy --config=.eleventy.js",
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
     "clean": "rimraf _site .11ty-vite"
   },

@@ -1,30 +1,31 @@
 import path from 'path';
+import fs from 'fs';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
 import pluginPug from '@11ty/eleventy-plugin-pug';
 
-
-
 export default function (eleventyConfig) {
+  // --- Ensure temp folder exists ---
+  const tempFolder = '.11ty-vite';
+  if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
 
-  // Set server port
+  // --- Server ---
   eleventyConfig.setServerOptions({ port: 3000 });
 
-  // Add Pug plugin
+  // --- Plugins ---
   eleventyConfig.addPlugin(pluginPug);
 
-  // Vite plugin integration
   eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: 'vite-temp',
+    tempFolderName: tempFolder,
     viteOptions: {
-      publicDir: 'public',
       root: 'src',
+      publicDir: 'public',
       build: {
-        outDir: 'vite-temp', // make sure Vite builds here, not _site
+        outDir: tempFolder,
         emptyOutDir: true,
         rollupOptions: {
-          input: {},               // <- empty object prevents Vite from looking for index.html
-        }
+          input: {}, // prevents Vite from trying to bundle index.html
+        },
       },
       css: {
         preprocessorOptions: {
@@ -33,11 +34,6 @@ export default function (eleventyConfig) {
           },
         },
       },
-      plugins: [
-
-        // don't clean _site directly in Vercel builds
-        // vitePluginClean({ targets: ['_site'] }),
-      ],
       resolve: {
         alias: {
           '@styles': path.resolve(process.cwd(), 'src/styles'),
@@ -53,15 +49,14 @@ export default function (eleventyConfig) {
     },
   });
 
-
-  // Passthrough copy for static assets
+  // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy('public');
   eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
 
-  // HTML minify transform
+  // --- HTML minify ---
   eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       return htmlmin.minify(content, {
@@ -73,6 +68,7 @@ export default function (eleventyConfig) {
     return content;
   });
 
+  // --- Return directory config ---
   return {
     dir: {
       input: 'src/views/',
@@ -83,4 +79,4 @@ export default function (eleventyConfig) {
     passthroughFileCopy: true,
     htmlTemplateEngine: 'pug',
   };
-}
+};
