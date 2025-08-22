@@ -22,6 +22,9 @@ export default function (eleventyConfig) {
       build: {
         outDir: 'vite-temp', // make sure Vite builds here, not _site
         emptyOutDir: true,
+        rollupOptions: {
+          input: {},               // <- empty object prevents Vite from looking for index.html
+        }
       },
       css: {
         preprocessorOptions: {
