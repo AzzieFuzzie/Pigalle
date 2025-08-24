@@ -1,4 +1,4 @@
-import '@styles/main.scss';
+import '../styles/main.scss';
 import AutoBind from 'auto-bind';
 import Stats from 'stats.js';
 import each from 'lodash/each';
