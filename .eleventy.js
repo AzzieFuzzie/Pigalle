@@ -1,12 +1,9 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
 import fs from 'fs';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
 import pluginPug from '@11ty/eleventy-plugin-pug';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 export default function (eleventyConfig) {
   // --- Ensure temp folder exists ---
   const tempFolder = '.11ty-vite';
@@ -38,17 +35,15 @@ export default function (eleventyConfig) {
         },
       },
       resolve: {
-        // Create alias for directories, simplifying import paths
         alias: {
-          '@styles': path.resolve(__dirname, 'src/styles'),
-          '@app': path.resolve(__dirname, 'src/app'),
-          '@utils': path.resolve(__dirname, 'src/app/utils'),
-          '@components': path.resolve(__dirname, 'src/app/components'),
-          '@shaders': path.resolve(__dirname, 'src/app/shaders'),
-          '@classes': path.resolve(__dirname, 'src/app/classes'),
-          '@animations': path.resolve(__dirname, 'src/app/animations'),
-          '@pages': path.resolve(__dirname, 'src/app/pages'),
-          '@canvas': path.resolve(__dirname, 'src/app/components/Canvas'),
+          '@styles': path.resolve(process.cwd(), 'src/styles'),
+          '@app': path.resolve(process.cwd(), 'src/app'),
+          '@utils': path.resolve(process.cwd(), 'src/app/utils'),
+          '@components': path.resolve(process.cwd(), 'src/app/components'),
+          '@shaders': path.resolve(process.cwd(), 'src/app/shaders'),
+          '@classes': path.resolve(process.cwd(), 'src/app/classes'),
+          '@animations': path.resolve(process.cwd(), 'src/app/animations'),
+          '@pages': path.resolve(process.cwd(), 'src/app/pages'),
         },
       },
     },
