@@ -8,24 +8,27 @@ block variables
 block content
   .home
     .home__wrapper
-      section.hero
-        .hero__text!=prismic.homeHeadingsHTML[0] 
-      video.hero__video(autoplay muted loop playsinline preload="auto")
-        source(src="/reels/background_reel.mp4" type="video/mp4")
+      .hero__pin(data-animation="pin")
+        section.hero
+          .hero__text!= prismic.homeHeadingsHTML[0]
+          video.hero__video(autoplay muted loop playsinline preload="auto")
+            source(src="/reels/background_reel.mp4" type="video/mp4")
+
+
         
       each slice in prismic.home.data.body
         // Tagline Section
         if slice.slice_type === 'tagline_card'
-          section.section--large--margin.tagline__card__wrapper
+          section.section--large--padding.tagline__card__wrapper
             div.tagline
-              h2.tagline__heading= slice.primary.tagline[0].text
+              h2.tagline__heading(data-animation="fill")= slice.primary.tagline[0].text
               a.button(href='/book/')
                 span.button__label= slice.primary.button_label 
                 //- span.button__line
 
         // About Section
         if slice.slice_type === 'about_card'
-          section.section--small--margin.about__card__wrapper
+          section.section--small--padding.about__card__wrapper
             div.about
               div.about__left
                 div.image__wrapper
@@ -48,7 +51,7 @@ block content
 
         // Our Food Section
         if slice.slice_type === 'our_food'
-          section.section.section--small--margin.food__card__wrapper
+          section.section.section--small--padding.food__card__wrapper
             div.food
               div.food__left
                 h6.food__heading= slice.primary.heading[0].text
@@ -58,25 +61,30 @@ block content
                   //- span.button__line
               div.food__right
                 div.image__wrapper
-                  - const sliderImage = imgix.imgix(slice.items[0].slider_image, { auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000])
-                  img.food__image(
-                    src=sliderImage.src
-                    srcset=sliderImage.srcset
-                    sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
-                    alt=sliderImage.alt
-                    loading="lazy"
-                  )
-                +svg-decorative('rosemary')
-                div.food__slider 
+                  each item, index in slice.items
+                    - const sliderImage = imgix.imgix(item.slider_image, { auto:'compress', crop:'entropy', q:85 }, [400, 665, 1000])
+                    div.slider__image
+                      img.food__image(
+                        src=sliderImage.src
+                        srcset=sliderImage.srcset
+                        sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
+                        alt=sliderImage.alt
+                        loading="lazy"
+                      )
+
+                // buttons + counter OUTSIDE the loop
+                div.food__slider__controls
                   button.food__button 
-                    span.food__button__label  next 
-                    span.food__button__label prev 
+                    span.btn__prev.food__button__label prev 
+                    span.btn__next.food__button__label next 
                   div.food__slider__counter 
-                    span 1/4
+                    span 1/#{slice.items.length}
+
+                +svg-decorative('rosemary')
 
         // Private Events Section
         if slice.slice_type === 'private_events_card'
-          section.section.section--small--margin.events__card__wrapper
+          section.section.section--small--padding.events__card__wrapper
             - const backgroundImage = imgix.imgix(slice.primary.background_image, {  auto: 'compress',crop: 'top'  }, [400, 600, 800,1200])
             div.events(
               style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
@@ -101,7 +109,7 @@ block content
 
 
     // Reviews Section 
-    section.section.section--small--margin.reviews
+    section.section.section--small--padding.reviews
       div.reviews__wrapper
         div.reviews__track
             div.reviews__quote 
@@ -128,14 +136,14 @@ block content
     // FAQ Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'faq_card'
-        section.section.section--small--margin
+        section.section.section--small--padding
           .faq
             .faq__container
               h2.faq__heading= slice.primary.heading[0].text
               dl.faq__accordian
                 each item in slice.items
-                  .faq__item
-                    button.faq__questiong
+                  div.faq__item
+                    button.faq__question
                       dt.faq__question__text
                         span= item.question
                       svg.faq__icon(
@@ -144,7 +152,7 @@ block content
                         viewBox="0 0 22 23"
                         height="23"
                         width="22"
-                      )
+                        )
                         path(
                           fill="black"
                           d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"

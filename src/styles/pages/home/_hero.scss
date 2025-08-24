@@ -1,44 +1,30 @@
 .hero {
-  @include flex(column, flex-end, flex-end, wrap);
-  height: calc(100vh - 80px);
-
   position: relative;
+  width: 100vw;
+  height: calc(100vh - 80px);
   overflow: hidden;
+  z-index: 1;
 
-  .hero__video {}
-
-
+  display: flex;
+  align-items: flex-end; // push content to bottom
+  justify-content: flex-end; // push content to left
+  padding: 2rem; // spacing from edges
 
   &__video {
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: -1;
-    filter: contrast(1.1) brightness(0.9) saturate(1.2);
+    z-index: 0;
   }
 
   &__text {
-    text-align: right;
-    color: colors(white);
-    margin-bottom: var(--margin-xmedium);
+    position: relative; // keeps it inside flex flow
+    z-index: 2;
+    color: white;
     max-width: clamp(50ch, 60%, 70ch);
-    @include widow-fix;
-
-    @include media('<phone') {
-      // @include flex(column, flex-start, flex-start, wrap);
-      max-width: 100%;
-      width: 100%;
-      margin-inline: auto;
-    }
   }
-
-
-
-
 }

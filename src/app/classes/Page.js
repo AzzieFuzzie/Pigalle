@@ -4,7 +4,12 @@ import GSAP from 'gsap';
 import Prefix from 'prefix';
 import Lenis from 'lenis';
 
-// import NavigationAnimation from '@animations/NavigationAnimation';
+import PinLayer from "../Animations/PinLayer";
+import TextHighlight from "../Animations/TextHighlight";
+import FAQAccordion from '../Animations/FAQAccordion';
+import Carousel from '../Animations/Carousel';
+
+
 
 import AsyncLoad from '@classes/AsyncLoad';
 import { Detection } from '@classes/Detection';
@@ -25,10 +30,61 @@ export default class Page extends EventEmitter {
 
     };
 
+
     this.transformPrefix = Prefix('transform');
     this.create();
     this._createLenis();
+
+    this._createPinLayer();
+    this._createTextHighlight()
+    this._createFAQAccordian()
+
+    this._createCarousel()
   }
+
+
+
+
+  _createPinLayer() {
+    const hero = document.querySelector('[data-animation="pin"]');
+    const taglineSection = document.querySelector('.tagline__card__wrapper');
+    if (!hero || hero.dataset.pinned) return; // skip if already pinned
+
+    new PinLayer({ heroSection: hero, taglineSection: taglineSection });
+
+    // mark as pinned
+    hero.dataset.pinned = "true";
+  }
+
+
+  _createTextHighlight() {
+    // Call it when DOM is ready
+    new TextHighlight({ tagline: '.tagline__heading[data-animation="fill"]' });
+
+
+
+  }
+
+
+  _createFAQAccordian() {
+
+    new FAQAccordion({ selector: '.faq__accordian' });
+
+
+  }
+
+
+  _createCarousel() {
+    new Carousel({
+      buttons: {
+        next: '.btn__next',
+        prev: '.btn__prev'
+      },
+      slider: '.slider__image'
+    });
+  }
+
+
 
 
 

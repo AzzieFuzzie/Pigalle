@@ -23,20 +23,22 @@
     }
 
     &--mobile {
+      // Declarations moved above nested rules/mixins
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
       background-color: colors(grey);
-      @include page-grid; // use your 4-column layout
-      grid-template-rows: auto auto 1fr; // logo+close | links | socials
+      grid-template-rows: auto auto 1fr;
       padding: 0;
       margin: 0;
       transform: translateX(100%);
       transition: transform 0.3s ease;
       z-index: 20;
       color: #000;
+
+      @include page-grid; // mixin after all declarations
 
       &.active {
         transform: translateX(0);

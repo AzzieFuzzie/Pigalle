@@ -1,18 +1,27 @@
 .tagline__card__wrapper {
-
+  position: relative; // creates new stacking context
+  z-index: 2;
   @include flex(column, center, center, nowrap);
-
+  background-color: colors(grey);
   text-align: center;
+  // height: 100vh;
 }
 
 .tagline {
   @include flex(column, center, center, wrap);
-  max-width: clamp(50ch, 60%, 70ch);
+  max-width: clamp(50ch, 60%, 80ch);
   text-align: center;
   @include widow-fix;
 
   &__heading {
     margin-bottom: var(--margin-xtiny);
+    display: inline-block;
+    max-width: 60ch;
+    margin: auto;
+    text-align: center;
+    line-height: 1.2;
+    white-space: pre-wrap;
+    word-break: normal;
   }
 
   @include media('<phone') {

@@ -2,20 +2,19 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-  width: clamp(300px, 12vw, 500px);
+  width: clamp(10vw, 12vw, 20vw); // changed from px to vw
   height: auto;
 
   // Tablet
   @include media('<tablet') {
-    width: clamp(150px, 25vw, 250px);
+    width: clamp(8vw, 25vw, 15vw);
   }
 
   // Mobile
   @include media('<phone') {
-    width: clamp(120px, 50vw, 180px);
+    width: clamp(15vw, 50vw, 30vw);
   }
 }
-
 
 // Mint
 .icon.mint {
@@ -38,7 +37,7 @@
 
 // Wheat
 .icon.wheat {
-  right: 0%;
+  right: 0vw;
   bottom: clamp(0vh, 5vh, 10vh);
 }
 
@@ -55,10 +54,9 @@
 }
 
 // Plant
-
 .icon.plant {
-  top: clamp(20vh, 5vw, 35vh); // adjust vertical position
-  left: clamp(-12vh, 5vw, -15vh);
+  top: clamp(20vh, 5vh, 35vh); // changed middle value to vh for vertical scaling
+  left: clamp(-12vw, 5vw, -15vw); // changed from vh to vw for horizontal scaling
   overflow: visible;
 
   @include media('<phone') {
@@ -68,7 +66,7 @@
 
 // Blueberry
 .icon.blueberry {
-  top: clamp(5vh, 5vw, 10vh); // adjust vertical position
+  top: clamp(5vh, 5vh, 10vh);
   right: clamp(-8vw, -3vw, -10vw);
 
   @include media('<phone') {
