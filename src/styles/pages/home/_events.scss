@@ -1,11 +1,11 @@
 .events {
   @include page-grid;
-  min-height: 120vh;
+  min-height: 100vh;
   min-width: 100vw;
   margin: 0;
   padding: 0 var(--padding-small);
   place-items: center;
-  filter: brightness(0.8) contrast(1.1) saturate(1.2) blur(0.3px);
+  // filter: brightness(0.8) contrast(1.1) saturate(1.2) blur(0.3px);
 
   @include media('<phone') {
     margin: 0;

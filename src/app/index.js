@@ -23,6 +23,9 @@ class App {
       onErrorWebGL: this.createUnsupportedScreen,
       onSuccess: this.init,
     });
+
+    // 🔑 bind update loop
+    this.update = this.update.bind(this);
   }
 
   init() {
@@ -50,11 +53,7 @@ class App {
     };
 
     this.page = this.pages[this.template];
-    if (this.page) {
-      this.page.create();
-    } else {
-      console.warn(`No page found for initial template: ${this.template}`);
-    }
+    this.page.create();
   }
 
   /**
@@ -62,6 +61,8 @@ class App {
    */
   async onChange({ url, push = true }) {
     if (!this.page) return;
+
+    if (this.page.destroy) this.page.destroy();
 
     await this.page.hide();
 
@@ -76,10 +77,17 @@ class App {
       const divContent = div.querySelector('.content');
       if (!divContent) throw new Error('No .content found in fetched page');
 
+      if (push) {
+        window.history.pushState({}, '', url);
+      }
+
       // Update template & content
       this.template = divContent.getAttribute('data-template');
       this.content.setAttribute('data-template', this.template);
       this.content.innerHTML = divContent.innerHTML;
+
+      const header = document.querySelector('header');
+      if (header) header.className = this.template; // replace with template
 
       // Update current page
       this.page = this.pages[this.template];
@@ -92,10 +100,6 @@ class App {
       this.page.show();
       this.onResize();
       this.addLinkListeners();
-
-      if (push) {
-        window.history.pushState({}, '', url);
-      }
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
@@ -114,7 +118,7 @@ class App {
    * Resize & Scroll
    */
   onResize() {
-    if (this.page && this.page.onResize) this.page.onResize();
+    if (this.page?.onResize) this.page.onResize();
   }
 
   onKeyDown(event) {
@@ -130,13 +134,13 @@ class App {
   }
 
   onTouchDown(event) {
-    if (this.page?.onTouchDown) this.page.onTouchDown(event);
+    this.page?.onTouchDown?.(event);
   }
   onTouchMove(event) {
-    if (this.page?.onTouchMove) this.page.onTouchMove(event);
+    this.page?.onTouchMove?.(event);
   }
   onTouchUp(event) {
-    if (this.page?.onTouchUp) this.page.onTouchUp(event);
+    this.page?.onTouchUp?.(event);
   }
 
   /**
@@ -144,7 +148,7 @@ class App {
    */
   update() {
     this.stats?.begin();
-    // this.page?.update();
+    this.page?.update?.();
     this.stats?.end();
 
     this.frame = requestAnimationFrame(this.update);
@@ -189,6 +193,20 @@ class App {
         link.target = '_blank';
       }
     });
+
+    // === Menu categories click listener ===
+    if (this.template === 'menu' && this.page) {
+      this.page.elements.button.forEach(btn => {
+        btn.onclick = () => {
+          const category = btn.dataset.category;
+          this.page.showCategory(category);
+
+          // Update SPA URL without fetching
+          const url = `/menu?category=${category}`;
+          window.history.pushState({}, '', url);
+        };
+      });
+    }
   }
 
   onContextMenu(event) {
@@ -209,12 +227,12 @@ Promise.all([roslindaleItalic.load(), roslindale.load(), lato.load()])
   .then(() => {
     console.log('All fonts loaded');
     document.body.classList.add('fonts-loaded');
-    window.APP = new App();
+    window.app = new App();
   })
   .catch(() => {
     console.warn('Fonts failed to load in time. Starting anyway.');
     document.body.classList.add('fonts-loaded');
-    window.APP = new App();
+    window.app = new App();
   });
 
 console.log('%c Developed by Muaaz', 'background: #000; color: #fff;');

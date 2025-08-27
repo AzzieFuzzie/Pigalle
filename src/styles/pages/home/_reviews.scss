@@ -1,26 +1,69 @@
 .reviews {
+  @include media("<phone") {
+    margin: 0 var(--margin-xsmall);
+  }
+
+
   &__wrapper {
-    position: relative;
+
     overflow: hidden;
     width: 100%;
   }
 
   &__slider {
     display: flex;
-    // gap: 40px;
-    margin-left: -30%; // space to cut off first slide
-    margin-right: -30%; // space to cut off last slide
+
+    // margin-left: -30%; // space to cut off first slide
+    // margin-right: -30%; // space to cut off last slide
 
   }
 
+  &__slide {
+    flex: 0 0 calc(100% / 3);
+
+    &:first-child {
+      transform: translateX(-50%); // peek left
+      color: colors(accent-grey);
+    }
+
+    &:nth-of-type(3) {
+      transform: translateX(50%); // peek right
+      color: colors(accent-grey);
+    }
+
+    @include media("<phone") {
+      flex: 0 0 100%;
+
+      &:first-child {
+        transform: translateX(0); // peek left
+      }
+
+      &:nth-of-type(3) {
+        transform: translateX(0); // peek right
+      }
+    }
+
+
+  }
+
+
   &__item {
-    min-width: 30%;
+
     text-align: center;
 
   }
 
   &__text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
     margin-bottom: var(--margin-xtiny);
+    text-align: center;
+  }
+
+  &__name {
+    margin-bottom: var(--margin-xsmall);
   }
 
   &__quote {
@@ -28,12 +71,14 @@
     justify-content: center;
     align-items: center;
     margin-bottom: var(--margin-xtiny);
+
   }
 
   &__quote span {
     font-family: font(roslindale-regular), serif;
     @include fluid-type(320px, 1440px, 100px, 120px);
-    line-height: 1;
+
+    vertical-align: bottom;
   }
 
   &__dots {
@@ -41,17 +86,23 @@
     justify-content: center;
     gap: var(--margin-small);
     margin-top: 1rem;
+  }
 
-    button.reviews__dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 9999px;
-      background-color: colors(light-grey);
-      cursor: pointer;
 
-      &.active {
-        background-color: colors(black);
-      }
+  button.reviews__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%; // cleaner than 9999px
+    background-color: colors(accent-grey);
+    cursor: pointer;
+
+    border: none; // remove default button border
+    padding: 5px;
+    display: inline-block; // makes width/height respected exactly
+
+    &.--active {
+      background-color: colors(black);
     }
   }
+
 }

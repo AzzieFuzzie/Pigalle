@@ -1,6 +1,7 @@
-.menu__catergory {
+.menu__category {
   @include flex(row, center, center, wrap);
 
+  color: black;
 
   @include media('<tablet') {
     @include flex(row, flex-start, center, nowrap);
@@ -28,6 +29,7 @@
   &__slash {
     color: colors(accent-grey);
     margin-left: var(--margin-xtiny);
+    margin-right: var(--margin-xtiny);
 
   }
 }

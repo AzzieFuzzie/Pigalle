@@ -1,12 +1,13 @@
 block variables
 doctype html
-html(class= isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" lang="en")
+html(lang="en")
   head
     include ../_includes/head
     
-  body
-    header 
+  body(style="opacity: 0; visibility: hidden;")
+    header(class=template) 
       include ../_includes/navigation
+
     #content.content(data-template=template)
       block content
 

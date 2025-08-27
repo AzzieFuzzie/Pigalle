@@ -1,7 +1,18 @@
 .menu {
 
-  &__section {}
+  &__section {
+    display: none; // hide all sections by default
 
+    opacity: 0;
+
+
+    &.--active {
+      display: block; // show only active section
+      opacity: 1;
+
+    }
+
+  }
 
   &__item {
     @include page-grid;

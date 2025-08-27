@@ -36,8 +36,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       lenis:
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.3.9
+        version: 1.3.9
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -96,6 +96,9 @@ importers:
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
+      eslint-plugin-pug:
+        specifier: ^1.2.5
+        version: 1.2.5
       html-minifier:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1713,6 +1716,9 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
+  eslint-plugin-pug@1.2.5:
+    resolution: {integrity: sha512-rxsQI8ch1pUtP6jBBbmx3dqesZ+5+FdFgzP61pQgIWUezg5YwV+we0ROqk1JF71xdUrMKJkKbJglJ6lHrsOSzg==}
+
   eslint-scope@7.2.2:
     resolution: {integrity: sha512-dOt21O7lTMhDM+X9mB4GX+DZrZtCUJPL/wlcTqxyrx5IvO0IYtILdtrQGQp+8n5S0gwSVmOf9NQrjMOgfQZlIg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -2281,8 +2287,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  lenis@1.3.1:
-    resolution: {integrity: sha512-OGRlQk7EkGUtjDdnH+U49Mp26G/wGJFHuyYJ8ZwATllwHQZOKYbeuVaPWYQ4lK0gHfAnk2m0u8qN8Y4dtrHaHw==}
+  lenis@1.3.9:
+    resolution: {integrity: sha512-Qwb3m4a9527UzqC5tqIrSnbuSZ/W/PsV8U/82x7zc7lOXn+X/ZNDVVXF1OwDo1EJ25lUCvfyR2sdiohBJY+u6Q==}
     peerDependencies:
       '@nuxt/kit': '>=3.0.0'
       react: '>=17.0.0'
@@ -5031,6 +5037,13 @@ snapshots:
     dependencies:
       eslint: 8.57.0
 
+  eslint-plugin-pug@1.2.5:
+    dependencies:
+      lodash: 4.17.21
+      pug-lexer: 5.0.1
+      pug-parser: 6.0.0
+      pug-walk: 2.0.0
+
   eslint-scope@7.2.2:
     dependencies:
       esrecurse: 4.3.0
@@ -5613,7 +5626,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  lenis@1.3.1: {}
+  lenis@1.3.9: {}
 
   leven@3.1.0: {}
 

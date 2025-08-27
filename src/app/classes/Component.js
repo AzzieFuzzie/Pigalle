@@ -44,7 +44,7 @@ export default class Component extends EventEmitter {
 		});
 	}
 
-	addEventListeners() {}
+	addEventListeners() { }
 
-	removeEventListeners() {}
+	removeEventListeners() { }
 }

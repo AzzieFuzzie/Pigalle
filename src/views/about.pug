@@ -12,13 +12,11 @@ block content
           - if (slice.primary.background_image && slice.primary.background_image.url)
             - const aboutBackgroundImage = imgix.imgix(slice.primary.background_image,{ auto: 'compress', crop: 'top' }, [400, 800, 1200, 1600, 2000])
             section.story__intro__wrapper(
-              style=`background-image: url('${aboutBackgroundImage.src}');background-size: cover; background-position: top;`
+              style=`background-image: url('${aboutBackgroundImage.src}');background-size: cover; background-position: center;`
               data-srcset=aboutBackgroundImage.srcset
               sizes="100vw")
               .story__intro
                 .story__intro__heading!= prismic.aboutHeadingsHTML[0]
-           
-
 
           
         if slice.slice_type === 'about_history'

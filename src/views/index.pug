@@ -4,18 +4,15 @@ include ./_includes/mixins
 block variables
   - var template = 'home'
 
-
 block content
   .home
     .home__wrapper
       .hero__pin(data-animation="pin")
         section.hero
-          .hero__text!= prismic.homeHeadingsHTML[0]
+          //- .hero__text!= prismic.homeHeadingsHTML[0]
           video.hero__video(autoplay muted loop playsinline preload="auto")
             source(src="/reels/background_reel.mp4" type="video/mp4")
 
-
-        
       each slice in prismic.home.data.body
         // Tagline Section
         if slice.slice_type === 'tagline_card'
@@ -24,17 +21,15 @@ block content
               h2.tagline__heading(data-animation="fill")= slice.primary.tagline[0].text
               a.button(href='/book/')
                 span.button__label= slice.primary.button_label 
-                //- span.button__line
 
         // About Section
         if slice.slice_type === 'about_card'
           section.section--small--padding.about__card__wrapper
-            div.about
-              div.about__left
+            div.about__card
+              div.about__card__left
                 div.image__wrapper
                   - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000])
-                  img.about__image(
-                  
+                  img.about__card__image(
                     src=aboutImage.src
                     srcset=aboutImage.srcset
                     sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
@@ -42,12 +37,11 @@ block content
                     loading="lazy"
                   )
                 +svg-decorative('mint')
-              div.about__right
-                h6.about__heading= slice.primary.heading[0].text
-                p.h4.about__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
+              div.about__card__right
+                h6.about__card__heading= slice.primary.heading[0].text
+                p.h4.about__card__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
                 a.button(href='/about/')
                   span.button__label= slice.primary.button_label 
-                  //- span.button__line
 
         // Our Food Section
         if slice.slice_type === 'our_food'
@@ -58,12 +52,11 @@ block content
                 p.h4.food__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
                 a.button(href='/menu/')
                   span.button__label= slice.primary.button_label
-                  //- span.button__line
               div.food__right
                 div.image__wrapper
                   each item, index in slice.items
                     - const sliderImage = imgix.imgix(item.slider_image, { auto:'compress', crop:'entropy', q:85 }, [400, 665, 1000])
-                    div.slider__image
+                    div.slider__image(data-animation="carousel")
                       img.food__image(
                         src=sliderImage.src
                         srcset=sliderImage.srcset
@@ -72,10 +65,10 @@ block content
                         loading="lazy"
                       )
 
-                // buttons + counter OUTSIDE the loop
                 div.food__slider__controls
                   button.food__button 
                     span.btn__prev.food__button__label prev 
+                  button.food__button 
                     span.btn__next.food__button__label next 
                   div.food__slider__counter 
                     span 1/#{slice.items.length}
@@ -84,66 +77,56 @@ block content
 
         // Private Events Section
         if slice.slice_type === 'private_events_card'
-          section.section.section--small--padding.events__card__wrapper
-            - const backgroundImage = imgix.imgix(slice.primary.background_image, {  auto: 'compress',crop: 'top'  }, [400, 600, 800,1200])
+          section.section.section--small--padding.events__card__wrapper(data-animation='scale')
+            - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress',crop: 'top' }, [400, 600, 800,1200])
             div.events(
               style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
               data-srcset=backgroundImage.srcset
             )
-
               div.events__content
                 h2.events__heading= slice.primary.heading[0].text
                 p.events__description= slice.primary.intro_text
                 a.events__button(href='/book/')
                   span.button__label.events__button__label= slice.primary.button_label
-                
-            
-              //- img.events__image(
-              //-   src=backgroundImage.src
-              //-   srcset=backgroundImage.srcset
-              //-   sizes="100vw"
-              //-   alt=backgroundImage.alt
-              //-   loading="lazy"
-              //- )
-             
-
 
     // Reviews Section 
-    section.section.section--small--padding.reviews
+    section.section--xtiny--padding.reviews(data-animation='reviews_slider')
       div.reviews__wrapper
         div.reviews__track
             div.reviews__quote 
               span &ldquo; 
             div.reviews__slider
-              //- Loop through Google reviews
               if google_reviews.length
                 each review, index in google_reviews
-                  div.reviews__item(class=index === 0 ? 'active' : '')
-                    h3.reviews__text= review.text
-                    h6.reviews__name - #{review.author_name}
+                  div.reviews__slide
+                    div.reviews__item
+                      h3.reviews__text= review.text
+                      h6.reviews__name - #{review.author_name}
               else
-                //- fallback if no reviews
-                div.reviews__item.active
+                div.reviews__item.--active
                   h3.reviews__text No reviews found yet.
                   h6.reviews__name -
 
+        div.reviews__dots
+          if google_reviews.length
+            each review, index in google_reviews
+              button.reviews__dot(class=(index === 0 ? '--active' : ''))
 
-      .reviews__dots
-        button.reviews__dot.active(data-index=0)
-        button.reviews__dot(data-index=1)
-        button.reviews__dot(data-index=2)
+
+
+
 
     // FAQ Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'faq_card'
-        section.section.section--small--padding
+        section.faq__section.section--small--padding
           .faq
             .faq__container
               h2.faq__heading= slice.primary.heading[0].text
               dl.faq__accordian
                 each item in slice.items
                   div.faq__item
-                    button.faq__question
+                    button.faq__question(data-animation="faq")
                       dt.faq__question__text
                         span= item.question
                       svg.faq__icon(
@@ -159,10 +142,7 @@ block content
                         )
                     dd.faq__answer= item.answer
                     .faq__line
+          +svg-decorative('seed_plant')
+          +svg-decorative('wheat_plant')
 
-      
-  
     include ./_includes/marquee
-
-    
-      

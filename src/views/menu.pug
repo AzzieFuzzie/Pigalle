@@ -1,27 +1,37 @@
 extends ./_includes/layout
+
 block variables
   - var template = 'menu'
+  - const typeMap = {menu_appetizers: 'Appetizers',menu_soup: 'Soup',menu_oysters: 'Oysters',menu_salaads: 'Salaads',menu_meats: 'Meats',menu_chooza: 'Chooza',menu_seafood: 'Seafood',menu_vegetarian: 'Vegetarian',menu_platters: 'Platters',menu_desserts: 'Desserts',menu_drinks: 'Drinks',menu_shisha: 'Shisha'}
 
 block content
   .menu
     .menu__wrapper
-    
+
+      // Category Buttons
+      section.menu__category.container.section.section--small--margin
+        ul.menu__category__wrapper
+          each slice, index in prismic.menu.data.body
+            - const category = typeMap[slice.slice_type]
+            if category
+              li
+                button.h3.menu__category__label(data-category=category)= category
+              // Add slash between li elements, not inside
+              if index !== prismic.menu.data.body.length - 1
+                li.menu__category__slash / 
+
+
+
+
+      // Menu Sections
       each slice in prismic.menu.data.body
-        if slice.slice_type === 'menu_items'
-          section.menu__catergory.container.section.section--small--margin
-            ul.menu__catergory__wrapper
-              each item, index in slice.items 
-                li
-                  button.h3.menu__catergory__label=item.label
-                    if index !== slice.items.length - 1
-                      span.menu__catergory__slash /
-      //- Appetizers
-      each slice in prismic.menu.data.body
-        if slice.slice_type === 'menu_appetizers'
-          section.menu__appetizers.menu__section.section--small--margin
+        - const category = typeMap[slice.slice_type]
+        if category
+          section(class=`menu__${category} menu__section section--large--margin${category === 'Appetizers' ? ' --active' : ''}`,data-category=category)
+
             div.menu__item
-              each item in slice.items 
-                if (item.image && item.image.url)
+              each item in slice.items
+                if item.image && item.image.url
                   div.menu__image__wrapper
                     - const menuImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600])
                     img.menu__image(
@@ -31,95 +41,9 @@ block content
                       alt=menuImage.alt
                       loading="lazy"
                     )
-    
-              div.menu__text__wrapper
-                each item in slice.items 
-                  p.h3.menu__name=item.name
+                div.menu__text__wrapper
+                  p.h3.menu__name= item.name
                   div.menu__flex__wrapper
-                    p.menu__description=item.description
-                    p.menu__price=item.price
+                    p.menu__description= item.description
+                    p.menu__price= item.price
                   span.menu__line
-              
-                
-
-      //- //- Salaads
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_salaads'
-      //-     section.menu__salaads.section.section--large--margin
-      //-     each item in slice.items 
-      //-       //- img(src='')=item.image
-      //-       h5=item.name
-      //-       p=item.description
-      //-       p=item.price
-
-      //- //- Meats
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_meats'
-      //-     section.menu__meats.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-      
-      //- //- Chooza
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_chooza'
-      //-     section.menu__chooza.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-
-      //- //-Seafood
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_seafood'
-      //-     section.menu__seafood.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-
-      //- //-Vegetarian
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_vegetarian'
-      //-     section.menu__vegeterian.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-        
-      //- //-Platters
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_platters'
-      //-     section.menu__platters.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-      
-      //- //- Desserts
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_desserts'
-      //-     section.menu__desserts.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-
-      //- //- Drinks
-      //- each slice in prismic.menu.data.body
-      //-   if slice.slice_type === 'menu_drinks'
-      //-     section.menu__drinks.section.section--large--margin
-      //-       each item in slice.items 
-      //-         //- img(src='')=item.image
-      //-         h5=item.name
-      //-         p=item.description
-      //-         p=item.price
-      
-      

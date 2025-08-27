@@ -2,7 +2,7 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-  width: clamp(10vw, 12vw, 20vw); // changed from px to vw
+  width: clamp(12vw, 12vw, 20vw); // changed from px to vw
   height: auto;
 
   // Tablet
@@ -43,7 +43,7 @@
 
 // Avocado
 .icon.avocado {
-  right: clamp(-5vw, -3vw, -10vw);
+  right: clamp(-4vw, -3vw, -6vw);
   bottom: clamp(-10vh, 2vh, -15vh);
 }
 
@@ -56,7 +56,7 @@
 // Plant
 .icon.plant {
   top: clamp(20vh, 5vh, 35vh); // changed middle value to vh for vertical scaling
-  left: clamp(-12vw, 5vw, -15vw); // changed from vh to vw for horizontal scaling
+  left: clamp(0vw, 5vw, -3vw); // changed from vh to vw for horizontal scaling
   overflow: visible;
 
   @include media('<phone') {
@@ -66,8 +66,28 @@
 
 // Blueberry
 .icon.blueberry {
-  top: clamp(5vh, 5vh, 10vh);
-  right: clamp(-8vw, -3vw, -10vw);
+  top: clamp(10vh, 5vh, 15vh);
+  right: clamp(-3vw, -3vw, -6vw);
+
+  @include media('<phone') {
+    display: none; // hide on mobile
+  }
+}
+
+// Seed Plant
+.icon.seed_plant {
+  top: clamp(10vh, 5vh, 15vh);
+  right: clamp(-3vw, -3vw, -6vw);
+
+  @include media('<phone') {
+    display: none; // hide on mobile
+  }
+}
+
+//Wheat Plant
+.icon.wheat_plant {
+  bottom: clamp(10vh, 5vh, 15vh);
+  left: clamp(-2vw, -3vw, -5vw);
 
   @include media('<phone') {
     display: none; // hide on mobile

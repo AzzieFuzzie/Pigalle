@@ -50,8 +50,17 @@
     }
   }
 
+  &__button__label {
+    margin-right: var(--margin-tiny);
+
+  }
+
+  &__slider__counter {
+    margin-left: auto;
+  }
+
   &__slider__controls {
-    @include flex(row, space-between, center, nowrap)
+    @include flex(row, flex-start, center, nowrap)
   }
 }
 

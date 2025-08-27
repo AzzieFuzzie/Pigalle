@@ -8,11 +8,11 @@ export default class Home extends Page {
       element: '.home',
       elements: {
         wrapper: '.home__wrapper', // target by data-animation
-        marquee: '.home[data-animation="marquee"]'  // double quotes inside single quotes
+
 
       },
     });
-    console.log(this.elements.marquee);
+
   }
 
   // create() {

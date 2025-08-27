@@ -1,7 +1,7 @@
 .hero {
-  position: relative;
+  // position: relative;
   width: 100vw;
-  height: calc(100vh - 80px);
+  height: 100vh;
   overflow: hidden;
   z-index: 1;
 
@@ -23,6 +23,7 @@
 
   &__text {
     position: relative; // keeps it inside flex flow
+    text-align: right;
     z-index: 2;
     color: white;
     max-width: clamp(50ch, 60%, 70ch);

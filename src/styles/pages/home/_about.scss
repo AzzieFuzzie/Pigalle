@@ -1,4 +1,4 @@
-.about {
+.about__card {
   @include page-grid;
 
 
@@ -26,7 +26,7 @@
 
   &__left {
     grid-column: 1 / span 6;
-    // margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-small);
 
     position: relative;
 
@@ -38,9 +38,7 @@
 
 
 
-  &__image__wrapper {
-    position: relative
-  }
+  &__image__wrapper {}
 
   &__image {
     min-width: 100%;

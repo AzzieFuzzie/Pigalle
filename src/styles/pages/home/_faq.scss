@@ -1,6 +1,10 @@
 .faq {
   @include page-grid;
 
+  &__section {
+    position: relative;
+
+  }
 
   &__container {
     grid-column: 4/ span 6;

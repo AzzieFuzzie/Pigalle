@@ -15,12 +15,12 @@ export default class PinLayer {
     ScrollTrigger.create({
       trigger: this.heroSection,
       start: "top top",
-      endTrigger: this.taglineSection,   // your tagline section
-      end: "bottom bottom",
+      endTrigger: this.taglineSection,
+      end: "top top", // the tagline reaches top → hero unpins
       pin: true,
-      pinSpacing: false,               // no extra height
+      pinSpacing: false,
       scrub: true,
-      markers: true,
+      // markers: true,
     });
 
 

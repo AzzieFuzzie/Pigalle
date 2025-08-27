@@ -7,12 +7,9 @@
   // user-select: none;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 html.lenis {
   overflow-x: hidden;
+  scrollbar-width: none;
 }
 
 /* Initial state: hide content, hide scrollbar */
@@ -51,23 +48,21 @@ body {
 }
 
 
+// .lenis.lenis-smooth {
+//   scroll-behavior: auto;
+// }
 
+// .lenis.lenis-smooth [data-lenis-prevent] {
+//   overscroll-behavior: contain;
+// }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto;
-}
+// .lenis.lenis-stopped {
+//   overflow: hidden;
+// }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
+// .lenis.lenis-scrolling iframe {
+//   pointer-events: none;
+// }
 
 a {
   color: inherit;

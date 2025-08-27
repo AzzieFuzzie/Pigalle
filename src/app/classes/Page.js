@@ -1,13 +1,19 @@
 import AutoBind from 'auto-bind';
 import EventEmitter from 'events';
 import GSAP from 'gsap';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+GSAP.registerPlugin(ScrollTrigger);
 import Prefix from 'prefix';
 import Lenis from 'lenis';
 
 import PinLayer from "../Animations/PinLayer";
-import TextHighlight from "../Animations/TextHighlight";
-import FAQAccordion from '../Animations/FAQAccordion';
+// import TextHighlight from "../Animations/TextHighlight";
+// import FAQAccordion from '../Animations/FAQAccordion';
 import Carousel from '../Animations/Carousel';
+import Scale from '../Animations/Scale';
+import Navigation from '../Animations/Navigation';
+import Slider from '../Animations/Slider';
+import Marquee from '../Animations/Marquee';
 
 
 
@@ -15,6 +21,8 @@ import AsyncLoad from '@classes/AsyncLoad';
 import { Detection } from '@classes/Detection';
 
 import each from 'lodash/each';
+import map from 'lodash/map';
+
 import { mapEach } from '@utils/dom';
 
 export default class Page extends EventEmitter {
@@ -28,78 +36,43 @@ export default class Page extends EventEmitter {
     this.selectorChildren = {
       ...elements,
 
+      animationScale: '[data-animation="scale"]',
+      animationNavigation: '[data-animation="navigation"]',
+      animationSlider: '[data-animation="reviews_slider"]',
+      animationCarousel: '[data-animation="carousel"]',
+      animationFAQ: '[data-animation="faq"]',
+      animationMarquee: '[data-animation="marquee"]',
+      animationPinLayer: '[data-animation="pin"]'
     };
 
 
+
+    document.body.style.opacity = '1';
+    document.body.style.visibility = 'visible';
+
+
     this.transformPrefix = Prefix('transform');
-    this.create();
+
     this._createLenis();
-
-    this._createPinLayer();
-    this._createTextHighlight()
-    this._createFAQAccordian()
-
-    this._createCarousel()
   }
-
-
-
-
-  _createPinLayer() {
-    const hero = document.querySelector('[data-animation="pin"]');
-    const taglineSection = document.querySelector('.tagline__card__wrapper');
-    if (!hero || hero.dataset.pinned) return; // skip if already pinned
-
-    new PinLayer({ heroSection: hero, taglineSection: taglineSection });
-
-    // mark as pinned
-    hero.dataset.pinned = "true";
-  }
-
-
-  _createTextHighlight() {
-    // Call it when DOM is ready
-    new TextHighlight({ tagline: '.tagline__heading[data-animation="fill"]' });
-
-
-
-  }
-
-
-  _createFAQAccordian() {
-
-    new FAQAccordion({ selector: '.faq__accordian' });
-
-
-  }
-
-
-  _createCarousel() {
-    new Carousel({
-      buttons: {
-        next: '.btn__next',
-        prev: '.btn__prev'
-      },
-      slider: '.slider__image'
-    });
-  }
-
-
-
 
 
   _createLenis() {
+    // Initialize Lenis for smooth scrolling
     this.lenis = new Lenis({
-      smooth: true,
-      lerp: 0.15,
-      autoRaf: false,
+      lerp: 0.15,       // smoothness
+
     });
 
+    // Drive Lenis updates
     const raf = (time) => {
       this.lenis.raf(time);
       requestAnimationFrame(raf);
     };
     requestAnimationFrame(raf);
+
+    // Optional: prevent GSAP lag smoothing
+    GSAP.ticker.lagSmoothing(0);
   }
 
 
@@ -113,52 +86,84 @@ export default class Page extends EventEmitter {
         entry instanceof window.NodeList ||
         Array.isArray(entry)
       ) {
-        this.elements[key] = entry;
+        // Already an element or array → convert NodeList to array if needed
+        this.elements[key] = entry instanceof NodeList ? Array.from(entry) : entry;
       } else {
-        this.elements[key] = document.querySelectorAll(entry);
-
-        if (this.elements[key].length === 0) {
-          this.elements[key] = null;
-        } else if (this.elements[key].length === 1) {
-          this.elements[key] = document.querySelector(entry);
-        }
+        // Query selector(s) → always convert to array
+        const nodeList = document.querySelectorAll(entry);
+        this.elements[key] = Array.from(nodeList); // empty array if nothing found
       }
     });
 
     this.createAnimations();
-
-    // this.createPreloader();
   }
+
   createAnimations() {
 
-    // Initialize only once
-    // this.navigationAnimation = new NavigationAnimation();
+    // Scale animations
+    this.animationScale = map(this.elements.animationScale, (element) => {
+      return new Scale({ element });
+    });
 
-    // Links and paragraphs animations as before
-    this.animationsLinks = mapEach(this.elements.animationsLinks, (element) => {
-      return new Link({
-        element,
+    // Navigation animations
+    this.animationsNavigation = mapEach(this.elements.animationNavigation, (element) => {
+      return new Navigation({ element });
+    });
+
+    // // Reviews slider
+    // this.animationsSlider = mapEach(this.elements.animationSlider, (element) => {
+    //   return new Slider({ element });
+    // });
+
+    // Pin layer animations
+    // this.animationsPinLayer = mapEach(this.elements.animationPinLayer, (element) => {
+    //   return new PinLayer({
+    //     heroSection: element,
+    //     taglineSection: document.querySelector('.tagline__card__wrapper')
+    //   });
+    // });
+
+    // Text highlight
+    this.animationsTextHighlight = mapEach(this.elements.animationTextHighlight, (element) => {
+      return new TextHighlight({
+        tagline: element
       });
     });
 
+    // FAQ accordion
+    // this.animationsFAQ = mapEach(this.elements.animationFAQ, (element) => {
+    //   return new FAQAccordion({
+    //     selector: element
+    //   });
+    // });
 
-    this.animationsParagraphs = mapEach(this.elements.animationsParagraphs, (element) => {
-      return new Paragraph({ element });
+    this.animationsMarquee = mapEach(this.elements.animationMarquee, (element) => {
+      const marquee = new Marquee({ element });
+      return marquee;
     });
 
+
+    // Carousel
+    this.animationsCarousel = mapEach(this.elements.animationCarousel, (element) => {
+      return new Carousel({
+        buttons: {
+          next: '.btn__next',
+          prev: '.btn__prev'
+        },
+        slider: '.slider__image'
+      });
+    });
   }
 
   show(_url) {
-    this.lenis.scrollTo(0, {
-      offset: 0,       // start at top
-      immediate: true, // jump instantly
-    });
+
+    this.lenis.scrollTo(0, { offset: 0, immediate: true });
 
 
     this.addEventListeners();
-
     return Promise.resolve();
   }
+
 
   hide(_url) {
     this.isVisible = false;

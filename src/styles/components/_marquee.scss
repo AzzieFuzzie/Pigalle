@@ -1,22 +1,68 @@
-.marquee {
-  overflow: hidden;
+.marquee--mobile {
+  margin-bottom: var(--margin-tiny);
+}
+
+.marquee__track--mobile {
+  overflow-x: hidden;
+  width: 100%;
   border-top: 1px solid colors(black);
   border-bottom: 1px solid colors(black);
 
-  &__wrapper {
-    display: flex;
-    gap: var(--margin-xsmall);
-    flex-wrap: nowrap;
-  }
+}
 
-  &__item {
-    flex-shrink: 0;
-    white-space: nowrap;
-    @include fluid-type(320px, 1440px, 24px, 40px);
-  }
+.marquee__content--mobile {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0; // spacing inside wrapper only
+  will-change: transform;
+  margin: var(--margin-xxtiny) 0;
+}
 
-  &__dot {
-    flex-shrink: 0;
-    margin: 0 var(--margin-xxtiny);
-  }
+
+.marquee__item {
+  @include flex(row, center, center, nowrap);
+
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @include fluid-type(320px, 1440px, 24px, 40px);
+}
+
+.marquee__dot {
+  @include fluid-type(320px, 1440px, 18px, 24px);
+  margin: 0 var(--margin-tiny);
+}
+
+
+.marquee__track {
+  overflow-x: hidden; // keeps content hidden outside track
+  width: 100%;
+}
+
+.marquee__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0; // remove gap here; spacing is handled inside wrapper
+  will-change: transform;
+}
+
+.marquee__wrapper {
+  display: flex;
+  flex-direction: row;
+  // gap: 2rem; // spacing between images inside wrapper
+  // padding-right: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto; // prevents shrinking
+}
+
+.marquee__image {
+  width: 250px;
+  height: 375px;
+  padding-right: var(--padding-tiny);
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
 }

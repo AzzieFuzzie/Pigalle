@@ -1,26 +1,38 @@
 each slice in prismic.home.data.body
   if slice.slice_type === 'marquee'
-    section.section.section--tiny--margin
-      .marquee.marquee--images
-        .marquee__images
-          .marquee__travel
-            each item in slice.items
-              - const marqueeImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' })
-              img.marquee__image(
-                src=marqueeImage.src
-                srcset=marqueeImage.srcset
-                sizes="(max-width: 600px) 200px, 250px"
-                alt=marqueeImage.alt
-                loading="lazy"
-              )
+    section.section.section--tiny--padding
+      .marquee__track
+        .marquee__content(data-animation="marquee" data-direction="left")
+          each i in [0, 1]               
+            div.marquee__wrapper
+              each item in slice.items
+                - const marqueeImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' })
+                img.marquee__image(
+                  src=marqueeImage.src
+                  srcset=marqueeImage.srcset
+                  sizes="(max-width: 600px) 200px, 250px"
+                  alt=marqueeImage.alt
+                  loading="lazy"
+                )
 
 
-section.section.section--small--margin
-  ul.marquee.marquee--text
-    div.marquee__wrapper
-      - const marqueeText = 'Book Now'
-      - const repeatCount = 20
-      - for (let i = 0; i < repeatCount; i++)
-        li.marquee__item= marqueeText
-        if i < repeatCount - 1
-          li.marquee__dot •
+
+section.marquee--mobile
+  a.marquee__track--mobile(href="/book/")
+    .marquee__content--mobile(data-animation="marquee" data-direction="right")
+      each i in [0, 1]    
+        div.marquee__wrapper
+          - const marqueeText = 'Book Now'
+          - const repeatCount = 10
+
+          - for (let i = 0; i < repeatCount; i++)
+            span.marquee__item
+              | #{marqueeText}
+              span.marquee__dot
+                | •
+
+
+
+
+
+
