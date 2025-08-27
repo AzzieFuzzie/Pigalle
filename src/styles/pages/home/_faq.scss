@@ -17,26 +17,23 @@
 
 
   &__heading {
-    margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-xsmall);
+    font-family: font(roslindale-light-italic);
+    font-weight: 400;
+    font-style: normal;
   }
 
   &__accordian {}
 
   &__question {
     font-family: font(lato), serif;
-    line-height: 130%; // mobile value, will shrink visually on desktop due to scale
-    letter-spacing: 0;
 
     @include fluid-type(320px, 1440px, 18px, 24px);
-
-    @include media('<phone') {
-      line-height: 110%;
-    }
 
     @include flex(row, space-between, center, nowrap);
     min-width: 100%;
 
-    margin-bottom: var(--margin-xtiny);
+    margin-bottom: var(--margin-tiny);
     padding: 0;
   }
 
@@ -54,7 +51,7 @@
   &__line {
     background-color: colors(accent-grey);
     height: 1px;
-    margin: var(--margin-xtiny) 0;
+    margin: var(--margin-tiny) 0;
   }
 
 }

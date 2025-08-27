@@ -9,7 +9,7 @@ block content
     .home__wrapper
       .hero__pin(data-animation="pin")
         section.hero
-          //- .hero__text!= prismic.homeHeadingsHTML[0]
+          .hero__text!= prismic.homeHeadingsHTML[0]
           video.hero__video(autoplay muted loop playsinline preload="auto")
             source(src="/reels/background_reel.mp4" type="video/mp4")
 
@@ -24,7 +24,7 @@ block content
 
         // About Section
         if slice.slice_type === 'about_card'
-          section.section--small--padding.about__card__wrapper
+          section.about__card__wrapper
             div.about__card
               div.about__card__left
                 div.image__wrapper
@@ -93,8 +93,8 @@ block content
     section.section--xtiny--padding.reviews(data-animation='reviews_slider')
       div.reviews__wrapper
         div.reviews__track
-            div.reviews__quote 
-              span &ldquo; 
+            div.reviews__quote__wrapper 
+              span.reviews__quote  &ldquo; 
             div.reviews__slider
               if google_reviews.length
                 each review, index in google_reviews

@@ -34,7 +34,7 @@
 
 
   &__description {
-    margin-bottom: var(--margin-tiny);
+    margin-bottom: var(--margin-xsmall);
   }
 
 
@@ -51,7 +51,7 @@
   }
 
   &__button__label {
-    margin-right: var(--margin-tiny);
+    margin-right: var(--margin-small);
 
   }
 
@@ -81,6 +81,7 @@
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: 1;
+  padding-bottom: var(--padding-tiny);
 }
 
 // .slider__image.active {

@@ -14,12 +14,10 @@
   @include widow-fix;
 
   &__heading {
-    margin-bottom: var(--margin-xtiny);
+    margin-bottom: var(--margin-xsmall);
     display: inline-block;
-    max-width: 60ch;
-    margin: auto;
+    max-width: 70ch;
     text-align: center;
-    line-height: 1.2;
     white-space: pre-wrap;
     word-break: normal;
   }

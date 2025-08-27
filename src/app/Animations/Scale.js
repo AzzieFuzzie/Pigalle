@@ -9,23 +9,31 @@ export default class Scale extends Animation {
 
   }
   animateIn() {
-    GSAP.fromTo(
+    // Kill any existing tween first
+    if (this.pulseTween) this.pulseTween.kill();
+
+    this.pulseTween = GSAP.fromTo(
       this.element,
-      { scale: 0.75, transformOrigin: 'center center', willChange: 'transform' },
+      { scale: 0.9, transformOrigin: 'center center', willChange: 'transform' },
       {
         scale: 1,
-        duration: 2,
-        ease: 'expo.out',
+        duration: 1,
+        ease: 'expo',
+        delay: 0.2
       }
     );
   }
 
   animateOut() {
-    GSAP.set(this.element, {
-      scale: 0.75,
-      transformOrigin: 'center center',
-      willChange: 'transform',
-    });
+    // Stop the pulsing when out of view
+    if (this.pulseTween) {
+      this.pulseTween.kill();
+      this.pulseTween = null;
+    }
+
+    // Reset scale
+    GSAP.set(this.element, { scale: 0.9 });
   }
+
 
 } 

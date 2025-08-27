@@ -41,7 +41,7 @@ export default class Animation extends Component {
           }
         });
       },
-      { threshold: 0 } // trigger as soon as any pixel is visible
+      { threshold: 0.01 } // trigger as soon as any pixel is visible
     );
 
     this.observer.observe(this.target);

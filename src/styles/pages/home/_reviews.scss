@@ -58,7 +58,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    margin-bottom: var(--margin-xtiny);
+    margin-bottom: var(--margin-tiny);
     text-align: center;
   }
 
@@ -66,25 +66,26 @@
     margin-bottom: var(--margin-xsmall);
   }
 
-  &__quote {
+  &__quote__wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: var(--margin-xtiny);
+    align-items: flex-start;
+    margin-bottom: var(--margin-xsmall);
 
   }
 
-  &__quote span {
-    font-family: font(roslindale-regular), serif;
+  &__quote {
+    font-family: serif;
     @include fluid-type(320px, 1440px, 100px, 120px);
-
-    vertical-align: bottom;
+    line-height: normal;
+    height: 1px;
+    margin-bottom: var(--margin-xsmall);
   }
 
   &__dots {
     display: flex;
     justify-content: center;
-    gap: var(--margin-small);
+    gap: var(--margin-tiny);
     margin-top: 1rem;
   }
 

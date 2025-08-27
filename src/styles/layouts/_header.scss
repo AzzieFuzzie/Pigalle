@@ -48,7 +48,7 @@
    &__links {
      &--desktop {
        display: flex;
-       gap: 2rem;
+       gap: var(--margin-xsmall);
 
        @media (max-width: 768px) {
          display: none; // hide desktop links on mobile
