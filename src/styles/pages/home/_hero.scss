@@ -1,14 +1,11 @@
 .hero {
-  // position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
-  z-index: 1;
-
-  display: flex;
-  align-items: flex-end; // push content to bottom
-  justify-content: flex-end; // push content to left
-  padding: 2rem; // spacing from edges
+  position: relative;
+  z-index: -1;
+  @include flex(row, flex-end, flex-end, nowrap);
+  margin-bottom: 10px;
 
   &__video {
     position: absolute;
@@ -22,10 +19,13 @@
   }
 
   &__text {
-    position: relative; // keeps it inside flex flow
-    text-align: right;
-    z-index: 2;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    z-index: 1; // above video
     color: white;
     max-width: clamp(50ch, 60%, 70ch);
+    text-align: right;
+    margin: 0 var(--margin-xtiny) var(--margin-xsmall) 0;
   }
 }

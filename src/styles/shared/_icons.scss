@@ -2,17 +2,17 @@
   position: absolute;
   pointer-events: none;
   z-index: 3;
-  width: clamp(12vw, 12vw, 20vw); // changed from px to vw
+  width: clamp(10vw, 15vw, 20vw); // changed from px to vw
   height: auto;
 
-  // Tablet
+  // Tablet (make larger than desktop, more range)
   @include media('<tablet') {
-    width: clamp(8vw, 25vw, 15vw);
+    width: clamp(20vw, 28vw, 35vw);
   }
 
-  // Mobile
+  // Mobile (largest, for small screens)
   @include media('<phone') {
-    width: clamp(15vw, 50vw, 30vw);
+    width: clamp(28vw, 36vw, 45vw);
   }
 }
 
@@ -20,7 +20,6 @@
 .icon.mint {
   bottom: clamp(-8vh, -8vh, -12vh);
   left: clamp(-5vw, -5vw, -12vw);
-  transform: rotate(-12deg);
 
   @include media('<phone') {
     bottom: clamp(-5vh, -5vh, -8vh);
@@ -49,15 +48,15 @@
 
 // Tomato
 .icon.tomato {
-  left: clamp(-5vw, -5vw, -10vw);
-  top: clamp(-10vh, -10vh, -15vh);
+  left: clamp(-7vw, -5vw, -10vw);
+  top: clamp(-14vh, -10vh, -15vh);
 }
 
 // Plant
 .icon.plant {
   top: clamp(20vh, 5vh, 35vh); // changed middle value to vh for vertical scaling
-  left: clamp(0vw, 5vw, -3vw); // changed from vh to vw for horizontal scaling
-  overflow: visible;
+  left: clamp(-3vw, 5vw, -6vw); // changed from vh to vw for horizontal scaling
+  // overflow: visible;
 
   @include media('<phone') {
     display: none; // hide on mobile
@@ -67,17 +66,23 @@
 // Blueberry
 .icon.blueberry {
   top: clamp(10vh, 5vh, 15vh);
-  right: clamp(-3vw, -3vw, -6vw);
+  right: clamp(-6vw, -3vw, -8vw);
 
   @include media('<phone') {
     display: none; // hide on mobile
   }
 }
 
+//Orange
+.icon.orange {
+  bottom: clamp(5vh, 5vh, 6vh);
+  left: clamp(-4vw, -3vw, -4vw);
+}
+
 // Seed Plant
 .icon.seed_plant {
   top: clamp(10vh, 5vh, 15vh);
-  right: clamp(-3vw, -3vw, -6vw);
+  right: clamp(-3.2vw, -3vw, -4vw);
 
   @include media('<phone') {
     display: none; // hide on mobile
@@ -87,7 +92,7 @@
 //Wheat Plant
 .icon.wheat_plant {
   bottom: clamp(10vh, 5vh, 15vh);
-  left: clamp(-2vw, -3vw, -5vw);
+  left: clamp(-4vw, -3vw, -5vw);
 
   @include media('<phone') {
     display: none; // hide on mobile

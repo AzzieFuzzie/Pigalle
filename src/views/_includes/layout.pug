@@ -6,10 +6,11 @@ html(lang="en")
     
   body(style="opacity: 0; visibility: hidden;")
     header(class=template) 
-      include ../_includes/navigation
-
+      include ./navigation
+      
+      
     #content.content(data-template=template)
       block content
-
-    include ../_includes/footer
-    include ../_includes/script
+    include ./chat
+    include ./footer
+    include ./script

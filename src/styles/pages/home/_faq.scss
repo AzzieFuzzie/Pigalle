@@ -18,9 +18,9 @@
 
   &__heading {
     margin-bottom: var(--margin-xsmall);
-    font-family: font(roslindale-light-italic);
-    font-weight: 400;
-    font-style: normal;
+    // font-family: font(roslindale-light-italic);
+    // font-weight: 400;
+    // font-style: normal;
   }
 
   &__accordian {}
@@ -29,29 +29,46 @@
     font-family: font(lato), serif;
 
     @include fluid-type(320px, 1440px, 18px, 24px);
-
-    @include flex(row, space-between, center, nowrap);
+    flex: 1 1 auto;
+    @include flex(row, flex-start, center, nowrap);
     min-width: 100%;
 
-    margin-bottom: var(--margin-tiny);
+
     padding: 0;
   }
 
   &__question__text {
-    @include flex(row, space-between, center, nowrap);
-    flex: 1;
-
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; // left align text
+    align-items: center;
     text-transform: none;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+    text-align: left; // make sure text inside spans is left-aligned
   }
 
+  &__question__text span {
+    display: inline; // remove block + min-width:100%
+  }
+
+
   &__answer {
-    padding-right: 22px;
+    padding-right: var(--margin-tiny);
+    margin-top: var(--margin-tiny);
   }
 
   &__line {
     background-color: colors(accent-grey);
     height: 1px;
     margin: var(--margin-tiny) 0;
+  }
+
+  &__icon {
+    margin-left: var(--margin-xxtiny); // space between text and icon
+    flex-shrink: 0; // prevent icon from shrinking
+    width: 20px;
+    height: 20px;
   }
 
 }

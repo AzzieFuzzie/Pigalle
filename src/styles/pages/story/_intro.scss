@@ -1,16 +1,14 @@
 .story {
   &__intro__wrapper {
-    // position: relative;
-    height: 100vh;
-    overflow: hidden;
 
-    // flex container → content sits bottom-left
-    @include flex(column, flex-end, flex-end, nowrap);
+    height: 100dvh;
+    overflow: hidden;
+    @include flex(column, flex-end, flex-start, nowrap);
   }
 
   &__intro {
     width: 100%;
-    padding: var(--margin-small);
+    margin: 0 var(--margin-xsmall) var(--margin-xsmall) var(--margin-xsmall);
   }
 
   &__intro__heading {

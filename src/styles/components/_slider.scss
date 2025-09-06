@@ -1,18 +1,18 @@
-.food {
+// .food {
 
-  &__slider {
-    @include flex(row, space-between, center);
-    margin-top: var(--margin-tiny);
-    padding: 0;
+//   &__slider {
+//     @include flex(row, space-between, center);
+//     margin-top: var(--margin-tiny);
+//     padding: 0;
 
-    @include media('<phone') {
-      display: none;
-    }
+//     @include media('<phone') {
+//       display: none;
+//     }
 
-  }
+//   }
 
 
-  &__button {
-    padding: 0;
-  }
-}
+//   &__button {
+//     padding: 0;
+//   }
+// }

@@ -1,7 +1,7 @@
 import Animation from '../classes/Animation';
 import GSAP from 'gsap';
 
-export default class Scale extends Animation {
+export default class ImagePin extends Animation {
 
   constructor({ element, elements }) {
     super({ element, elements })
@@ -13,20 +13,9 @@ export default class Scale extends Animation {
 
     this.pulseTween = GSAP.fromTo(this.element,
       { scale: 0.8, y: 10, transformOrigin: 'center center', opacity: 0.8 },
-      { scale: 1, y: 0, opacity: 1, duration: 0.4, ease: 'linear.out', delay: 0.3 }
+      { scale: 1, y: 0, opacity: 1, duration: 1, ease: 'expo.out', delay: 0.3 }
     );
   }
-
-  animateOut() {
-
-    if (this.pulseTween) {
-      this.pulseTween.kill();
-      this.pulseTween = null;
-    }
-
-    GSAP.set(this.element, { scale: 1, y: 0, opacity: 1 });
-  }
-
 
 
 

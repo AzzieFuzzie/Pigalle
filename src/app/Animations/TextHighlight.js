@@ -1,13 +1,12 @@
-// import GSAP from "gsap";
+// import { gsap } from "gsap";
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
-// // import { SplitText } from "gsap/SplitText";
+// import SplitText from "gsap/SplitText.js"; // Vite-compatible
 
-// GSAP.registerPlugin(ScrollTrigger, SplitText);
+// gsap.registerPlugin(ScrollTrigger, SplitText);
 
-// export default class TextHighlightHybrid {
+// export default class TextHighlight {
 //   constructor({ tagline }) {
-//     this.el = document.querySelector(tagline);
-//     if (!this.el) return;
+//     this.el = tagline; // can be a DOM element
 
 //     this._splitLinesAndWords();
 //     this._setupStyles();
@@ -15,17 +14,15 @@
 //   }
 
 //   _splitLinesAndWords() {
-//     // First split into lines
 //     this.split = new SplitText(this.el, { type: "lines" });
 //     this.lineSpans = [];
 
 //     this.split.lines.forEach((line) => {
-//       // Wrap each word in a span
 //       const words = line.textContent.split(" ");
-//       line.textContent = ""; // clear line
+//       line.textContent = "";
 //       words.forEach((word, i) => {
 //         const wordSpan = document.createElement("span");
-//         wordSpan.style.whiteSpace = "nowrap"; // keep word together
+//         wordSpan.style.whiteSpace = "nowrap";
 //         word.split("").forEach((char) => {
 //           const charSpan = document.createElement("span");
 //           charSpan.textContent = char;
@@ -39,7 +36,6 @@
 //   }
 
 //   _setupStyles() {
-//     // Style each letter with transparent fill and stroke
 //     this.lineSpans.forEach((line) => {
 //       Array.from(line.querySelectorAll("span span")).forEach((char) => {
 //         char.style.display = "inline-block";
@@ -52,7 +48,7 @@
 //   _animate() {
 //     this.lineSpans.forEach((line) => {
 //       const letters = Array.from(line.querySelectorAll("span span"));
-//       GSAP.to(letters, {
+//       gsap.to(letters, {  // <-- lowercase 'gsap'
 //         color: "#000",
 //         webkitTextStroke: "0px",
 //         stagger: 0.03,
@@ -62,8 +58,8 @@
 //           start: "top 80%",
 //           end: "top 30%",
 //           scrub: true,
-//           markers: true
-//         }
+//           markers: true,
+//         },
 //       });
 //     });
 //   }

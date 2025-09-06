@@ -6,7 +6,7 @@ block variables
 
 block content
   .contact
-    section.section--xtiny--padding
+    section.section--large--padding
       div.contact__wrapper
         each slice in prismic.footer.data.body
           if slice.slice_type === 'contact'
@@ -16,7 +16,6 @@ block content
             
 
           // Socials (directly here)
-  
           if slice.slice_type === 'social_media'          
             ul.contact__socials__wrapper
               each item in slice.items
@@ -100,7 +99,36 @@ block content
                 h6.contact__address__label= prismic.contact.data.address_label[0].text
                 address
                   a(href="https://maps.google.com/?q=Michelangelo+Towers+Sandton" target="_blank")
-                    p.h5.contact__address= slice.primary.address
-    +svg-decorative('plant')
-    +svg-decorative('blueberry')
+                    p.h5.contact__address= slice.primary.address 
+      
+              .div.map__wrapper
+                iframe(
+                  src="https://maps.google.com/maps?hl=en&q=UO9,%20Michelangelo%20Towers,%20Maude%20St,%20Sandton,%202196+(Pigalle%20by%20Villamoura)&t=&z=15&output=embed"
+                  frameborder="0"
+                  
+                  
+                )
+                div.marker__overlay
+                  svg(
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 60 80"
+                    height="50"
+                    width="40"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  )
+                    path(
+                      fill="#DEC16B"
+                      d="M30 0C18.9543 0 10 8.95431 10 20C10 35 30 80 30 80C30 80 50 35 50 20C50 8.95431 41.0457 0 30 0Z"
+                    )
+                    circle(fill="#DEC16B" r="8" cy="20" cx="30")
+                    circle(fill="#EFEDEA" r="4" cy="20" cx="30")
+
+
+
+      +svg-decorative('plant')
+      +svg-decorative('blueberry')
+
+
     include ./_includes/marquee  

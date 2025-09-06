@@ -12,56 +12,58 @@ export default class Carousel {
     this.currentIndex = 0;
     this.wrapIndex = GSAP.utils.wrap(0, this.slides.length);
 
+    this._initSlides();
     this._events();
-    this._showSlide(this.currentIndex);
   }
 
-  _showSlide(index) {
+  _initSlides() {
     this.slides.forEach((slide, i) => {
-      slide.style.opacity = i === index ? 1 : 0;
-
+      GSAP.set(slide, {
+        autoAlpha: i === 0 ? 1 : 0, // only first slide visible
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        ease: "linear"
+      });
     });
+  }
+
+  _animateTo(index) {
+    const prevSlide = this.slides[this.currentIndex];
+    const nextSlide = this.slides[index];
+
+    // Ensure the next slide starts hidden (prevents flicker)
+    GSAP.set(nextSlide, { autoAlpha: 0 });
+
+    // Crossfade animation
+    GSAP.to(prevSlide, {
+      autoAlpha: 0,
+      duration: 0.6,
+      ease: "linear",
+    });
+
+    GSAP.to(nextSlide, {
+      autoAlpha: 1,
+      duration: 0.6,
+      ease: "linear",
+    });
+
+    this.currentIndex = index;
   }
 
   _animateNext() {
-    const prevSlide = this.slides[this.currentIndex];
-    this.currentIndex = this.wrapIndex(this.currentIndex + 1);
-    const nextSlide = this.slides[this.currentIndex];
-
-    GSAP.fromTo(nextSlide,
-      { opacity: 0, scale: 1.05 },
-      { opacity: 1, scale: 1, duration: 1, ease: "power2.inOut" }
-    );
-
-    GSAP.to(prevSlide, {
-      opacity: 0,
-      scale: 1.05,
-      duration: 1,
-      ease: "power2.inOut"
-    });
+    const nextIndex = this.wrapIndex(this.currentIndex + 1);
+    this._animateTo(nextIndex);
   }
 
   _animatePrev() {
-    const prevSlide = this.slides[this.currentIndex];
-    this.currentIndex = this.wrapIndex(this.currentIndex - 1);
-    const nextSlide = this.slides[this.currentIndex];
-
-    GSAP.fromTo(nextSlide,
-      { opacity: 0, scale: 1.05 },
-      { opacity: 1, scale: 1, duration: 0.5, ease: "power1.out" }
-    );
-
-    GSAP.to(prevSlide, {
-      opacity: 0,
-      scale: 1.05,
-      duration: 0.5,
-      ease: "power2.inOut"
-    });
+    const prevIndex = this.wrapIndex(this.currentIndex - 1);
+    this._animateTo(prevIndex);
   }
 
   _events() {
-    this.nextBTN.addEventListener('click', this._animateNext);
-    this.prevBTN.addEventListener('click', this._animatePrev);
-
+    this.nextBTN.addEventListener("click", this._animateNext);
+    this.prevBTN.addEventListener("click", this._animatePrev);
   }
 }

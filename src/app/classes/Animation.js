@@ -18,7 +18,7 @@ export default class Animation extends Component {
     this.transformPrefix = Prefix('transform');
 
     this.isVisible = false;
-
+    this.hasAnimated = false;
     if ('IntersectionObserver' in window) {
       this.createObserver();
 
@@ -34,18 +34,19 @@ export default class Animation extends Component {
     this.observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !this.hasAnimated) {
             this.animateIn();
-          } else if (!entry.isIntersecting) {
-            this.animateOut();
+            this.hasAnimated = true;
+            this.observer.unobserve(this.target); // stop observing after first animation
           }
         });
       },
-      { threshold: 0.01 } // trigger as soon as any pixel is visible
+      { threshold: 0 } // trigger as soon as any pixel is visible
     );
 
     this.observer.observe(this.target);
   }
+
 
 
   animateIn() {

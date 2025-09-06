@@ -5,7 +5,7 @@ block variables
   - var template = 'about'
 
 block content
-  .story
+  .story(class=`template-${template}`)
     .story__wrapper
       each slice in prismic.about.data.body
         if slice.slice_type === 'intro_card'

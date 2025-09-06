@@ -20,7 +20,7 @@ export default class MenuPin {
       pin: imageWrapper,         // pin the image wrapper
       pinSpacing: true,         // keeps spacing natural
       scrub: 1,               // smooth pin scrub
-      markers: true,             // debug
+      // markers: true,             // debug
     });
   }
 }

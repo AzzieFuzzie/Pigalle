@@ -21,7 +21,7 @@ export default class Component extends EventEmitter {
 	}
 
 	create() {
-		if (this.selector instanceof window.HTMLElement) {
+		if (this.selector instanceof window.HTMLElement || this.selector instanceof window.SVGElement) {
 			this.element = this.selector;
 		} else {
 			this.element = document.querySelector(this.selector);

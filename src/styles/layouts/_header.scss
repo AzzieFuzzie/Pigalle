@@ -1,7 +1,8 @@
  header {
-   z-index: 10;
-   min-width: 100vw;
 
+   min-width: 100vw;
+   //  position: sticky; // makes it stick to top
+   //  z-index: 100; // high enough to be above content
  }
 
  header.contact,
@@ -26,23 +27,22 @@
 
  .navigation {
    @extend %title-16;
-
    min-width: 100%;
    height: 80px;
-   z-index: 10;
+   z-index: z(navigation);
    display: flex;
    justify-content: space-between; // keeps desktop layout
    align-items: center;
    padding: var(--padding-xsmall) var(--padding-xsmall);
 
-   // padding-bottom: var(--padding-large);
-   &.hidden {
-     transform: translateY(-100%);
-   }
+   position: fixed; // make sure nav can move
+   top: 0;
+   left: 0;
+   transition: background-color 0.4s ease, color 0.4s ease;
 
-   &.visible {
-     transform: translateY(0);
-     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // optional
+   &.has-background {
+     background-color: white; // only applied after scrolling
+     color: colors(black);
    }
 
    &__links {
@@ -61,7 +61,7 @@
        top: 0;
        left: 0;
        width: 100vw;
-       height: 100vh;
+       height: 100dvh;
        background-color: colors(grey);
        padding: var(--padding-xsmall) var(--padding-xsmall);
        margin: 0;

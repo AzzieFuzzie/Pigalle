@@ -7,10 +7,11 @@
   }
 
   &__quality__heading {
-    grid-column: 3 / 11;
+    grid-column: 4 / 11;
     grid-row: 1 / 2;
     text-align: center;
-    margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-xsmall);
+    max-width: 30ch;
 
     @include media('<tablet') {
       grid-column: 2 / -2;
@@ -41,15 +42,14 @@
   /* TEAM + HALAAL blocks */
 
   .quality__halaal__wrapper {
-    margin-right: var(--margin-small);
+    margin-right: var(--margin-xsmall);
   }
 
   .quality__team__wrapper,
   .quality__halaal__wrapper {
     @include flex(row, flex-start, flex-start, nowrap);
-    max-width: 40ch;
 
-    margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-xsmall);
 
     p {
       max-width: 35ch;

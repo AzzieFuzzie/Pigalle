@@ -1,19 +1,22 @@
 import AutoBind from 'auto-bind';
 import EventEmitter from 'events';
 import GSAP from 'gsap';
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-GSAP.registerPlugin(ScrollTrigger);
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// GSAP.registerPlugin(ScrollTrigger);
 import Prefix from 'prefix';
 import Lenis from 'lenis';
 
 import PinLayer from "../Animations/PinLayer";
-// import TextHighlight from "../Animations/TextHighlight";
-// import FAQAccordion from '../Animations/FAQAccordion';
-import Carousel from '../Animations/Carousel';
-import Scale from '../Animations/Scale';
-import Navigation from '../Animations/Navigation';
-import Slider from '../Animations/Slider';
-import Marquee from '../Animations/Marquee';
+// import TextHighlight from "@animations/TextHighlight";
+import FAQAccordion from "../Animations/FAQAccordion.js";
+import Carousel from "../Animations/Carousel.js";
+import Scale from "../Animations/Scale.js";
+import Navigation from "../Animations/Navigation.js";
+import Slider from "../Animations/Slider.js";
+import Marquee from "../Animations/Marquee.js";
+import Parallax from "../Animations/Parallax.js";
+import Chat from "../Animations/Chat.js";
+
 
 
 
@@ -42,7 +45,11 @@ export default class Page extends EventEmitter {
       animationCarousel: '[data-animation="carousel"]',
       animationFAQ: '[data-animation="faq"]',
       animationMarquee: '[data-animation="marquee"]',
-      animationPinLayer: '[data-animation="pin"]'
+      animationPinLayer: '[data-animation="pin"]',
+      animationParallax: '[data-animation="parallax"]',
+      animationChat: '[data-animation="chat"]',
+      animationTextHighlight: '[data-animation="fill"]',
+
     };
 
 
@@ -60,7 +67,7 @@ export default class Page extends EventEmitter {
   _createLenis() {
     // Initialize Lenis for smooth scrolling
     this.lenis = new Lenis({
-      lerp: 0.15,       // smoothness
+      lerp: 0.1,       // smoothness
 
     });
 
@@ -95,7 +102,10 @@ export default class Page extends EventEmitter {
       }
     });
 
-    this.createAnimations();
+    document.addEventListener('DOMContentLoaded', (event) => {
+      this.createAnimations();
+    })
+
   }
 
   createAnimations() {
@@ -105,41 +115,51 @@ export default class Page extends EventEmitter {
       return new Scale({ element });
     });
 
+
     // Navigation animations
     this.animationsNavigation = mapEach(this.elements.animationNavigation, (element) => {
       return new Navigation({ element });
     });
 
-    // // Reviews slider
-    // this.animationsSlider = mapEach(this.elements.animationSlider, (element) => {
-    //   return new Slider({ element });
-    // });
+    // Reviews slider
+    this.animationsSlider = mapEach(this.elements.animationSlider, (element) => {
+      return new Slider({ element });
 
-    // Pin layer animations
-    // this.animationsPinLayer = mapEach(this.elements.animationPinLayer, (element) => {
-    //   return new PinLayer({
-    //     heroSection: element,
-    //     taglineSection: document.querySelector('.tagline__card__wrapper')
-    //   });
-    // });
-
-    // Text highlight
-    this.animationsTextHighlight = mapEach(this.elements.animationTextHighlight, (element) => {
-      return new TextHighlight({
-        tagline: element
-      });
     });
 
-    // FAQ accordion
-    // this.animationsFAQ = mapEach(this.elements.animationFAQ, (element) => {
-    //   return new FAQAccordion({
-    //     selector: element
+    // Parallax
+    this.animationsParallax = mapEach(this.elements.animationParallax, (element) => {
+      return new Parallax({ element });
+
+    });
+
+    this.animationsPinLayer = mapEach(this.elements.animationPinLayer, (element) => {
+
+      return new PinLayer({ element });
+    });
+
+    // Text highlight
+    // this.animationsTextHighlight = mapEach(this.elements.animationTextHighlight, (element) => {
+    //   return new TextHighlight({
+    //     tagline: element
     //   });
     // });
+
+    // FAQ accordion
+    this.animationsFAQ = mapEach(this.elements.animationFAQ, (element) => {
+      return new FAQAccordion({
+        selector: element
+      });
+    });
 
     this.animationsMarquee = mapEach(this.elements.animationMarquee, (element) => {
       const marquee = new Marquee({ element });
       return marquee;
+    });
+
+    this.animationsChat = mapEach(this.elements.animationChat, (element) => {
+      const chat = new Chat({ element });
+      return chat;
     });
 
 

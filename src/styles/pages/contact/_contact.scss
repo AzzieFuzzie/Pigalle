@@ -17,7 +17,7 @@
   &__heading {
     grid-column: 2/5;
     grid-row: 1/2;
-    margin-bottom: var(--margin-medium);
+    margin-bottom: var(--margin-small);
     text-wrap: balance;
     max-width: 30ch;
 
@@ -32,7 +32,7 @@
     grid-column: 7/-1;
     grid-row: 1/2;
 
-    margin-bottom: var(--margin-large);
+    // margin-bottom: var(--margin-large);
 
     @include media("<phone") {
       grid-column: 1/-1;
@@ -43,11 +43,12 @@
 
   &__socials__wrapper {
     grid-column: 2/4;
-    grid-row: 2/3;
+    grid-row: 4/4;
     display: flex;
     flex-direction: row;
     align-items: center;
     text-align: center;
+    margin-top: var(--margin-tiny);
 
     @include media("<phone") {
       order: 3; // push it to the bottom
@@ -55,7 +56,7 @@
       grid-row: unset;
       width: 100%;
       justify-content: center;
-      margin-top: var(--margin-medium);
+
     }
   }
 
@@ -68,7 +69,7 @@
       display: flex;
       list-style: none;
       padding: 0;
-      gap: var(--margin-small);
+      gap: var(--margin-tiny);
 
       @include media("<phone") {
         justify-content: center;
@@ -86,12 +87,8 @@
     width: 24px; // increase size
     height: 24px;
     fill: black; // color
-    margin-right: 8px; // spacing from text if you add labels
+    margin-right: var(--margin-tiny); // spacing from text if you add labels
   }
-
-
-
-
 
 
   &__email__wrapper,
@@ -116,4 +113,7 @@
   &__address {
     font-weight: bold;
   }
+
+  .map__wrapper {}
+
 }

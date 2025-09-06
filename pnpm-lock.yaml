@@ -96,9 +96,6 @@ importers:
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
-      eslint-plugin-pug:
-        specifier: ^1.2.5
-        version: 1.2.5
       html-minifier:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1715,9 +1712,6 @@ packages:
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
-
-  eslint-plugin-pug@1.2.5:
-    resolution: {integrity: sha512-rxsQI8ch1pUtP6jBBbmx3dqesZ+5+FdFgzP61pQgIWUezg5YwV+we0ROqk1JF71xdUrMKJkKbJglJ6lHrsOSzg==}
 
   eslint-scope@7.2.2:
     resolution: {integrity: sha512-dOt21O7lTMhDM+X9mB4GX+DZrZtCUJPL/wlcTqxyrx5IvO0IYtILdtrQGQp+8n5S0gwSVmOf9NQrjMOgfQZlIg==}
@@ -5036,13 +5030,6 @@ snapshots:
   eslint-config-prettier@9.1.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
-
-  eslint-plugin-pug@1.2.5:
-    dependencies:
-      lodash: 4.17.21
-      pug-lexer: 5.0.1
-      pug-parser: 6.0.0
-      pug-walk: 2.0.0
 
   eslint-scope@7.2.2:
     dependencies:

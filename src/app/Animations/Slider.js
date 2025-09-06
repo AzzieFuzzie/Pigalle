@@ -1,53 +1,87 @@
-// import Animation from '../classes/Animation';
-import GSAP from 'gsap';
+import GSAP from "gsap";
 
 export default class Slider {
+  constructor({ element }) {
+    this.element = element;
+    this.slider = this.element.querySelector(".reviews__slider");
+    this.slides = [...this.element.querySelectorAll(".reviews__slide")];
+    this.buttons = [...this.element.querySelectorAll(".reviews__dot")];
+    this.peekOffset = 50;
+    this.total = this.slides.length;
+    this.currentIndex = 2; // default centered slide (3rd)
+    this.slideWidth = this.slides[0].offsetWidth;
 
-  constructor({ element, elements }) {
+    console.log(window.innerWidth);
+    // QuickTo function
+    this.xTo = GSAP.quickTo(this.slider, "x", {
+      duration: 0.8,
+      ease: "expo.out"
+    });
 
-
-    this.animateIn()
+    this.onClick();
+    this.update();
+    this.startAutoplay()
   }
 
-  animateIn() {
-
-    const slider = {
-      $btns: document.querySelectorAll('.reviews__dot'),
-      animating: false
-    }
-    const tl_slider = GSAP.timeline({ paused: true })
-      // first_ interaction
-      .addLabel("Slide1")
-      .to('.reviews__slider .reviews__slide:nth-child(1)', { xPercent: -100, duration: 1.2, scale: .85, ease: 'linear' })
-      .from('.reviews__slider .reviews__slide:nth-child(2)', { xPercent: 100, duration: 1.2, scale: .85, ease: 'linear' }, '<')
-      .addLabel("Slide2")
-
-      // second interaction
-      .to('.reviews__slider .reviews__slide:nth-child(2)', { xPercent: -100, duration: 1.2, scale: .85, ease: 'linear' })
-      .from('.reviews__slider .reviews__slide:nth-child(3)', { xPercent: 100, duration: 1.2, scale: .85, ease: 'linear' }, '<')
-      .addLabel("Slide3")
-
-      // third interaction
-      .to('.reviews__slider .reviews__slide:nth-child(3)', { xPercent: -100, duration: 1.2, scale: .85, ease: 'linear' })
-      .from('.reviews__slider .reviews__slide:nth-child(4)', { xPercent: 100, duration: 1.2, scale: .85, ease: 'linear' }, '<')
-      .addLabel("Slide4")
-
-      .to('.reviews__slider .reviews__slide:nth-child(4)', { xPercent: -100, duration: 1.2, scale: .85, ease: 'linear' })
-      .from('.reviews__slider .reviews__slide:nth-child(5)', { xPercent: 100, duration: 1.2, scale: .85, ease: 'linear' }, '<')
-      .addLabel("Slide5")
-
-    slider.$btns.forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        if (slider.animating) return
-        slider.animating = true
-        btn.classList.add('active')
-        tl_slider.tweenTo(`Slide${index + 1}`, { duration: 2, ease: 'expo.inOut', onComplete: () => slider.animating = false })
-      })
-    })
+  onClick() {
+    this.buttons.forEach((button, i) => {
+      button.addEventListener("click", () => {
+        let targetIndex = i; // zero-based
+        this.goToSlide(targetIndex);
+        this.restartAutoplay()
+      });
+    });
   }
 
-  animateOut() {
+  goToSlide(targetIndex) {
+    let shift = targetIndex - this.currentIndex;
 
+    this.currentIndex = (this.currentIndex + shift + this.total) % this.total;
+
+    const containerWidth = this.slider.parentElement.offsetWidth;
+    const centerOffset = containerWidth / 2 - this.slideWidth / 2;
+
+    const newPosition = -this.currentIndex * this.slideWidth + centerOffset;
+
+    console.log("Moving to slide:", this.currentIndex, "New X:", newPosition);
+
+    this.xTo(newPosition);
+
+    // Update classes for center, left, and right slides
+    this.slides.forEach((slide, i) => {
+      slide.classList.remove("--active", "--left", "--right");
+
+      if (i === this.currentIndex) {
+        slide.classList.add("--active");
+      } else if (i === (this.currentIndex - 1 + this.total) % this.total) {
+        slide.classList.add("--left");
+      } else if (i === (this.currentIndex + 1) % this.total) {
+        slide.classList.add("--right");
+      }
+    });
+
+
+    // Add --active class to the current button
+    this.buttons.forEach((button, i) => {
+      button.classList.toggle("--active", i === this.currentIndex);
+    });
   }
 
-} 
+  update() {
+    // initial render
+    this.goToSlide(this.currentIndex);
+  }
+
+  startAutoplay() {
+    this.autoplay = GSAP.to({}, {
+      duration: 7,
+      ease: "expo.out",
+      repeat: - 1,
+      onRepeat: () => this.goToSlide((this.currentIndex + 1) % this.total),
+    });
+  }
+
+  restartAutoplay() {
+    if (this.autoplay) this.autoplay.restart();
+  }
+}

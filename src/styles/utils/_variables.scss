@@ -18,12 +18,18 @@ $_fonts: (
 
 // 1st level z-indexes. You can get them with z(Z_INDEX_NAME)
 $_z-indexes: (
-  preloader: 5,
-  transition: 4,
-  navigation: 3,
-  content: 2,
-  canvas: 1,
+  preloader: 6,
+  transition: 5,
+  navigation: 4,
+  content: 4,
+  // text/content above icons
+  icons: 3,
+  // icons above images
+  images: 2,
+  // images under icons
+  canvas: 1
 );
+
 
 // You can get them with const(CONSTANTS)
 $_constants: (

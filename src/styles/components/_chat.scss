@@ -1,0 +1,38 @@
+.whatsaap {
+  position: fixed;
+  bottom: var(--margin-xsmall);
+  right: var(--margin-xsmall);
+  z-index: 9999;
+  overflow: hidden;
+  cursor: pointer;
+  padding: var(--margin-xxtiny);
+  border-radius: 10px;
+  background-color: colors(white);
+  white-space: nowrap;
+}
+
+.whatsapp__link {
+  @include flex(row-reverse, center, center, nowrap);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+.whatsapp__wrapper {
+  @include flex(row-reverse, center, center, nowrap, 0); // your flex mixin
+
+  overflow: hidden;
+  white-space: nowrap;
+
+}
+
+
+.whatsapp__icon {
+  // padding-right: 10px;
+}
+
+
+span .whatsapp__text {
+  white-space: nowrap;
+  font-weight: bold;
+}

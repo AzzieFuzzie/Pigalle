@@ -5,46 +5,48 @@
 
 
   &__wrapper {
-
+    // border: 2px solid black;
     overflow: hidden;
     width: 100%;
   }
 
+  &__track {
+    // border: 2px solid blue;
+  }
+
   &__slider {
     display: flex;
-
-    // margin-left: -30%; // space to cut off first slide
-    // margin-right: -30%; // space to cut off last slide
+    will-change: transform;
 
   }
 
   &__slide {
     flex: 0 0 calc(100% / 3);
-
-    &:first-child {
-      transform: translateX(-50%); // peek left
-      color: colors(accent-grey);
-    }
-
-    &:nth-of-type(3) {
-      transform: translateX(50%); // peek right
-      color: colors(accent-grey);
-    }
+    color: colors(accent-grey);
+    transition: color 0.3s ease-in-out, opacity 0.8s ease-in-out;
+    opacity: 0.6;
 
     @include media("<phone") {
       flex: 0 0 100%;
+    }
 
-      &:first-child {
-        transform: translateX(0); // peek left
-      }
+    &.--active {
+      color: colors(black);
+      opacity: 1;
 
-      &:nth-of-type(3) {
-        transform: translateX(0); // peek right
-      }
+
     }
 
 
+    &.--left {
+      transform: translateX(-50%); // peek left
+    }
+
+    &.--right {
+      transform: translateX(50%); // peek right
+    }
   }
+
 
 
   &__item {
@@ -56,7 +58,7 @@
   &__text {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     margin-bottom: var(--margin-tiny);
     text-align: center;
@@ -78,7 +80,7 @@
     font-family: serif;
     @include fluid-type(320px, 1440px, 100px, 120px);
     line-height: normal;
-    height: 1px;
+    height: var(--margin-tiny);
     margin-bottom: var(--margin-xsmall);
   }
 

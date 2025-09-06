@@ -17,7 +17,7 @@
   }
 
   &__heading {
-    margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-tiny);
   }
 
   &__description__1,
@@ -25,6 +25,12 @@
     margin-bottom: var(--margin-tiny);
     max-width: 60ch;
   }
+
+  &__description__2 {
+    margin-bottom: var(--margin-small);
+
+  }
+
 
   &__content {
     @include flex(row, flex-start, flex-start, nowrap);
@@ -37,7 +43,7 @@
   &__phone,
   &__email {
     font-weight: bold;
-    margin-bottom: var(--margin-xxtiny);
+    margin-bottom: var(--margin-tiny);
   }
 
   .book__separator {

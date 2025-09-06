@@ -34,7 +34,7 @@ export default class Marquee extends Component {
     // handle window resize
     window.addEventListener("resize", () => {
       wrapperWidth = wrapper.getBoundingClientRect().width;
-      console.log(wrapperWidth);
+
     });
   }
 
