@@ -36,6 +36,8 @@ export default function (eleventyConfig) {
   // Passthrough copy
   eleventyConfig.addPassthroughCopy("public");
   eleventyConfig.addPassthroughCopy("src/fonts");
+  eleventyConfig.addPassthroughCopy("src/app");
+
 
   // HTML minify
   eleventyConfig.addTransform("htmlmin", (content, outputPath) => {
