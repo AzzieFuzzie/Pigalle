@@ -51,6 +51,7 @@
     "normalize-wheel": "^1.0.1",
     "prefix": "^1.0.0",
     "ua-parser-js": "^1.0.37",
-    "vite": "^6.3.1"
+    "vite": "^6.3.1",
+    "vite-plugin-clean": "^2.0.1"
   }
 }

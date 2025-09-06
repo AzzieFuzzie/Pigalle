@@ -1,32 +1,27 @@
+// Essential module imports for the configuration
 import path from 'path';
-import fs from 'fs';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
-import pluginPug from '@11ty/eleventy-plugin-pug';
+import { VitePWA } from 'vite-plugin-pwa';
+import vitePluginClean from 'vite-plugin-clean';
+
 
 export default function (eleventyConfig) {
-  // --- Ensure temp folder exists ---
-  const tempFolder = '.11ty-vite';
-  if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
+  // Configuring the Eleventy server to run on port 3000
+  eleventyConfig.setServerOptions({
+    port: 3000,
+  });
 
-  // --- Server ---
-  eleventyConfig.setServerOptions({ port: 3000 });
-
-  // --- Plugins ---
-  eleventyConfig.addPlugin(pluginPug);
-
+  // Integrate Vite with Eleventy using the Eleventy Vite Plugin
   eleventyConfig.addPlugin(EleventyVitePlugin, {
-    tempFolderName: tempFolder,
+    // Specify the directory where Vite-specific temporary files will be stored
+    tempFolderName: '.11ty-vite',
+    // Options tailored for the Vite build tool
     viteOptions: {
-      root: 'src',
+      // Directory to serve static assets from
       publicDir: 'public',
-      build: {
-        outDir: tempFolder,
-        emptyOutDir: true,
-        rollupOptions: {
-          input: {}, // prevents Vite from trying to bundle index.html
-        },
-      },
+      // Set the root directory for Vite
+      root: 'src',
       css: {
         preprocessorOptions: {
           scss: {
@@ -34,7 +29,24 @@ export default function (eleventyConfig) {
           },
         },
       },
+      // List of Vite plugins to use
+      plugins: [
+        // PWA (Progressive Web App) settings using VitePWA plugin
+        // VitePWA({
+        //   injectRegister: 'script',
+        //   registerType: 'autoUpdate',
+        //   includeAssets: [],
+        //   workbox: {
+        //     globPatterns: ['**/*.{js,css,html,png,jpg,svg,woff,woff2}'],
+        //   },
+        // }),
+        vitePluginClean({ targets: ['_site'] }),
+        glslifyPlugin.default(), // Note: glslifyPlugin is default export
+      ],
+
+      // Module resolve options
       resolve: {
+        // Create alias for directories, simplifying import paths
         alias: {
           '@styles': path.resolve(process.cwd(), 'src/styles'),
           '@app': path.resolve(process.cwd(), 'src/app'),
@@ -44,19 +56,20 @@ export default function (eleventyConfig) {
           '@classes': path.resolve(process.cwd(), 'src/app/classes'),
           '@animations': path.resolve(process.cwd(), 'src/app/animations'),
           '@pages': path.resolve(process.cwd(), 'src/app/pages'),
+          '@canvas': path.resolve(process.cwd(), 'src/app/components/Canvas'),
         },
       },
     },
   });
 
-  // --- Passthrough copy ---
+  // Specify directories and files that should bypass Eleventy's processing and be copied "as-is"
   eleventyConfig.addPassthroughCopy('public');
   eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
 
-  // --- HTML minify ---
+  // Minify HTML files before writing to the output directory
   eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       return htmlmin.minify(content, {
@@ -68,10 +81,10 @@ export default function (eleventyConfig) {
     return content;
   });
 
-  // --- Return directory config ---
+  // Define input and output directories for Eleventy, set passthrough copy, and set template engine to Pug
   return {
     dir: {
-      input: 'src/views/',
+      input: 'src/views',
       output: '_site',
       includes: '_includes',
       data: '_data',
@@ -79,4 +92,4 @@ export default function (eleventyConfig) {
     passthroughFileCopy: true,
     htmlTemplateEngine: 'pug',
   };
-};
+}
