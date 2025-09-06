@@ -22,6 +22,11 @@ export default function (eleventyConfig) {
       publicDir: 'public',
       // Set the root directory for Vite
       root: 'src',
+      rollupOptions: {
+        input: {
+          main: path.resolve(process.cwd(), 'src/app/main.js'),
+        },
+      },
       css: {
         preprocessorOptions: {
           scss: {
@@ -64,7 +69,6 @@ export default function (eleventyConfig) {
 
   // Specify directories and files that should bypass Eleventy's processing and be copied "as-is"
   eleventyConfig.addPassthroughCopy('public');
-  eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
