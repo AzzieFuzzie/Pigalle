@@ -1,30 +1,30 @@
-// Essential module imports for the configuration
 import path from 'path';
+import fs from 'fs';
 import htmlmin from 'html-minifier';
 import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
-import { VitePWA } from 'vite-plugin-pwa';
-import vitePluginClean from 'vite-plugin-clean';
-
+import pluginPug from '@11ty/eleventy-plugin-pug';
 
 export default function (eleventyConfig) {
-  // Configuring the Eleventy server to run on port 3000
-  eleventyConfig.setServerOptions({
-    port: 3000,
-  });
+  // --- Ensure temp folder exists ---
+  const tempFolder = '.11ty-vite';
+  if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
 
-  // Integrate Vite with Eleventy using the Eleventy Vite Plugin
+  // --- Server ---
+  eleventyConfig.setServerOptions({ port: 3000 });
+
+  // --- Plugins ---
+  eleventyConfig.addPlugin(pluginPug);
+
   eleventyConfig.addPlugin(EleventyVitePlugin, {
-    // Specify the directory where Vite-specific temporary files will be stored
-    tempFolderName: '.11ty-vite',
-    // Options tailored for the Vite build tool
+    tempFolderName: tempFolder,
     viteOptions: {
-      // Directory to serve static assets from
-      publicDir: 'public',
-      // Set the root directory for Vite
       root: 'src',
-      rollupOptions: {
-        input: {
-          main: path.resolve(process.cwd(), 'src/app/main.js'),
+      publicDir: 'public',
+      build: {
+        outDir: tempFolder,
+        emptyOutDir: true,
+        rollupOptions: {
+          input: {}, // prevents Vite from trying to bundle index.html
         },
       },
       css: {
@@ -34,24 +34,7 @@ export default function (eleventyConfig) {
           },
         },
       },
-      // List of Vite plugins to use
-      plugins: [
-        // PWA (Progressive Web App) settings using VitePWA plugin
-        // VitePWA({
-        //   injectRegister: 'script',
-        //   registerType: 'autoUpdate',
-        //   includeAssets: [],
-        //   workbox: {
-        //     globPatterns: ['**/*.{js,css,html,png,jpg,svg,woff,woff2}'],
-        //   },
-        // }),
-        vitePluginClean({ targets: ['_site'] }),
-        glslifyPlugin.default(), // Note: glslifyPlugin is default export
-      ],
-
-      // Module resolve options
       resolve: {
-        // Create alias for directories, simplifying import paths
         alias: {
           '@styles': path.resolve(process.cwd(), 'src/styles'),
           '@app': path.resolve(process.cwd(), 'src/app'),
@@ -61,19 +44,19 @@ export default function (eleventyConfig) {
           '@classes': path.resolve(process.cwd(), 'src/app/classes'),
           '@animations': path.resolve(process.cwd(), 'src/app/animations'),
           '@pages': path.resolve(process.cwd(), 'src/app/pages'),
-          '@canvas': path.resolve(process.cwd(), 'src/app/components/Canvas'),
         },
       },
     },
   });
 
-  // Specify directories and files that should bypass Eleventy's processing and be copied "as-is"
+  // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy('public');
+  eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
 
-  // Minify HTML files before writing to the output directory
+  // --- HTML minify ---
   eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       return htmlmin.minify(content, {
@@ -85,10 +68,10 @@ export default function (eleventyConfig) {
     return content;
   });
 
-  // Define input and output directories for Eleventy, set passthrough copy, and set template engine to Pug
+  // --- Return directory config ---
   return {
     dir: {
-      input: 'src/views',
+      input: 'src/views/',
       output: '_site',
       includes: '_includes',
       data: '_data',
@@ -96,4 +79,4 @@ export default function (eleventyConfig) {
     passthroughFileCopy: true,
     htmlTemplateEngine: 'pug',
   };
-}
+};
