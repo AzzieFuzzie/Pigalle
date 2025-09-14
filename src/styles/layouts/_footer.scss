@@ -10,6 +10,7 @@
 
   &__wrapper {
     @include page-grid;
+    // min-width: 100vw
   }
 
   &__hours__heading {

@@ -7,7 +7,7 @@ p,
 }
 
 em {
-  font-family: font(roslindale-light-italic), serif;
+  font-family: font(roslindale-light-italic);
 }
 
 a,
@@ -36,7 +36,7 @@ h1,
   @include fluid-type(320px, 1440px, 40px, 90px);
 
   @include media('<phone') {
-    line-height: 110%;
+    line-height: 100%;
   }
 }
 

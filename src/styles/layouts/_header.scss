@@ -34,7 +34,7 @@
    justify-content: space-between; // keeps desktop layout
    align-items: center;
    padding: var(--padding-xsmall) var(--padding-xsmall);
-
+   margin-bottom: var(--margin-small);
    position: fixed; // make sure nav can move
    top: 0;
    left: 0;

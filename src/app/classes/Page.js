@@ -1,24 +1,19 @@
 import AutoBind from 'auto-bind';
 import EventEmitter from 'events';
 import GSAP from 'gsap';
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// GSAP.registerPlugin(ScrollTrigger);
 import Prefix from 'prefix';
-import Lenis from 'lenis';
 
 import PinLayer from "../Animations/PinLayer";
-// import TextHighlight from "@animations/TextHighlight";
+import HeightImage from "../Animations/HeightImage.js";
+import TextReveal from "../Animations/TextReveal";
 import FAQAccordion from "../Animations/FAQAccordion.js";
 import Carousel from "../Animations/Carousel.js";
-import Scale from "../Animations/Scale.js";
+import Scale from "../Animations/Scale";
 import Navigation from "../Animations/Navigation.js";
-import Slider from "../Animations/Slider.js";
-import Marquee from "../Animations/Marquee.js";
-import Parallax from "../Animations/Parallax.js";
-import Chat from "../Animations/Chat.js";
-
-
-
+import Slider from "../Animations/Slider";
+import Marquee from "../Animations/Marquee";
+import Parallax from "../Animations/Parallax";
+import Chat from "../Animations/Chat";
 
 import AsyncLoad from '@classes/AsyncLoad';
 import { Detection } from '@classes/Detection';
@@ -31,10 +26,9 @@ import { mapEach } from '@utils/dom';
 export default class Page extends EventEmitter {
   constructor({ classes, element, elements }) {
     super();
-    // console.log('Page constructor called'); // ← Check this
     AutoBind(this);
 
-    this.class = classes
+    this.class = classes;
     this.selector = element;
     this.selectorChildren = {
       ...elements,
@@ -49,39 +43,12 @@ export default class Page extends EventEmitter {
       animationParallax: '[data-animation="parallax"]',
       animationChat: '[data-animation="chat"]',
       animationTextHighlight: '[data-animation="fill"]',
-
+      animationTextReveal: '[data-animation="text"]',
+      animationHeightImage: '[data-animation="height"]',
     };
-
-
-
-    document.body.style.opacity = '1';
-    document.body.style.visibility = 'visible';
-
 
     this.transformPrefix = Prefix('transform');
-
-    this._createLenis();
   }
-
-
-  _createLenis() {
-    // Initialize Lenis for smooth scrolling
-    this.lenis = new Lenis({
-      lerp: 0.1,       // smoothness
-
-    });
-
-    // Drive Lenis updates
-    const raf = (time) => {
-      this.lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
-
-    // Optional: prevent GSAP lag smoothing
-    GSAP.ticker.lagSmoothing(0);
-  }
-
 
   create() {
     this.element = document.querySelector(this.selector);
@@ -93,109 +60,117 @@ export default class Page extends EventEmitter {
         entry instanceof window.NodeList ||
         Array.isArray(entry)
       ) {
-        // Already an element or array → convert NodeList to array if needed
         this.elements[key] = entry instanceof NodeList ? Array.from(entry) : entry;
       } else {
-        // Query selector(s) → always convert to array
         const nodeList = document.querySelectorAll(entry);
-        this.elements[key] = Array.from(nodeList); // empty array if nothing found
+        this.elements[key] = Array.from(nodeList);
       }
     });
-
-    document.addEventListener('DOMContentLoaded', (event) => {
+    document.fonts.ready.then(() => {
       this.createAnimations();
-    })
+    });
 
   }
 
   createAnimations() {
-
-    // Scale animations
     this.animationScale = map(this.elements.animationScale, (element) => {
       return new Scale({ element });
     });
 
-
-    // Navigation animations
-    this.animationsNavigation = mapEach(this.elements.animationNavigation, (element) => {
+    this.animationsNavigation = map(this.elements.animationNavigation, (element) => {
       return new Navigation({ element });
     });
 
-    // Reviews slider
-    this.animationsSlider = mapEach(this.elements.animationSlider, (element) => {
+    this.animationsSlider = map(this.elements.animationSlider, (element) => {
       return new Slider({ element });
-
     });
 
-    // Parallax
-    this.animationsParallax = mapEach(this.elements.animationParallax, (element) => {
+    this.animationsTextReveal = map(this.elements.animationTextReveal, (element) => {
+      return new TextReveal(element);
+    });
+
+    this.animationsHeightImage = map(this.elements.animationHeightImage, (element) => {
+      return new HeightImage({ element });
+    });
+
+    this.animationsParallax = map(this.elements.animationParallax, (element) => {
       return new Parallax({ element });
-
     });
 
-    this.animationsPinLayer = mapEach(this.elements.animationPinLayer, (element) => {
-
+    this.animationsPinLayer = map(this.elements.animationPinLayer, (element) => {
       return new PinLayer({ element });
     });
 
-    // Text highlight
-    // this.animationsTextHighlight = mapEach(this.elements.animationTextHighlight, (element) => {
-    //   return new TextHighlight({
-    //     tagline: element
-    //   });
-    // });
-
-    // FAQ accordion
-    this.animationsFAQ = mapEach(this.elements.animationFAQ, (element) => {
-      return new FAQAccordion({
-        selector: element
-      });
+    this.animationsFAQ = map(this.elements.animationFAQ, (element) => {
+      return new FAQAccordion({ selector: element });
     });
 
-    this.animationsMarquee = mapEach(this.elements.animationMarquee, (element) => {
-      const marquee = new Marquee({ element });
-      return marquee;
+    this.animationsMarquee = map(this.elements.animationMarquee, (element) => {
+      return new Marquee({ element });
     });
 
-    this.animationsChat = mapEach(this.elements.animationChat, (element) => {
-      const chat = new Chat({ element });
-      return chat;
+    this.animationsChat = map(this.elements.animationChat, (element) => {
+      return new Chat({ element });
     });
 
-
-    // Carousel
-    this.animationsCarousel = mapEach(this.elements.animationCarousel, (element) => {
+    this.animationsCarousel = map(this.elements.animationCarousel, (element) => {
       return new Carousel({
         buttons: {
           next: '.btn__next',
           prev: '.btn__prev'
         },
-        slider: '.slider__image'
+        slider: '.slider__image',
+        counter: '.food__slider__counter  span'
       });
     });
   }
 
-  show(_url) {
+  show() {
+    return new Promise((resolve) => {
+      // Start at opacity 0 before animating
+      GSAP.set(this.element, { autoAlpha: 0 });
 
-    this.lenis.scrollTo(0, { offset: 0, immediate: true });
+      // Animate fade in
+      GSAP.to(this.element, {
+        autoAlpha: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          this.addEventListeners();
+          resolve();
+        }
+      });
+    });
+  }
 
+  hide() {
+    return new Promise((resolve) => {
+      // Animate fade out
+      GSAP.to(this.element, {
+        autoAlpha: 0,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: () => {
+          if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
+          if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
+          if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
+          if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
+          if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
+          if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
 
-    this.addEventListeners();
-    return Promise.resolve();
+          this.removeEventListeners();
+          resolve();
+        }
+      });
+    });
   }
 
 
-  hide(_url) {
-    this.isVisible = false;
-    // console.log(this.isVisible);
-
-
-    this.removeEventListeners();
-
-    return Promise.resolve();
+  addEventListeners() {
+    window.addEventListener('resize', this.onResize);
   }
 
-  addEventListeners() { }
-
-  removeEventListeners() { }
+  removeEventListeners() {
+    window.removeEventListener('resize', this.onResize);
+  }
 }

@@ -114,6 +114,8 @@
     font-weight: bold;
   }
 
-  .map__wrapper {}
+  .map__wrapper {
+    margin-bottom: var(--margin-small);
+  }
 
 }

@@ -4,45 +4,45 @@ import GSAP from 'gsap';
 export default class Marquee extends Component {
 
   constructor({ element, elements }) {
-    super({ element, elements })
-    this.animateIn()
+    super({ element, elements });
+    this._onResize = this._onResize.bind(this); // bind for removal
+    this.animateIn();
   }
 
-
   animateIn() {
-
     const wrapper = this.element.querySelector('.marquee__wrapper');
-    const direction = this.element.dataset.direction || "left";
-    let wrapperWidth = wrapper.getBoundingClientRect().width
+    this.direction = this.element.dataset.direction || "left";
+    this.wrapperWidth = wrapper.getBoundingClientRect().width;
 
-    const move = direction === "left" ? -wrapperWidth : wrapperWidth;
+    const move = this.direction === "left" ? -this.wrapperWidth : this.wrapperWidth;
+
     this.tween = GSAP.to(this.element, {
       x: `${move}px`,
       duration: 40,
-      ease: "linear",
+      ease: "none",
       repeat: -1,
       modifiers: {
         x: (x) => {
-          let currentWidth = wrapper.getBoundingClientRect().width;  // read fresh width each frame
+          const currentWidth = wrapper.getBoundingClientRect().width;
           const num = parseFloat(x);
           return (num % -currentWidth) + "px";
         }
       }
     });
 
-
-    // handle window resize
-    window.addEventListener("resize", () => {
-      wrapperWidth = wrapper.getBoundingClientRect().width;
-
-    });
+    window.addEventListener("resize", this._onResize);
   }
 
-
-  animateOut() {
-    // console.log('animation stopped');
-    // if (this.tween) this.tween.kill();
-
+  _onResize() {
+    const wrapper = this.element.querySelector('.marquee__wrapper');
+    this.wrapperWidth = wrapper.getBoundingClientRect().width;
   }
 
-} 
+  destroy() {
+    // Kill the tween
+    this.tween?.kill();
+
+    // Remove event listener
+    window.removeEventListener("resize", this._onResize);
+  }
+}

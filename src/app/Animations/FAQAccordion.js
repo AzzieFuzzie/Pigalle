@@ -11,6 +11,7 @@ export default class FAQAccordion {
     this.allowMultiple = allowMultiple;
     this.questions = this.container.querySelectorAll(".faq__question");
 
+    this._onClick = this._onClick.bind(this); // bind once for removal
     this._init();
   }
 
@@ -22,8 +23,14 @@ export default class FAQAccordion {
         GSAP.set(answer, { height: 0, y: -10, overflow: "hidden" });
       }
 
-      question.addEventListener("click", () => this._toggle(question, answer));
+      question.addEventListener("click", this._onClick);
     });
+  }
+
+  _onClick(event) {
+    const question = event.currentTarget;
+    const answer = question.nextElementSibling;
+    this._toggle(question, answer);
   }
 
   _toggle(question, answer) {
@@ -64,7 +71,6 @@ export default class FAQAccordion {
       });
       answer.dataset.open = "false";
     } else {
-      // animate from 0 to full height smoothly
       const fullHeight = answer.scrollHeight;
 
       GSAP.fromTo(
@@ -84,7 +90,6 @@ export default class FAQAccordion {
       answer.dataset.open = "true";
     }
 
-    // rotate icon
     const icon = question.querySelector(".faq__icon");
     if (icon) {
       GSAP.to(icon, {
@@ -95,4 +100,16 @@ export default class FAQAccordion {
     }
   }
 
+  destroy() {
+    // Remove event listeners
+    this.questions.forEach((question) => {
+      question.removeEventListener("click", this._onClick);
+    });
+
+    // Kill GSAP tweens on answers + icons
+    this.questions.forEach((q) => {
+      GSAP.killTweensOf(q.nextElementSibling);
+      GSAP.killTweensOf(q.querySelector(".faq__icon"));
+    });
+  }
 }

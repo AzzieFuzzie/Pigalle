@@ -6,19 +6,24 @@ GSAP.registerPlugin(ScrollTrigger);
 export default class PinLayer {
   constructor({ element }) {
     this.heroSection = element;
+    this.scrollTrigger = null;
     this._animate();
   }
 
   _animate() {
-
-    ScrollTrigger.create({
-      trigger: this.heroSection,  // pin the hero
-      start: "top top",            // pin starts when top of hero hits top
-      end: "bottom top",           // pin ends when bottom of hero hits top of viewport
+    this.scrollTrigger = ScrollTrigger.create({
+      trigger: this.heroSection,
+      start: "top top",
+      end: "bottom top",
       pin: true,
-      pinSpacing: false,           // remove extra space if needed
+      pinSpacing: false,
+      scrub: 1,
       // markers: true,
-      ease: 'elastic'
     });
+  }
+
+  destroy() {
+    this.scrollTrigger?.kill();
+    this.scrollTrigger = null;
   }
 }

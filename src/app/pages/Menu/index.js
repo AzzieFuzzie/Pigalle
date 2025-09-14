@@ -1,5 +1,6 @@
 import Page from '@classes/Page';
 import MenuPin from '@animations/MenuPin';
+import GSAP from 'gsap';
 
 export default class Menu extends Page {
   constructor() {
@@ -18,22 +19,28 @@ export default class Menu extends Page {
   create() {
     super.create();
 
-
-
-
     new MenuPin();
-
   }
 
   showCategory(category) {
     // Toggle active class on sections
     this.elements.section.forEach(section => {
       section.classList.toggle('--active', section.dataset.category === category);
+      this.activeTween = GSAP.fromTo(section,
+        { autoAlpha: 0, },
+        { autoAlpha: 1, y: -20, duration: 0.5, ease: "expo.out" });
     });
 
-    // Toggle active class on buttons
+    // Buttons
     this.elements.button.forEach(btn => {
-      btn.classList.toggle('--active', btn.dataset.category === category);
+      let isActive = btn.dataset.category === category;
+
+      if (isActive) {
+        btn.classList.toggle('--active');
+        GSAP.fromTo(btn, { autoAlpha: 0 }, { autoAlpha: 1, color: "#000", duration: 0.5, ease: "expo.out" });
+      } else {
+        btn.classList.remove('--active');
+      }
     });
   }
 }

@@ -2,7 +2,7 @@
   position: fixed;
   bottom: var(--margin-xsmall);
   right: var(--margin-xsmall);
-  z-index: 9999;
+  z-index: z(chat);
   overflow: hidden;
   cursor: pointer;
   padding: var(--margin-xxtiny);

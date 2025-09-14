@@ -13,7 +13,7 @@
 
     img.story__slider__image {
       width: 100%; // fill the column
-      height: auto; // maintain aspect ratio
+      height: 100%; // maintain aspect ratio
       display: block;
       border-radius: var(--radius-small); // optional styling
     }

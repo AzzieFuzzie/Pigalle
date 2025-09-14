@@ -4,13 +4,14 @@ html(lang="en")
   head
     include ../_includes/head
     
-  body(style="opacity: 0; visibility: hidden;")
+  body
     header(class=template) 
       include ./navigation
       
-      
+    //- include ./preloader
     #content.content(data-template=template)
       block content
+    include ./transition
     include ./chat
     include ./footer
     include ./script

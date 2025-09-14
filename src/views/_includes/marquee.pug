@@ -8,11 +8,11 @@ each slice in prismic.home.data.body
               each item in slice.items
                 - const marqueeImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' })
                 img.marquee__image(
-                  src=marqueeImage.src
+                  data-src=marqueeImage.src
                   srcset=marqueeImage.srcset
                   sizes="(max-width: 600px) 200px, 250px"
                   alt=marqueeImage.alt
-                  loading="lazy"
+          
                 )
 
 

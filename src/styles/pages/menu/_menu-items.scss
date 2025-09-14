@@ -1,86 +1,73 @@
 .menu {
-
   &__section {
-    display: none; // hide all sections by default
-
-    opacity: 0;
-
+    display: none;
+    overflow: visible;
+    margin-bottom: 0;
 
     &.--active {
-      display: block; // show only active section
-      opacity: 1;
-
-    }
-
-  }
-
-  &__item {
-    @include page-grid;
-
-
-
-    @include media('<phone') {
-      max-width: 100%;
-      overflow: hidden;
-      @include flex(column, flex-start, flex-start, nowrap);
+      display: grid;
+      @include page-grid;
+      margin-bottom: var(--margin-medium);
+      position: relative; // for stacked images
     }
   }
 
-
-  &__text__wrapper {
-    grid-column: 6 / span 6;
-
-
+  &__image__wrapper {
+    grid-column: 1 / span 4;
+    grid-row: 1 / -1;
+    position: relative;
 
     @include media('<tablet') {
-      grid-column: 6 / span 7;
-
+      height: 45vh;
     }
 
     @include media('<phone') {
       grid-column: 1 / -1;
-      width: 100%; // fills container
-      grid-column: unset;
       grid-row: unset;
-      max-height: none;
-      overflow-y: visible;
-
-
-    }
-  }
-
-
-
-  &__image__wrapper {
-    grid-column: 1 / span 4;
-    grid-row: 1 / span 7;
-    overflow: hidden;
-
-    @include media('<phone') {
-      width: 100%; // fills viewport width
-      grid-column: unset;
-      grid-row: unset;
+      width: 100%;
       margin-bottom: var(--margin-medium);
-      max-height: none; // allow image to scale naturally
+      height: auto;
+    }
+
+    .menu__image {
+      position: absolute; // stack images
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50vh;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.4s ease;
+
+      &:first-child {
+        opacity: 1;
+        z-index: 2;
+      }
+
+      @include media('<phone') {
+        position: relative;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
     }
   }
 
-  &__image {
-    width: 100%;
-    aspect-ratio: 2 / 3; // keeps height proportional to width
-    object-fit: cover;
-    object-position: top;
-    max-height: 50vh;
+  &__item {
+    grid-column: 6 / span 6; // text on the right
+    display: block;
+    margin-bottom: var(--margin-xxtiny);
 
     @include media('<phone') {
-      width: 100%; // slightly smaller than viewport for padding
-      height: auto; // scales height naturally
-      aspect-ratio: 16 / 9;
-      // remove previous max-height
+      grid-column: 1 / -1;
+      width: 100%;
     }
   }
 
-
+  &__text__wrapper {
+    display: block;
+  }
 
   &__name {
     margin-bottom: var(--margin-xtiny);
@@ -89,30 +76,33 @@
   &__flex__wrapper {
     width: 100%;
     @include flex(row, space-between, flex-start, nowrap);
+
+    @include media('<phone') {
+      flex-direction: column;
+      gap: var(--margin-xtiny);
+    }
   }
 
   &__description {
-    text-transform: none;
-    // margin-bottom: var(--margin-xtiny);
-
     max-width: 45%;
 
-    @include media('<phone') {}
+    @include media('<phone') {
+      max-width: 100%;
+    }
   }
 
   &__price {
     font-weight: bold;
   }
 
-
-  &__line {
-
-    margin: var(--margin-xtiny) 0 var(--margin-xtiny) 0;
+  .menu__line {
     display: block;
     height: 1px;
     background-color: colors(accent-grey);
-
-    @include media('<phone') {}
+    margin: var(--margin-xtiny) 0;
   }
 
+  .menu__text__wrapper:last-child .menu__line {
+    margin-bottom: 0;
+  }
 }

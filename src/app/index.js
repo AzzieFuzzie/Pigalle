@@ -4,6 +4,11 @@ import Stats from 'stats.js';
 import each from 'lodash/each';
 import FontFaceObserver from 'fontfaceobserver';
 import { Detection } from '@classes/Detection';
+import Lenis from 'lenis';
+import GSAP from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Preloader from './components/Preloader';
+import Transition from './components/Transition';
 
 import Home from '@pages/Home';
 import Menu from '@pages/Menu';
@@ -14,7 +19,7 @@ import Book from '@pages/Book';
 class App {
   constructor() {
     AutoBind(this);
-
+    this.isTransitioning = false;
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
       this.createStats();
     }
@@ -29,14 +34,58 @@ class App {
   }
 
   init() {
+    this.createLenis();
+
     this.createContent();
+
+    this.createTransition();
+    // this.createPreloader()
     this.createPages();
+
     this.addEventListeners();
     this.addLinkListeners();
+
     this.onResize();
-    this.update(); // start loop
+
+    this.update();
   }
 
+  createLenis() {
+    // Initialize a new Lenis instance for smooth scrolling
+    this.lenis = new Lenis({
+      smoothWheel: true,
+      lerp: 0.15
+    });
+
+    // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+    this.lenis.on('scroll', ScrollTrigger.update);
+
+    // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+    // This ensures Lenis's smooth scroll animation updates on each GSAP tick
+    GSAP.ticker.add((time) => {
+      this.lenis.raf(time * 1000); // Convert time from seconds to milliseconds
+    });
+
+    // Disable lag smoothing inGSAP to prevent any delay in scroll animations
+    GSAP.ticker.lagSmoothing(0);
+
+  }
+
+
+  createPreloader() {
+    this.preloader = new Preloader()
+    this.preloader.once('completed', this.onPreloaded.bind(this))
+  }
+
+  createTransition() {
+    this.transition = new Transition()
+  }
+
+  onPreloaded() {
+    this.onResize();
+
+    this.page.show();
+  }
   createContent() {
     this.content = document.querySelector('.content');
     this.template = this.content.getAttribute('data-template');
@@ -60,9 +109,17 @@ class App {
    * SPA Page Change
    */
   async onChange({ url, push = true }) {
-    if (!this.page) return;
+    if (this.isTransitioning) return;
+    this.isTransitioning = true;
+
+    if (!this.page) {
+      this.isTransitioning = false;
+      return;
+    }
 
     if (this.page.destroy) this.page.destroy();
+
+    if (this.transition) await this.transition.onEnter();
 
     await this.page.hide();
 
@@ -87,24 +144,32 @@ class App {
       this.content.innerHTML = divContent.innerHTML;
 
       const header = document.querySelector('header');
-      if (header) header.className = this.template; // replace with template
+      if (header) header.className = this.template;
 
       // Update current page
       this.page = this.pages[this.template];
       if (!this.page) {
         console.warn(`No page found for template: ${this.template}, redirecting home`);
+        this.isTransitioning = false;
         return this.onChange({ url: '/', push: true });
       }
 
       this.page.create();
-      this.page.show();
+      this.lenis.scrollTo(0, 0)
+      await this.page.show(); // wait for fade-in
+
       this.onResize();
       this.addLinkListeners();
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
     }
+
+    if (this.transition) await this.transition.onLeave();
+
+    this.isTransitioning = false;
   }
+
 
   /**
    * Stats
@@ -202,7 +267,7 @@ class App {
           this.page.showCategory(category);
 
           // Update SPA URL without fetching
-          const url = `/menu?category=${category}`;
+          const url = `/menu/${category}`.toLowerCase();
           window.history.pushState({}, '', url);
         };
       });
@@ -219,20 +284,34 @@ class App {
 /**
  * Font Loading
  */
-const roslindaleItalic = new FontFaceObserver('Roslindale Dsp Cd Lt');
-const roslindale = new FontFaceObserver('Roslindale Dsp Nar');
-const lato = new FontFaceObserver('Lato');
 
-Promise.all([roslindaleItalic.load(), roslindale.load(), lato.load()])
-  .then(() => {
-    console.log('All fonts loaded');
-    document.body.classList.add('fonts-loaded');
-    window.app = new App();
-  })
-  .catch(() => {
-    console.warn('Fonts failed to load in time. Starting anyway.');
-    document.body.classList.add('fonts-loaded');
-    window.app = new App();
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  const roslindaleItalic = new FontFaceObserver('Roslindale Dsp Cd Lt');
+  const roslindale = new FontFaceObserver('Roslindale Dsp Nar');
+  const lato = new FontFaceObserver('Lato');
+
+  Promise.all([
+    roslindaleItalic.load(),
+    roslindale.load(),
+    lato.load()
+  ])
+    .then(() => {
+      console.log('All fonts loaded');
+      document.body.classList.add('fonts-loaded');
+
+      // Wait until next repaint
+      requestAnimationFrame(() => {
+        window.app = new App();
+      });
+    })
+    .catch(() => {
+      console.warn('Fonts failed to load in time. Starting anyway.');
+      document.body.classList.add('fonts-loaded');
+
+      requestAnimationFrame(() => {
+        window.app = new App();
+      });
+    });
+});
 
 console.log('%c Developed by Muaaz', 'background: #000; color: #fff;');

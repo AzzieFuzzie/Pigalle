@@ -17,7 +17,7 @@ block content
         if slice.slice_type === 'tagline_card'
           section.tagline__card__wrapper
             .tagline
-              h2.tagline__heading(data-animation="fill")= slice.primary.tagline[0].text
+              h2(data-animation="text").tagline__heading= slice.primary.tagline[0].text
               a.button(href='/book/')
                 span.button__label= slice.primary.button_label
 
@@ -32,11 +32,11 @@ block content
               .image__wrapper
                 - const aboutImage = imgix.imgix(slice.primary.about_image,{ auto:'compress', crop: 'entropy', q:85 }, [400, 665, 1000])
                 img.about__card__image(
-                  src=aboutImage.src
+                  data-src=aboutImage.src
                   srcset=aboutImage.srcset
                   sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                   alt=aboutImage.alt
-                  loading="lazy"
+                
                 )
               +svg-decorative('mint')
             .about__card__right
@@ -48,7 +48,7 @@ block content
     // Our Food Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'our_food'
-        section.section.section--small--padding.food__card__wrapper
+        section.section.section--medium--padding.food__card__wrapper
           .food
             .food__left
               h6.food__heading= slice.primary.heading[0].text
@@ -61,11 +61,11 @@ block content
                   - const sliderImage = imgix.imgix(item.slider_image, { auto:'compress', crop:'entropy', q:85 }, [400, 665, 1000])
                   .slider__image(data-animation="carousel")
                     img.food__image(
-                      src=sliderImage.src
+                      data-src=sliderImage.src
                       srcset=sliderImage.srcset
                       sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                       alt=sliderImage.alt
-                      loading="lazy"
+                      
                     )
 
               .food__slider__controls
@@ -85,7 +85,7 @@ block content
           - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress', crop:'top' }, [400, 600, 800, 1200])
           .events(
             style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
-            data-srcset=backgroundImage.srcset
+            srcset=backgroundImage.srcset
           )
             .events__content
               h2.events__heading= slice.primary.heading[0].text
@@ -97,7 +97,7 @@ block content
     // FAQ Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'faq_card'
-        section.faq__section.section--small--padding
+        section.faq__section
           .faq
             .faq__container
               h2.faq__heading= slice.primary.heading[0].text
@@ -124,7 +124,7 @@ block content
           +svg-decorative('seed_plant')
 
     // Reviews Section (not a slice)
-    section.section--xtiny--padding.reviews(data-animation='reviews_slider')
+    section.section--small--padding.reviews(data-animation='reviews_slider')
       .reviews__wrapper
         .reviews__track
           .reviews__quote__wrapper 

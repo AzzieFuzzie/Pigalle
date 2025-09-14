@@ -21,11 +21,11 @@ export default class Animation extends Component {
     this.hasAnimated = false;
     if ('IntersectionObserver' in window) {
       this.createObserver();
-
+      console.log('animateOut');
       this.animateOut();
     } else {
       this.animateIn();
-
+      console.log('animateIn');
     }
   }
 
@@ -35,6 +35,7 @@ export default class Animation extends Component {
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !this.hasAnimated) {
+            console.log('animateIn');
             this.animateIn();
             this.hasAnimated = true;
             this.observer.unobserve(this.target); // stop observing after first animation
@@ -50,10 +51,12 @@ export default class Animation extends Component {
 
 
   animateIn() {
+    console.log('animateIn');
     this.isVisible = true;
   }
 
   animateOut() {
+    console.log('animateIn');
     this.isVisible = false;
   }
 }

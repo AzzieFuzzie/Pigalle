@@ -10,11 +10,12 @@ block content
       each slice in prismic.about.data.body
         if slice.slice_type === 'intro_card'
           - if (slice.primary.background_image && slice.primary.background_image.url)
-            - const aboutBackgroundImage = imgix.imgix(slice.primary.background_image,{ auto: 'compress', crop: 'top' }, [400, 800, 1200, 1600, 2000])
+            - const aboutBackgroundImage = imgix.imgix(slice.primary.background_image,{ auto: 'compress', crop: 'entropy' }, [400, 800, 1200, 1600, 2000])
             section.story__intro__wrapper(
-              style=`background-image: url('${aboutBackgroundImage.src}');background-size: cover; background-position: center;`
-              data-srcset=aboutBackgroundImage.srcset
-              sizes="100vw")
+              style=`background-image: url('${aboutBackgroundImage.src}');background-size:cover; background-position: center;`
+              srcset=aboutBackgroundImage.srcset
+              sizes="100vw"
+              )
               .story__intro
                 .story__intro__heading!= prismic.aboutHeadingsHTML[0]
 
@@ -31,9 +32,10 @@ block content
           section.section--small--margin.story__slider
             each item in slice.items
               div.story__slider__item
-                - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800])
+                - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800,1200])
                 img.story__slider__image(
-                  src=imgData.src
+                  data-animation= "height"
+                  data-src=imgData.src
                   srcset=imgData.srcset
                   sizes="(max-width: 768px) 100vw, 33vw"
                   alt=item.alt || "Slider image"

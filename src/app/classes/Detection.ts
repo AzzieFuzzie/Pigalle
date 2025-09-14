@@ -35,14 +35,17 @@ class DetectionManager {
   }
 
   private determineDeviceType(deviceType: string | undefined): DeviceType {
-    if (deviceType === 'mobile') {
-      return DeviceType.Phone;
-    } else if (Object.values(DeviceType).includes(deviceType as DeviceType)) {
-      return deviceType as DeviceType;
-    } else {
-      return DeviceType.Desktop;
-    }
+    const width = window.innerWidth;
+
+    // Treat small screens as mobile regardless of UA
+    if (width <= 1024) return DeviceType.Phone;
+
+    if (deviceType === 'mobile') return DeviceType.Phone;
+    if (deviceType === 'tablet') return DeviceType.Tablet;
+
+    return DeviceType.Desktop;
   }
+
 
   private setHTMLClass(): void {
     const htmlElement = document.documentElement;

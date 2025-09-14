@@ -54,7 +54,7 @@
 
 // Plant
 .icon.plant {
-  top: clamp(20vh, 5vh, 35vh); // changed middle value to vh for vertical scaling
+  top: clamp(30vh, 15vh, 35vh); // changed middle value to vh for vertical scaling
   left: clamp(-3vw, 5vw, -6vw); // changed from vh to vw for horizontal scaling
   // overflow: visible;
 
@@ -65,7 +65,7 @@
 
 // Blueberry
 .icon.blueberry {
-  top: clamp(10vh, 5vh, 15vh);
+  top: clamp(15vh, 10vh, 20vh);
   right: clamp(-6vw, -3vw, -8vw);
 
   @include media('<phone') {

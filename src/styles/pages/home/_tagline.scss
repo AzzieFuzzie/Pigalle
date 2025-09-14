@@ -1,7 +1,7 @@
 .tagline__card__wrapper {
   @include flex(column, center, center, nowrap);
   background-color: colors(grey);
-
+  padding: 0 var(--margin-xsmall);
   height: 100vh;
   text-align: center;
 
@@ -9,18 +9,23 @@
 
 .tagline {
   @include flex(column, center, center, wrap);
-  max-width: clamp(50ch, 60%, 80ch);
+  max-width: clamp(50ch, 60%, 70ch);
   text-align: center;
-  @include widow-fix;
 
   &__heading {
     margin-bottom: var(--margin-xsmall);
     display: inline-block;
-    max-width: 70ch;
     text-align: center;
-    white-space: pre-wrap;
     word-break: normal;
+    white-space: pre-wrap;
+
+
+    @include media('<phone') {
+      max-width: 28ch; // even narrower on mobile
+      white-space: normal;
+    }
   }
+
 
   @include media('<phone') {
 

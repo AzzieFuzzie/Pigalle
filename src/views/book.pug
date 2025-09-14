@@ -7,7 +7,7 @@ block variables
 block content
   .book
     .book__wrapper
-      section.container.book__intro.section--small--margin
+      section.container.book__intro.section--medium--margin
         each slice in prismic.book.data.body
           if slice.slice_type === 'book'
             h1.book__heading=slice.primary.heading[0].text

@@ -1,0 +1,33 @@
+.transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  z-index: 999;
+  pointer-events: none;
+  /* so you can still click through */
+}
+
+.transition__col {
+  flex: 1;
+  height: 100dvh;
+  background: #111;
+  transform: scaleY(0);
+  /* ✅ hidden initially */
+  transform-origin: top center;
+  /* ✅ will expand downward */
+}
+
+.transition__col--1 {
+  background-color: colors(gold);
+}
+
+.transition__col--2 {
+  background-color: colors(gold);
+}
+
+.transition__col--3 {
+  background-color: colors(gold);
+}
