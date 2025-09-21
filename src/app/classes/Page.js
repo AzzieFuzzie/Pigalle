@@ -126,43 +126,43 @@ export default class Page extends EventEmitter {
   }
 
   show() {
-    return new Promise((resolve) => {
-      // Start at opacity 0 before animating
-      GSAP.set(this.element, { autoAlpha: 0 });
+    // return new Promise((resolve) => {
+    //   // Start at opacity 0 before animating
+    //   GSAP.set(this.element, { autoAlpha: 0 });
 
-      // Animate fade in
-      GSAP.to(this.element, {
-        autoAlpha: 1,
-        duration: 0.6,
-        ease: "power2.out",
-        onComplete: () => {
-          this.addEventListeners();
-          resolve();
-        }
-      });
-    });
+    //   // Animate fade in
+    //   GSAP.to(this.element, {
+    //     autoAlpha: 1,
+    //     duration: 0.6,
+    //     ease: "power2.out",
+    //     onComplete: () => {
+    //       this.addEventListeners();
+    //       resolve();
+    //     }
+    //   });
+    // });
   }
 
   hide() {
-    return new Promise((resolve) => {
-      // Animate fade out
-      GSAP.to(this.element, {
-        autoAlpha: 0,
-        duration: 0.4,
-        ease: "power2.in",
-        onComplete: () => {
-          if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
-          if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
-          if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
-          if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
-          if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
-          if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
+    // return new Promise((resolve) => {
+    //   // Animate fade out
+    //   GSAP.to(this.element, {
+    //     autoAlpha: 0,
+    //     duration: 0.6,
+    //     ease: "power2.in",
+    //     onComplete: () => {
+    //       if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
+    //       if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
+    //       if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
+    //       if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
+    //       if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
+    //       if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
 
-          this.removeEventListeners();
-          resolve();
-        }
-      });
-    });
+    //       this.removeEventListeners();
+    //       resolve();
+    //     }
+    //   });
+    // });
   }
 
 

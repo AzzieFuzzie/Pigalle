@@ -1,7 +1,7 @@
 .menu__category {
   @include flex(row, center, center, wrap);
 
-  color: #CBC4B1;
+  color: colors(accent-grey);
 
   @include media('<tablet') {
     @include flex(row, flex-start, center, nowrap);

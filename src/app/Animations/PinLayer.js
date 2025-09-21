@@ -5,25 +5,27 @@ GSAP.registerPlugin(ScrollTrigger);
 
 export default class PinLayer {
   constructor({ element }) {
-    this.heroSection = element;
+    this.element = element;
+    console.log(this.element);
     this.scrollTrigger = null;
     this._animate();
   }
 
   _animate() {
+    // const taglineWrapper = document.querySelector('.tagline__card__wrapper')
     this.scrollTrigger = ScrollTrigger.create({
-      trigger: this.heroSection,
+      trigger: this.element,
       start: "top top",
       end: "bottom top",
       pin: true,
       pinSpacing: false,
-      scrub: 1,
-      // markers: true,
+      pinSpacing: false,
+      markers: false,
     });
   }
 
-  destroy() {
-    this.scrollTrigger?.kill();
-    this.scrollTrigger = null;
-  }
+  // destroy() {
+  //   this.scrollTrigger?.kill();
+  //   this.scrollTrigger = null;
+  // }
 }

@@ -17,9 +17,9 @@ html {
   line-height: 1;
   overflow-x: hidden;
   // position: fixed;
-  overscroll-behavior: none;
   text-rendering: optimizeSpeed;
   -webkit-overflow-scrolling: touch; // enables bounce on iOS
+
 }
 
 body {
@@ -30,9 +30,15 @@ body {
   font-weight: 400;
   text-size-adjust: 100%;
   line-height: 1.5;
-  opacity: 0; // hide visually
+
   background-color: colors(grey);
   overflow-x: hidden;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 
@@ -41,11 +47,10 @@ html.lenis {
   scrollbar-width: none;
 }
 
-
-body.fonts-loaded {
-  opacity: 1;
-  transition: opacity 0.3s ease; // fade-in effect
-}
+// body.fonts-loaded {
+//   opacity: 1;
+//   transition: opacity 0.3s ease; // fade-in effect
+// }
 
 /* Hide scrollbar for Webkit */
 body::-webkit-scrollbar {
@@ -75,17 +80,17 @@ body {
 //   scroll-behavior: auto;
 // }
 
-// .lenis.lenis-smooth [data-lenis-prevent] {
-//   overscroll-behavior: contain;
-// }
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
 
-// .lenis.lenis-stopped {
-//   overflow: hidden;
-// }
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
 
-// .lenis.lenis-scrolling iframe {
-//   pointer-events: none;
-// }
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
 
 a {
   color: inherit;

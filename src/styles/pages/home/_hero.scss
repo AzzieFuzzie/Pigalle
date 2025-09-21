@@ -7,6 +7,7 @@
   @include flex(row, flex-end, flex-end, nowrap);
   margin-bottom: 10px;
 
+
   &__video {
     position: absolute;
     top: 50%;
@@ -16,6 +17,10 @@
     transform: translate(-50%, -50%);
     object-fit: cover;
     z-index: 0;
+    filter:
+      brightness(0.9) // darkens the video by 50%
+      contrast(1.1) // slightly boosts contrast
+      saturate(1.1); // optional: makes colors richer
   }
 
   &__text {

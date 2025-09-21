@@ -13,6 +13,10 @@
     min-width: 100vw;
   }
 
+  &__cards__wrapper {
+    will-change: transform;
+  }
+
 
   &__content {
     color: colors(white);

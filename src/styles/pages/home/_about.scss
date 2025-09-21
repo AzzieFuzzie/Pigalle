@@ -1,6 +1,11 @@
+.about__card__wrapper {
+  background-color: colors(grey)
+}
+
 .about__card {
   @include page-grid;
   align-items: center;
+
 
   &__heading {
     margin-bottom: var(--margin-tiny);

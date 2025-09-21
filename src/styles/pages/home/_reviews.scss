@@ -62,6 +62,7 @@
     -webkit-box-orient: vertical;
     margin-bottom: var(--margin-tiny);
     text-align: center;
+    z-index: z(text);
   }
 
   &__name {

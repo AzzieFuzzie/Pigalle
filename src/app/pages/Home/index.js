@@ -15,11 +15,5 @@ export default class Home extends Page {
 
   }
 
-  // create() {
-  //   super.create();
 
-  //   this.marquee = new Marquee({
-  //     element: this.elements.marquee,
-  //   });
-  // }
 }

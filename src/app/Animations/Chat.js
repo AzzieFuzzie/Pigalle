@@ -10,39 +10,47 @@ export default class Chat extends Animation {
     this.icon = this.wrapper.querySelector('.whatsapp__icon');
     this.text = this.wrapper.querySelector('.whatsaap__text');
 
-    // Bind hover handlers so we can remove them later
+    GSAP.set(this.text, { width: 0, borderRadius: 20, gap: 0 });
+    GSAP.set(this.wrapper, { gap: 0 });
+
+    // Bind hover handlers
     this._handleMouseEnter = this._animateIn.bind(this);
     this._handleMouseLeave = this._animateOut.bind(this);
 
+    this.mm = GSAP.matchMedia();
     this.init();
   }
 
   init() {
-    // Set initial state after DOM layout
+    // Set initial state
     const iconWidth = this.icon.getBoundingClientRect().width;
-    const textWidth = this.text.scrollWidth; // more reliable than getBoundingClientRect().width
+    const textWidth = this.text.scrollWidth;
     this.collapsedWidth = iconWidth;
     this.expandedWidth = textWidth;
 
-    GSAP.set(this.text, { width: 0, borderRadius: 20, gap: 0 });
-    GSAP.set(this.wrapper, { gap: 0 });
 
-    // Only add hover events on desktop
-    if (window.innerWidth > 768) {
+    // Only add hover events on desktop using matchMedia
+    this.mm.add("(min-width: 769px)", () => {
       this.element.addEventListener('mouseenter', this._handleMouseEnter);
       this.element.addEventListener('mouseleave', this._handleMouseLeave);
-    }
+
+      // Cleanup function if media query no longer matches
+      return () => {
+        this.element.removeEventListener('mouseenter', this._handleMouseEnter);
+        this.element.removeEventListener('mouseleave', this._handleMouseLeave);
+      };
+    });
   }
 
   _animateIn() {
     GSAP.killTweensOf([this.text, this.wrapper]);
     GSAP.to(this.text, {
       width: this.expandedWidth,
-      gap: 20,
-      duration: 0.8,
-      ease: 'circ.Out'
+
+      duration: 0.6,
+      ease: 'expo.Out'
     });
-    GSAP.to(this.wrapper, { gap: 8, duration: 0.8, ease: 'circ.Out' });
+    GSAP.to(this.wrapper, { duration: 0.8, ease: 'expo.Out' });
   }
 
   _animateOut() {
@@ -51,25 +59,21 @@ export default class Chat extends Animation {
       width: 0,
       gap: 0,
       duration: 0.4,
-      ease: 'circ.Out'
+      ease: 'expo.Out'
     });
-    GSAP.to(this.wrapper, { gap: 0, duration: 0.4, ease: 'circ.Out' });
+    GSAP.to(this.wrapper, { gap: 0, duration: 0.4, ease: 'expo.Out' });
   }
 
   destroy() {
-    // Kill GSAP tweens
     GSAP.killTweensOf([this.text, this.wrapper]);
+    this.mm.revert(); // Revert all matchMedia listeners
 
-    // Remove event listeners
-    this.element.removeEventListener('mouseenter', this._handleMouseEnter);
-    this.element.removeEventListener('mouseleave', this._handleMouseLeave);
-
-    // Clear references
     this.element = null;
     this.wrapper = null;
     this.icon = null;
     this.text = null;
     this._handleMouseEnter = null;
     this._handleMouseLeave = null;
+    this.mm = null;
   }
 }

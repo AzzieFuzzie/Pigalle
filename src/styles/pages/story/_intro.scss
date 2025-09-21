@@ -1,9 +1,13 @@
 .story {
-  &__intro__wrapper {
 
+
+  &__intro__wrapper {
+    position: relative;
+    z-index: -1;
     height: 100dvh;
     overflow: hidden;
     @include flex(column, flex-end, flex-start, nowrap);
+
   }
 
   &__intro {

@@ -1,35 +1,44 @@
-import GSAP from 'gsap';
-
+import GSAP from "gsap";
 
 export default class Transition {
-  constructor() {
+  constructor({ lenis }) {
     this.cols = document.querySelectorAll(".transition__col");
+    this.lenis = lenis;
 
-    // start hidden
     GSAP.set(this.cols, {
       scaleY: 0,
-      transformOrigin: "bottom center"
+      transformOrigin: "bottom center",
     });
   }
 
+  _disableScroll() {
+    if (this.lenis) this.lenis.stop();
+
+  }
+
+  _enableScroll() {
+    if (this.lenis) this.lenis.start();
+
+  }
+
   async onEnter() {
-    console.log('enter');
+    this._disableScroll();
     return GSAP.to(this.cols, {
       scaleY: 1,
       ease: "expo.inOut",
       duration: 0.8,
-      stagger: 0.15
+      stagger: 0.15,
     });
   }
 
   async onLeave() {
-    console.log('leave');
+    this._disableScroll();
     return GSAP.to(this.cols, {
       scaleY: 0,
       ease: "expo.inOut",
       duration: 0.8,
-      stagger: 0.15
+      stagger: 0.15,
+      onComplete: () => this._enableScroll(),
     });
   }
 }
-

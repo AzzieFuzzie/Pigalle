@@ -14,14 +14,15 @@ block content
             section.story__intro__wrapper(
               style=`background-image: url('${aboutBackgroundImage.src}');background-size:cover; background-position: center;`
               srcset=aboutBackgroundImage.srcset
-              sizes="100vw"
+              sizes="100vw" 
+              data-animation="pin"
               )
               .story__intro
                 .story__intro__heading!= prismic.aboutHeadingsHTML[0]
 
           
         if slice.slice_type === 'about_history'
-          section.container.section--small--margin.story__history
+          section.container--padding.section--small--padding.story__history
             div.story__history__wrapper
               h2.story__history__heading= slice.primary.sub_heading[0].text
               p.story__history__description= slice.primary.description
@@ -29,7 +30,7 @@ block content
                 span.button__label= slice.primary.button_label 
 
         if slice.slice_type === 'image_slider'
-          section.section--small--margin.story__slider
+          section.container--padding.section--small--padding.story__slider
             each item in slice.items
               div.story__slider__item
                 - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800,1200])
@@ -45,7 +46,7 @@ block content
             +svg-decorative('avocado')
 
         if slice.slice_type === 'about_quality_'
-          section.section--small--margin.story__quality
+          section.section--small--padding.story__quality
             div.story__quality__wrapper
               h2.story__quality__heading= slice.primary.sub_heading[0].text
               div.story__quality__content 

@@ -12,3 +12,18 @@
   //   margin-right: var(--margin-xxtiny);
   // }
 }
+
+.container--padding {
+  padding-left: var(--padding-xsmall);
+  padding-right: var(--padding-xsmall);
+
+  // @include media('<tablet') {
+  //   margin-left: var(--margin-xtiny);
+  //   margin-right: var(--margin-xtiny);
+  // }
+
+  // @include media('<phone') {
+  //   margin-left: var(--margin-xxtiny);
+  //   margin-right: var(--margin-xxtiny);
+  // }
+}

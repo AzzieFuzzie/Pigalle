@@ -20,6 +20,7 @@ class App {
   constructor() {
     AutoBind(this);
     this.isTransitioning = false;
+
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
       this.createStats();
     }
@@ -29,63 +30,68 @@ class App {
       onSuccess: this.init,
     });
 
-    // 🔑 bind update loop
+    // Bind update loop
     this.update = this.update.bind(this);
   }
 
   init() {
+    // this.createPreloader();
     this.createLenis();
-
     this.createContent();
-
     this.createTransition();
-    // this.createPreloader()
     this.createPages();
 
     this.addEventListeners();
     this.addLinkListeners();
 
     this.onResize();
-
     this.update();
   }
 
   createLenis() {
-    // Initialize a new Lenis instance for smooth scrolling
     this.lenis = new Lenis({
       smoothWheel: true,
-      lerp: 0.15
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+
     });
 
-    // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+    // Sync Lenis scroll with GSAP ScrollTrigger
     this.lenis.on('scroll', ScrollTrigger.update);
 
-    // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
-    // This ensures Lenis's smooth scroll animation updates on each GSAP tick
+    // Add Lenis to GSAP ticker
     GSAP.ticker.add((time) => {
-      this.lenis.raf(time * 1000); // Convert time from seconds to milliseconds
+      this.lenis.raf(time * 1000);
     });
 
-    // Disable lag smoothing inGSAP to prevent any delay in scroll animations
     GSAP.ticker.lagSmoothing(0);
 
-  }
+    console.log('Lenis initialized', this.lenis);
 
+  }
 
   createPreloader() {
-    this.preloader = new Preloader()
-    this.preloader.once('completed', this.onPreloaded.bind(this))
+    this.preloader = new Preloader();
+
+    // Stop Lenis scrolling while preloader is active
+    if (this.lenis) this.lenis.stop();
+
+    this.preloader.once('completed', () => {
+      if (this.lenis) this.lenis.start();
+      this.onPreloaded();
+    });
   }
 
+
   createTransition() {
-    this.transition = new Transition()
+    this.transition = new Transition({ lenis: this.lenis });
   }
 
   onPreloaded() {
     this.onResize();
-
     this.page.show();
   }
+
   createContent() {
     this.content = document.querySelector('.content');
     this.template = this.content.getAttribute('data-template');
@@ -118,10 +124,9 @@ class App {
     }
 
     if (this.page.destroy) this.page.destroy();
+    await this.page.hide();
 
     if (this.transition) await this.transition.onEnter();
-
-    await this.page.hide();
 
     try {
       const res = await fetch(url);
@@ -134,17 +139,12 @@ class App {
       const divContent = div.querySelector('.content');
       if (!divContent) throw new Error('No .content found in fetched page');
 
-      if (push) {
-        window.history.pushState({}, '', url);
-      }
+      if (push) window.history.pushState({}, '', url);
 
       // Update template & content
       this.template = divContent.getAttribute('data-template');
       this.content.setAttribute('data-template', this.template);
       this.content.innerHTML = divContent.innerHTML;
-
-      const header = document.querySelector('header');
-      if (header) header.className = this.template;
 
       // Update current page
       this.page = this.pages[this.template];
@@ -155,21 +155,37 @@ class App {
       }
 
       this.page.create();
-      this.lenis.scrollTo(0, 0)
-      await this.page.show(); // wait for fade-in
 
+      // Force Lenis to resync with new content
+      if (this.lenis) {
+
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
+        this.lenis.raf(performance.now());
+
+
+        this.lenis.scrollTo(0, { immediate: true });
+
+
+        ScrollTrigger.refresh();
+      }
+
+
+      if (this.transition) await this.transition.onLeave();
+      await this.page.show();
+
+      this.isTransitioning = false;
       this.onResize();
       this.addLinkListeners();
+
+      const header = document.querySelector('header');
+      if (header) header.className = this.template;
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
     }
-
-    if (this.transition) await this.transition.onLeave();
-
-    this.isTransitioning = false;
   }
-
 
   /**
    * Stats
@@ -188,7 +204,6 @@ class App {
 
   onKeyDown(event) {
     if (!this.page || !this.page.scroll) return;
-
     if (event.key === 'Tab') event.preventDefault();
     if (event.key === 'ArrowDown') this.page.scroll.target += 100;
     if (event.key === 'ArrowUp') this.page.scroll.target -= 100;
@@ -260,11 +275,28 @@ class App {
     });
 
     // === Menu categories click listener ===
-    if (this.template === 'menu' && this.page) {
+    if (this.template === 'menu' && this.page?.elements?.button) {
       this.page.elements.button.forEach(btn => {
         btn.onclick = () => {
           const category = btn.dataset.category;
           this.page.showCategory(category);
+
+
+          if (this.lenis) {
+
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+
+            this.lenis.raf(performance.now());
+
+
+            this.lenis.scrollTo(0, { immediate: true });
+
+
+            ScrollTrigger.refresh();
+          }
+
+
 
           // Update SPA URL without fetching
           const url = `/menu/${category}`.toLowerCase();
@@ -284,7 +316,6 @@ class App {
 /**
  * Font Loading
  */
-
 document.addEventListener('DOMContentLoaded', () => {
   const roslindaleItalic = new FontFaceObserver('Roslindale Dsp Cd Lt');
   const roslindale = new FontFaceObserver('Roslindale Dsp Nar');
@@ -298,19 +329,12 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(() => {
       console.log('All fonts loaded');
       document.body.classList.add('fonts-loaded');
-
-      // Wait until next repaint
-      requestAnimationFrame(() => {
-        window.app = new App();
-      });
+      requestAnimationFrame(() => { window.app = new App(); });
     })
     .catch(() => {
       console.warn('Fonts failed to load in time. Starting anyway.');
       document.body.classList.add('fonts-loaded');
-
-      requestAnimationFrame(() => {
-        window.app = new App();
-      });
+      requestAnimationFrame(() => { window.app = new App(); });
     });
 });
 

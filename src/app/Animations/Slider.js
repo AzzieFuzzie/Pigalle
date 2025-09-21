@@ -1,30 +1,42 @@
-import GSAP from "gsap";
+import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
+
+gsap.registerPlugin(Draggable);
 
 export default class Slider {
   constructor({ element }) {
     this.element = element;
-    console.log(this.element);
     this.slider = this.element.querySelector(".reviews__slider");
     this.slides = [...this.element.querySelectorAll(".reviews__slide")];
     this.buttons = [...this.element.querySelectorAll(".reviews__dot")];
-    this.peekOffset = 50;
     this.total = this.slides.length;
-    this.currentIndex = 2;
-    this.slideWidth = this.slides[0].offsetWidth;
-
-    this.xTo = GSAP.quickTo(this.slider, "x", {
-      duration: 0.8,
-      ease: "expo.out"
-    });
+    this.currentIndex = 0;
 
     this._handleButtonClick = this._handleButtonClick.bind(this);
-    this.onClick();
-    this.update();
-    this.startAutoplay();
+    this._onResize = this._onResize.bind(this);
+
+    this.init();
   }
 
-  onClick() {
-    this.buttons.forEach((button, i) => {
+  init() {
+    this.updateSlideWidth();
+    this._initButtons();
+    this._initDrag();
+    this.update();
+    this.startAutoplay();
+
+    window.addEventListener("resize", this._onResize);
+  }
+
+  updateSlideWidth() {
+    this.slideWidths = this.slides.map(slide => slide.offsetWidth);
+    this.slideWidth = this.slideWidths[0]; // Use first slide width
+    const containerWidth = this.slider.parentElement.offsetWidth;
+    this.centerOffset = containerWidth / 2 - this.slideWidth / 2;
+  }
+
+  _initButtons() {
+    this.buttons.forEach(button => {
       button.addEventListener("click", this._handleButtonClick);
     });
   }
@@ -38,16 +50,19 @@ export default class Slider {
   }
 
   goToSlide(targetIndex) {
-    let shift = targetIndex - this.currentIndex;
-    this.currentIndex = (this.currentIndex + shift + this.total) % this.total;
+    this.currentIndex = (targetIndex + this.total) % this.total;
+    const newPosition = -this.currentIndex * this.slideWidth + this.centerOffset;
 
-    const containerWidth = this.slider.parentElement.offsetWidth;
-    const centerOffset = containerWidth / 2 - this.slideWidth / 2;
-    const newPosition = -this.currentIndex * this.slideWidth + centerOffset;
+    gsap.to(this.slider, {
+      x: newPosition,
+      duration: 0.6,
+      ease: "expo.out",
+    });
 
-    this.xTo(newPosition);
+    this._updateClasses();
+  }
 
-    // update slide classes
+  _updateClasses() {
     this.slides.forEach((slide, i) => {
       slide.classList.remove("--active", "--left", "--right");
       if (i === this.currentIndex) slide.classList.add("--active");
@@ -55,7 +70,6 @@ export default class Slider {
       else if (i === (this.currentIndex + 1) % this.total) slide.classList.add("--right");
     });
 
-    // update buttons
     this.buttons.forEach((button, i) => {
       button.classList.toggle("--active", i === this.currentIndex);
     });
@@ -66,34 +80,60 @@ export default class Slider {
   }
 
   startAutoplay() {
-    this.autoplay = GSAP.to({}, {
+    this.autoplay = gsap.to({}, {
       duration: 7,
-      ease: "expo.out",
       repeat: -1,
       onRepeat: () => this.goToSlide((this.currentIndex + 1) % this.total),
     });
   }
 
   restartAutoplay() {
-    this.autoplay?.restart();
+    this.autoplay?.kill(); // remove old tween
+    this.startAutoplay();  // start fresh
+  }
+
+  _initDrag() {
+    if (window.innerWidth > 768) return; // only mobile drag
+
+    const containerWidth = this.slider.parentElement.offsetWidth;
+    const minX = -((this.total - 1) * this.slideWidth) + this.centerOffset;
+    const maxX = this.centerOffset;
+
+    this.draggable = Draggable.create(this.slider, {
+
+      type: "x",
+      bounds: { minX, maxX },
+      inertia: true,
+      edgeResistance: 0.9,
+      onPress: () => this.autoplay?.pause(),
+      onRelease: () => this.updateSlideWidth(),
+      onDragEnd: () => {
+        this.restartAutoplay()
+        this.updateSlideWidth(); // recalc widths in case of resize
+        const x = this.draggable.x;
+        let closestIndex = Math.round((-x + this.centerOffset) / this.slideWidth);
+        closestIndex = Math.max(0, Math.min(this.total - 1, closestIndex));
+        this.goToSlide(closestIndex);
+      },
+    })[0];
+  }
+
+  _onResize() {
+    this.updateSlideWidth();
+    if (this.draggable) {
+      const minX = -((this.total - 1) * this.slideWidth) + this.centerOffset;
+      const maxX = this.centerOffset;
+      this.draggable.applyBounds({ minX, maxX });
+
+      // Snap to current slide after resize
+      this.goToSlide(this.currentIndex);
+    }
   }
 
   destroy() {
-    // Kill GSAP tweens
-    if (this.xTo) this.xTo.kill();
-    if (this.autoplay) this.autoplay.kill();
-
-    // Remove event listeners
-    this.buttons.forEach((button) => {
-      button.removeEventListener("click", this._handleButtonClick);
-    });
-
-    // Clear references
-    this.slider = null;
-    this.slides = null;
-    this.buttons = null;
-    this.element = null;
-    this.autoplay = null;
-    this.xTo = null;
+    window.removeEventListener("resize", this._onResize);
+    this.autoplay?.kill();
+    this.draggable?.kill();
+    this.buttons.forEach(button => button.removeEventListener("click", this._handleButtonClick));
   }
 }

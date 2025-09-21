@@ -10,19 +10,17 @@ block content
     .home__wrapper
       section.hero(data-animation="pin")
         .hero__text!= prismic.homeHeadingsHTML[0]
-        video.hero__video(autoplay muted loop playsinline preload="auto")
+        video.hero__video(autoplay muted loop playsinline preload="auto" poster="#")
           source(src="/reels/background_reel.mp4" type="video/mp4")
 
       each slice in prismic.home.data.body
         if slice.slice_type === 'tagline_card'
-          section.tagline__card__wrapper
+          section.tagline__card__wrapper.section--large--padding
             .tagline
               h2(data-animation="text").tagline__heading= slice.primary.tagline[0].text
               a.button(href='/book/')
                 span.button__label= slice.primary.button_label
 
-
-    // --- OUTSIDE PIN CONTAINER ---
     // About Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'about_card'
@@ -120,30 +118,29 @@ block content
                         )
                     dd.faq__answer= item.answer
                     .faq__line
-          +svg-decorative('wheat_plant')
-          +svg-decorative('seed_plant')
+          .icon__wrapper
+            +svg-decorative('wheat_plant')
+            +svg-decorative('seed_plant')
+            
+    - var reviewsToShow = (google_reviews || []).filter(r => r.rating === 5).slice(0, 5)
+    - if (reviewsToShow.length < 5)
+      - reviewsToShow = reviewsToShow.concat([{ text: "Hardcoded review 1", author_name: "John D." },{ text: "Hardcoded review 2", author_name: "Sarah M." },{ text: "Hardcoded review 3", author_name: "Alex R." }, { text: "Hardcoded review 4", author_name: "Lisa K." },{ text: "Hardcoded review 5", author_name: "Michael B." }].slice(0, 5 - reviewsToShow.length))
 
-    // Reviews Section (not a slice)
+
     section.section--small--padding.reviews(data-animation='reviews_slider')
       .reviews__wrapper
         .reviews__track
-          .reviews__quote__wrapper 
-            span.reviews__quote &ldquo; 
+          .reviews__quote__wrapper
+            span.reviews__quote &ldquo;
           .reviews__slider
-            if google_reviews.length
-              each review in google_reviews
-                .reviews__slide
-                  .reviews__item
-                    h3.reviews__text= review.text
-                    h6.reviews__name - #{review.author_name}
-            else
-              .reviews__item.--active
-                h3.reviews__text No reviews found yet.
-                h6.reviews__name -
+            each review in reviewsToShow
+              .reviews__slide
+                .reviews__item
+                  h3.reviews__text= review.text
+                  h6.reviews__name - #{review.author_name}
 
         .reviews__dots
-          if google_reviews.length
-            each review, index in google_reviews
-              button.reviews__dot(class=(index === 0 ? '--active' : ''))
+          each review, index in reviewsToShow
+            button.reviews__dot(class=(index === 0 ? '--active' : ''))
 
-  include ./_includes/marquee
+    include ./_includes/marquee

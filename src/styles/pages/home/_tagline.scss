@@ -1,8 +1,8 @@
 .tagline__card__wrapper {
   @include flex(column, center, center, nowrap);
   background-color: colors(grey);
-  padding: 0 var(--margin-xsmall);
-  height: 100vh;
+
+
   text-align: center;
 
 }
@@ -23,6 +23,7 @@
     @include media('<phone') {
       max-width: 28ch; // even narrower on mobile
       white-space: normal;
+      padding: 0 var(--margin-xxtiny);
     }
   }
 

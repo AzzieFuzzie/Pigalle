@@ -8,37 +8,50 @@ export default class Parallax extends Component {
   constructor({ element, elements }) {
     super({ element, elements });
     this.element = element;
-
     this.animateIn();
   }
 
   animateIn() {
-    const yRange = GSAP.utils.random(30, 50);
+    const yRange = GSAP.utils.random(20, 40);        // vertical movement
+    const rotationRange = GSAP.utils.random(-1, 1);  // subtle rotation
+    const scaleMin = 0.2;                             // initial scale
+    const scaleMax = 1;  // final scale
 
-    // set initial position explicitly
-    GSAP.set(this.element, { yPercent: 0 });
+    // initial state
+    GSAP.set(this.element, { yPercent: 0, scale: scaleMin, rotation: 0, transformOrigin: "center center" });
 
-    // Scroll-based tween
+    // scale animation on enter
+    ScrollTrigger.create({
+      trigger: this.element,
+      start: "top bottom",
+      onEnter: () => {
+        GSAP.to(this.element, {
+          scale: scaleMax,
+          duration: 0.6,
+          ease: "expo.Inout"
+        });
+      }
+    });
+
+    // vertical + rotation scrubbed with scroll
     this.tween = GSAP.to(this.element, {
       yPercent: yRange,
+      rotation: rotationRange,
       ease: "none",
       scrollTrigger: {
         trigger: this.element,
-        start: "-100px 100px",
-        end: "+=100%",
-        scrub: 0.5,
-        // markers: true
-      },
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+        markers: false,
+        invalidateOnRefresh: true
+      }
     });
   }
 
-
-
   destroy() {
-    if (this.tween) {
-      this.tween.scrollTrigger?.kill();
-      this.tween.kill();
-      this.tween = null;
-    }
+    this.tween?.scrollTrigger?.kill();
+    this.tween?.kill();
+    this.tween = null;
   }
 }

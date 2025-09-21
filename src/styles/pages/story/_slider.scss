@@ -1,9 +1,19 @@
 .story__slider {
   @include page-grid; // 12-column grid
   gap: var(--margin-small); // space between images
-  margin-bottom: var(--margin-large);
+
   text-align: center;
   position: relative;
+  background-color: colors(grey);
+  margin: 0;
+
+  @include media ("<phone") {
+    margin: 0;
+  }
+
+  @include media ("<tablet") {
+    margin: 0;
+  }
 
   &__item {
     grid-column: span 4; // 12 / 3 = 4 columns per image
@@ -15,19 +25,20 @@
       width: 100%; // fill the column
       height: 100%; // maintain aspect ratio
       display: block;
-      border-radius: var(--radius-small); // optional styling
     }
   }
 
   @include media('<tablet') {
     &__item {
       grid-column: span 6; // 2 images per row on tablet
+      margin: 0;
     }
   }
 
   @include media('<phone') {
     &__item {
       grid-column: span 12; // 1 image per row on mobile
+      margin: 0;
     }
   }
 }

@@ -1,17 +1,18 @@
 .story {
 
+
   &__history {
 
     @extend %center;
     flex-direction: column;
-
+    background-color: colors(grey);
   }
 
   &__history__wrapper {
 
     @extend %center;
     flex-direction: column;
-
+    width: 100%;
 
     @include media('<phone') {
       align-items: flex-start;
@@ -32,5 +33,7 @@
     margin-bottom: var(--margin-small);
   }
 
-  &__history__button {}
+  &__history__button {
+    z-index: z(text);
+  }
 }
