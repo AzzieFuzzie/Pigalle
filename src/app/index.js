@@ -9,6 +9,7 @@ import GSAP from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from './components/Preloader';
 import Transition from './components/Transition';
+import Dineplane from './components/Dineplane';
 
 import Home from '@pages/Home';
 import Menu from '@pages/Menu';
@@ -16,9 +17,12 @@ import About from '@pages/About';
 import Contact from '@pages/Contact';
 import Book from '@pages/Book';
 
+
 class App {
   constructor() {
     AutoBind(this);
+    this.createLenis();
+    this.createPreloader();
     this.isTransitioning = false;
 
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
@@ -35,8 +39,6 @@ class App {
   }
 
   init() {
-    // this.createPreloader();
-    this.createLenis();
     this.createContent();
     this.createTransition();
     this.createPages();
@@ -71,6 +73,8 @@ class App {
   }
 
   createPreloader() {
+    document.body.style.visibility = "visible";
+    document.body.style.overflow = "auto";
     this.preloader = new Preloader();
 
     // Stop Lenis scrolling while preloader is active
@@ -109,6 +113,11 @@ class App {
 
     this.page = this.pages[this.template];
     this.page.create();
+
+    if (this.template === 'book') {
+      console.log('[SPA] Book template detected');
+      new Dineplane();
+    }
   }
 
   /**
@@ -155,6 +164,13 @@ class App {
       }
 
       this.page.create();
+
+      // if (this.template === 'book') {
+      //   console.log('[SPA] Book template detected');
+      //   new Dineplane();
+      // }
+
+
 
       // Force Lenis to resync with new content
       if (this.lenis) {

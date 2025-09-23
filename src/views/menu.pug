@@ -32,7 +32,7 @@ block content
                   if item.image && item.image.url
                     - const menuImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600])
                     img.menu__image(
-                      src=menuImage.src
+                      data-src=menuImage.src
                       srcset=menuImage.srcset
                       sizes="(max-width: 600px) 90vw, (max-width: 1440px) 50vw, 600px"
                       alt=menuImage.alt
@@ -48,4 +48,4 @@ block content
                     p.menu__description= item.description
                     p.menu__price= item.price
                   span.menu__line
-                      
+  include ./_includes/chat                    

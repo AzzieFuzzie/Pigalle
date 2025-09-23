@@ -18,7 +18,7 @@ export default function (eleventyConfig) {
       root: "src",
       publicDir: "public",
       build: {
-        outDir: tempFolder,
+        // REMOVE THE outDir LINE.
         emptyOutDir: true,
         rollupOptions: {
           input: {}, // prevent Vite from bundling index.html

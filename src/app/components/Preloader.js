@@ -18,6 +18,14 @@ export default class Preloader extends Component {
     this.loaded = 0;
 
     this.createLoader();
+
+
+    GSAP.from(this.element, {
+      y: '-100%',
+      duration: 1,
+      ease: 'power3.out'
+    });
+
   }
 
   createLoader() {
@@ -90,7 +98,7 @@ export default class Preloader extends Component {
 
       this.animateOut.to(
         this.elements.number,
-        { duration: 1.5, ease: 'expo.out', y: '100%' },
+        { duration: 1.5, ease: 'expo.out', },
         '-=1.4'
       );
 

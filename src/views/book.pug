@@ -7,16 +7,18 @@ block variables
 block content
   .book
     .book__wrapper
-      section.container.book__intro.section--medium--margin
+      section.container.book__intro.section--small--margin
         each slice in prismic.book.data.body
           if slice.slice_type === 'book'
             h1.book__heading=slice.primary.heading[0].text
             p.book__description__1=slice.primary.description_1
             p.book__description__2=slice.primary.description_2
 
-      section.book__calendar
-        .dineplan-widget(data-key="mnpTxlcs")
+      .dineplan-widget(data-key="mnpTxlcs")
 
     +svg-decorative('plant')
     +svg-decorative('blueberry')
+
     include ./_includes/marquee
+    include ./_includes/chat 
+  

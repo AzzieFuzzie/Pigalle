@@ -1,17 +1,46 @@
-block variables
 doctype html
 html(lang="en")
   head
+    block variables  
     include ../_includes/head
-    
+
+    style.
+      body {
+        visibility: hidden;
+        overflow: hidden;
+        background: #EFEDEA; 
+      }
+      .preloader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        background: #EFEDEA;
+        color: #DEC16B;   
+        text-align: center;
+        z-index: 9999;
+      }
+      .preloader__text span span {
+        display: block;
+        transform-origin: center center 0.5em;
+      }
+      .preloader__number {
+        bottom: 10%;
+        left: 50%;
+        overflow: hidden;
+        position: absolute;
+        transform: translateX(-50%);
+      }
+
   body
+    include ./preloader
+    include ./transition
     header(class=template) 
       include ./navigation
-      
-    //- include ./preloader
+
     #content.content(data-template=template)
       block content
-    include ./transition
-    include ./chat
     include ./footer
     include ./script
+    
