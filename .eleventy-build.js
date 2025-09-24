@@ -12,22 +12,16 @@ export default function (eleventyConfig) {
   // Plugins
   eleventyConfig.addPlugin(pluginPug);
 
-  eleventyConfig.addPlugin(EleventyVitePlugin, {
+  _eleventyConfig_.addPlugin(EleventyVitePlugin, {
     tempFolderName: tempFolder,
     viteOptions: {
       root: "src",
       publicDir: "public",
       build: {
-        // REMOVE THE outDir LINE.
-        emptyOutDir: true,
+        outDir: path.resolve(process.cwd(), "_site"), // Match Eleventy output
+        emptyOutDir: false, // Prevents Eleventy files from being deleted
         rollupOptions: {
-          input: {}, // prevent Vite from bundling index.html
-        },
-      },
-      resolve: {
-        alias: {
-          "@styles": path.resolve(process.cwd(), "src/styles"),
-          "@app": path.resolve(process.cwd(), "src/app"),
+          input: {},
         },
       },
     },

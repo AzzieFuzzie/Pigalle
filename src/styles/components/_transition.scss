@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100dvh;
+  height: 100vh;
   display: flex;
   z-index: 999;
   pointer-events: none;
@@ -12,12 +12,12 @@
 
 .transition__col {
   flex: 1;
-  height: 100dvh;
+  height: 100vh;
   background: #111;
   transform: scaleY(0);
-  /* ✅ hidden initially */
+
   transform-origin: top center;
-  /* ✅ will expand downward */
+  will-change: transform;
 }
 
 .transition__col--1 {

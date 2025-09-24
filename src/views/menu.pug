@@ -15,7 +15,7 @@ block content
             - const category = typeMap[slice.slice_type]
             if category
               li
-                button.h3.menu__category__label(data-category=category)= category
+                button(class=`h3 menu__category__label ${category === 'Appetizers' ? '--active' : ''}`, data-category=category)= category
               if index !== prismic.menu.data.body.length - 1
                 li.menu__category__slash / 
 
@@ -23,29 +23,30 @@ block content
       each slice in prismic.menu.data.body
         - const category = typeMap[slice.slice_type]
         if category
-          section(class=`menu__section menu__${category}  ${category === 'Appetizers' ? '--active' : ''}`, data-category=category)
+          .menu__pin__container
+            section(class=`menu__section menu__${category}  ${category === 'Appetizers' ? '--active' : ''}`, data-category=category)
 
-            // Pinned image wrapper for the whole section
-            if slice.items.length
-              div.menu__image__wrapper
-                each item in slice.items
-                  if item.image && item.image.url
-                    - const menuImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600])
-                    img.menu__image(
-                      data-src=menuImage.src
-                      srcset=menuImage.srcset
-                      sizes="(max-width: 600px) 90vw, (max-width: 1440px) 50vw, 600px"
-                      alt=menuImage.alt
-                      loading="lazy"
-                    )
+              // Pinned image wrapper for the whole section
+              if slice.items.length
+                div.menu__image__wrapper
+                  each item in slice.items
+                    if item.image && item.image.url
+                      - const menuImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600])
+                      img.menu__image(
+                        data-src=menuImage.src
+                        srcset=menuImage.srcset
+                        sizes="(max-width: 600px) 90vw, (max-width: 1440px) 50vw, 600px"
+                        alt=menuImage.alt
+                        loading="lazy"
+                      )
 
-            // Text items
-            each item in slice.items
-              div.menu__item
-                div.menu__text__wrapper
-                  p.h3.menu__name= item.name
-                  div.menu__flex__wrapper
-                    p.menu__description= item.description
-                    p.menu__price= item.price
-                  span.menu__line
+              // Text items
+              each item in slice.items
+                div.menu__item
+                  div.menu__text__wrapper
+                    p.h3.menu__name= item.name
+                    div.menu__flex__wrapper
+                      p.menu__description= item.description
+                      p.menu__price= item.price
+                    span.menu__line
   include ./_includes/chat                    

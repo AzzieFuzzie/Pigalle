@@ -1,13 +1,9 @@
 import Page from '@classes/Page';
 import MenuPin from '@animations/MenuPin';
 import MobileCategorySwipe from '@animations/MobileCategorySwipe';
-
-
 import GSAP from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 GSAP.registerPlugin(ScrollTrigger);
-
-
 export default class Menu extends Page {
   constructor() {
     super({
@@ -34,25 +30,38 @@ export default class Menu extends Page {
     if (firstSection) {
       this.menuPin.setupSection(firstSection);
     }
-  }
 
+    // bind buttons
+    this.elements.button.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const category = btn.dataset.category;
+        this.showCategory(category);
+      });
+    });
+  }
   showCategory(category) {
+    // Hide all sections first
     this.elements.section.forEach(section => {
       const isActive = section.dataset.category === category;
-
       if (isActive) {
-        // Destroy any previous triggers
-        this.menuPin.destroy();
-
-        // Make section visible immediately so heights are correct
         section.classList.add('--active');
+        console.log(section);
+        // Make section visible so ScrollTrigger can measure
         GSAP.set(section, { autoAlpha: 1, y: 0 });
 
-        // Setup pin AFTER section is visible
+        // Destroy old triggers before setting up the new one
+        if (this.menuPin) this.menuPin.destroy();
+
+        // Setup the pin/animations for the new section
+
         this.menuPin.setupSection(section);
 
-        // Refresh ScrollTrigger to recalc pin
-        ScrollTrigger.refresh();
+
+
+
+
+        // Refresh ScrollTrigger after layout changes
+        requestAnimationFrame(() => ScrollTrigger.refresh());
       } else {
         section.classList.remove('--active');
         GSAP.set(section, { autoAlpha: 0, y: 0 });

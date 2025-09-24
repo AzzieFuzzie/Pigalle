@@ -13,8 +13,8 @@ export default class Scale extends Animation {
 
     this.pulseTween = GSAP.fromTo(
       this.element,
-      { scale: 0.8, y: 10, transformOrigin: 'center center', opacity: 0.8 },
-      { scale: 1, y: 0, opacity: 1, duration: 0.4, ease: 'linear.out', delay: 0.3 }
+      { scale: 0.8, y: 10, transformOrigin: 'center center' },
+      { scale: 1, y: 0, duration: 0.4, ease: 'linear.out', delay: 0.3 }
     );
   }
 
@@ -24,7 +24,7 @@ export default class Scale extends Animation {
       this.pulseTween = null;
     }
 
-    GSAP.set(this.element, { scale: 1, y: 0, opacity: 1 });
+    GSAP.set(this.element, { scale: 1, y: 0 });
   }
 
   destroy() {
@@ -33,6 +33,6 @@ export default class Scale extends Animation {
     this.pulseTween = null;
 
     // Reset element to default state
-    GSAP.set(this.element, { scale: 1, y: 0, opacity: 1 });
+    GSAP.set(this.element, { scale: 1, y: 0 });
   }
 }

@@ -24,6 +24,9 @@
     padding: 0;
     margin-right: var(--margin-xtiny);
 
+    &.--active {
+      color: colors(black);
+    }
   }
 
   &__slash {

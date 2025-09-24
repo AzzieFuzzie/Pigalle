@@ -9,7 +9,7 @@ import GSAP from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from './components/Preloader';
 import Transition from './components/Transition';
-import Dineplane from './components/Dineplane';
+import initDineplanSPA from './utils/dineplan';
 
 import Home from '@pages/Home';
 import Menu from '@pages/Menu';
@@ -114,10 +114,9 @@ class App {
     this.page = this.pages[this.template];
     this.page.create();
 
-    if (this.template === 'book') {
-      console.log('[SPA] Book template detected');
-      new Dineplane();
-    }
+
+
+
   }
 
   /**
@@ -155,6 +154,10 @@ class App {
       this.content.setAttribute('data-template', this.template);
       this.content.innerHTML = divContent.innerHTML;
 
+      // if (this.template === 'book') {
+      //   console.log('book');
+      //   initDineplanSPA();
+      // }
       // Update current page
       this.page = this.pages[this.template];
       if (!this.page) {
@@ -165,11 +168,10 @@ class App {
 
       this.page.create();
 
-      // if (this.template === 'book') {
-      //   console.log('[SPA] Book template detected');
-      //   new Dineplane();
-      // }
-
+      if (this.template === 'book') {
+        console.log('[SPA] Book template detected');
+        initDineplanSPA();
+      }
 
 
       // Force Lenis to resync with new content
@@ -190,6 +192,7 @@ class App {
 
       if (this.transition) await this.transition.onLeave();
       await this.page.show();
+
 
       this.isTransitioning = false;
       this.onResize();
@@ -298,19 +301,19 @@ class App {
           this.page.showCategory(category);
 
 
-          if (this.lenis) {
+          // if (this.lenis) {
 
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
+          //   document.documentElement.scrollTop = 0;
+          //   document.body.scrollTop = 0;
 
-            this.lenis.raf(performance.now());
-
-
-            this.lenis.scrollTo(0, { immediate: true });
+          //   this.lenis.raf(performance.now());
 
 
-            ScrollTrigger.refresh();
-          }
+          //   this.lenis.scrollTo(0, { immediate: true });
+
+
+          //   ScrollTrigger.refresh();
+          // }
 
 
 

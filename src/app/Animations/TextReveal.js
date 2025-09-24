@@ -35,13 +35,13 @@ export default class TextReveal {
     // Create ScrollTrigger animation
     this.st = gsap.to(this.allChars, {
       color: this.colorFinal,
-      ease: "linear",
-      stagger: 0.05,
+      ease: "power1.out",
+      stagger: 0.08,
       scrollTrigger: {
         trigger: this.el,
         start: "top 90%",
         end: "top 10%",
-        scrub: true,
+        scrub: 0.2,
       }
     });
   }

@@ -88,32 +88,39 @@ export default class Preloader extends Component {
       console.log('loaded');
 
       const video = document.querySelector('.hero__video');
-      if (video) {
-        video.play().catch(() => {
-          console.log('Mobile requires user interaction to play video');
-        });
-      }
 
       this.animateOut = GSAP.timeline({ delay: 0.5 });
 
       this.animateOut.to(
         this.elements.number,
-        { duration: 1.5, ease: 'expo.out', },
+        { duration: 1.5, ease: 'expo.out' },
         '-=1.4'
       );
 
       this.animateOut.to(this.element, {
         y: '-100%',
         duration: 1,
-        ease: 'power3.Out',
+        ease: 'power3.out',
       });
 
       this.animateOut.call(() => {
+        // Force play AFTER overlay has moved away
+        if (video) {
+          console.log(video);
+          video.setAttribute('muted', 'true');
+          video.setAttribute('playsinline', 'true');
+
+          video.play().catch(err => {
+            console.log('Mobile requires user interaction to play video', err);
+          });
+        }
+
         this.destroy();
         resolve();
       });
     });
   }
+
 
   destroy() {
     if (this.element?.parentNode) {

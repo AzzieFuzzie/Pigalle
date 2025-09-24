@@ -17,6 +17,7 @@
 
     .menu__spacer {
       grid-column: 1 / -1;
+
       height: 0; // default, JS sets height dynamically
       width: 100%;
     }

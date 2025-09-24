@@ -1,11 +1,23 @@
-// .book__calendar {
-//   background-color: colors(grey);
-// }
+.dineplan {
+  @include flex(column, center, center, nowrap);
+  width: 100%;
+  position: relative;
+}
 
-// .dineplan-widget {
+.dineplan-widget-container {
+  width: 302px;
+  height: 455px;
+  border: 3px solid colors(gold);
 
-//   min-width: 1000px;
-//   min-height: 800px !important;
-//   /* ensures enough space for widget and footer */
+  overflow: hidden;
+}
 
-// }
+.dineplan-widget {
+  border: none !important;
+
+  // Target the iframe inside and force it to fill the container
+  iframe {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

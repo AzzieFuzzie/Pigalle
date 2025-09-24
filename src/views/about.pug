@@ -30,7 +30,7 @@ block content
                 span.button__label= slice.primary.button_label 
 
         if slice.slice_type === 'image_slider'
-          section.container--padding.section--small--padding.story__slider
+          section.container--padding.story__slider
             each item in slice.items
               div.story__slider__item
                 - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800,1200])

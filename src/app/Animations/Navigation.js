@@ -191,7 +191,7 @@ export default class Navigation {
     const bgColor = window.getComputedStyle(this.element).backgroundColor;
     const isLight = bgColor === "rgb(255, 255, 255)" || bgColor.includes("rgba(255, 255, 255"); // simple check
     const strokeColor = isLight ? "#000" : "#fff";
-    GSAP.set(this.togglePath, { stroke: strokeColor });
+    // GSAP.set(this.togglePath, { stroke: strokeColor });
   }
 
 

@@ -10,7 +10,7 @@ block content
     .home__wrapper
       section.hero(data-animation="pin")
         .hero__text!= prismic.homeHeadingsHTML[0]
-        video.hero__video(autoplay muted loop playsinline preload="auto" poster="#")
+        video.hero__video(autoplay muted loop playsinline  poster="#")
           source(src="/reels/background_reel.mp4" type="video/mp4")
 
       each slice in prismic.home.data.body
