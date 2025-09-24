@@ -5,10 +5,14 @@ import EleventyVitePlugin from '@11ty/eleventy-plugin-vite';
 import pluginPug from '@11ty/eleventy-plugin-pug';
 
 export default function (eleventyConfig) {
+  // --- Ensure temp folder exists ---
   const tempFolder = '.11ty-vite';
   if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
 
+  // --- Server ---
   eleventyConfig.setServerOptions({ port: 3000 });
+
+  // --- Plugins ---
   eleventyConfig.addPlugin(pluginPug);
 
   eleventyConfig.addPlugin(EleventyVitePlugin, {
@@ -17,10 +21,11 @@ export default function (eleventyConfig) {
       root: 'src',
       publicDir: 'public',
       build: {
-        outDir: tempFolder,
-        emptyOutDir: true,
+        // 👇 IMPORTANT: Match Eleventy output for Vercel
+        outDir: path.resolve(process.cwd(), '_site'),
+        emptyOutDir: false, // don't wipe out Eleventy HTML
         rollupOptions: {
-          input: {},
+          input: {}, // prevents Vite from trying to bundle index.html
         },
       },
       css: {
@@ -45,12 +50,14 @@ export default function (eleventyConfig) {
     },
   });
 
+  // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy('public');
   eleventyConfig.addPassthroughCopy('src/app');
   eleventyConfig.addPassthroughCopy('src/fonts');
   eleventyConfig.addPassthroughCopy('src/styles');
   eleventyConfig.setServerPassthroughCopyBehavior('copy');
 
+  // --- HTML minify ---
   eleventyConfig.addTransform('htmlmin', (content, outputPath) => {
     if (outputPath && outputPath.endsWith('.html')) {
       return htmlmin.minify(content, {
@@ -62,6 +69,7 @@ export default function (eleventyConfig) {
     return content;
   });
 
+  // --- Return directory config ---
   return {
     dir: {
       input: 'src/views/',
