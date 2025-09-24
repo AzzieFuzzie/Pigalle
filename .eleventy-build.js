@@ -12,7 +12,7 @@ export default function (eleventyConfig) {
   // Plugins
   eleventyConfig.addPlugin(pluginPug);
 
-  _eleventyConfig_.addPlugin(EleventyVitePlugin, {
+  eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: tempFolder,
     viteOptions: {
       root: "src",
