@@ -18,7 +18,7 @@ export default function (eleventyConfig) {
       root: "src",
       publicDir: "public",
       build: {
-        outDir: path.resolve(process.cwd(), "_site"), // Match Eleventy output
+
         emptyOutDir: false, // Prevents Eleventy files from being deleted
         rollupOptions: {
           input: {},
