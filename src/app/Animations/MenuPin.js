@@ -8,6 +8,8 @@ export default class MenuPin {
     this.triggers = [];           // ScrollTrigger instances
     this.clickHandlers = [];      // mobile click handlers
     this.currentSection = null;
+
+
   }
 
   setupSection(section) {
@@ -57,10 +59,10 @@ export default class MenuPin {
     if (!imageWrapper) return;
 
     const images = Array.from(section.querySelectorAll(".menu__image"));
+    const imageHeight = section.querySelector(".menu__image").getBoundingClientRect().height
     const items = Array.from(section.querySelectorAll(".menu__item"));
+    const itemHeight = section.querySelector(".menu__item").getBoundingClientRect().height
     if (!items.length) return;
-
-    const imageHeight = imageWrapper.getBoundingClientRect().height;
 
     // spacer at the end
     let spacer = section.querySelector(".menu__spacer");
@@ -69,9 +71,10 @@ export default class MenuPin {
       spacer.classList.add("menu__spacer");
       section.appendChild(spacer);
     }
-    spacer.style.height = `${imageHeight}px`;
+    spacer.style.height = `${imageHeight - itemHeight - 41}px`;
 
-    const pinDuration = section.scrollHeight + imageHeight;
+
+    const pinDuration = section.scrollHeight;
 
     // Pin image wrapper
     const pinTrigger = ScrollTrigger.create({
@@ -80,25 +83,27 @@ export default class MenuPin {
       end: () => `+=${pinDuration}`,
       pin: imageWrapper,
       pinSpacing: false,
-      markers: true,
+      markers: false,
     });
     this.triggers.push(pinTrigger);
 
-    // Swap images per item
+    // Set first image visible right away
+    // GSAP.set(images[0], { autoAlpha: 1 });
+
+    // Then set up triggers
     items.forEach((item, i) => {
       const t = ScrollTrigger.create({
         trigger: item,
-        start: `top top+=${imageHeight / 2}`,
-        end: `bottom top`,
-        onEnter: () => this.showImage(images, i),
-        onEnterBack: () => this.showImage(images, i),
+        start: `top-=25 top`,
+        end: `bottom-=25 top`,
+        // onEnter: () => this.showImage(images, i),
+        // onEnterBack: () => this.showImage(images, i),
         markers: true,
       });
       this.triggers.push(t);
     });
 
-    // show first image immediately
-    this.showImage(images, 0);
+
   }
 
   setupMobile(section) {
@@ -122,21 +127,29 @@ export default class MenuPin {
     });
 
     // show first image
-    this.showImage(images, 0);
+    // this.showImage(images, 0);
   }
 
   showImage(images, index) {
     images.forEach((img, i) => {
-      GSAP.set(img, { autoAlpha: i === index ? 1 : 0 });
+      GSAP.set(img, {
+        autoAlpha: i === index ? 1 : 0,
+        border: i === index ? "3px solid red" : "none"
+      });
     });
-    GSAP.to(images[index], { autoAlpha: 1, duration: 0.25, ease: "expo.out" });
+
+    GSAP.to(images[index], {
+      autoAlpha: 1,
+      duration: 0.25,
+      ease: "expo.out"
+    });
   }
+
 
   destroy() {
     // kill triggers
     this.triggers.forEach(t => t && t.kill());
     this.triggers = [];
-
     // remove click handlers
     this.clickHandlers.forEach(({ el, handler }) => {
       el.removeEventListener("click", handler);
@@ -151,5 +164,7 @@ export default class MenuPin {
     }
 
     this.currentSection = null;
+
+
   }
 }

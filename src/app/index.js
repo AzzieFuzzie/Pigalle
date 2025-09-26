@@ -301,22 +301,6 @@ class App {
           this.page.showCategory(category);
 
 
-          // if (this.lenis) {
-
-          //   document.documentElement.scrollTop = 0;
-          //   document.body.scrollTop = 0;
-
-          //   this.lenis.raf(performance.now());
-
-
-          //   this.lenis.scrollTo(0, { immediate: true });
-
-
-          //   ScrollTrigger.refresh();
-          // }
-
-
-
           // Update SPA URL without fetching
           const url = `/menu/${category}`.toLowerCase();
           window.history.pushState({}, '', url);

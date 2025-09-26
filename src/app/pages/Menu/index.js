@@ -47,7 +47,7 @@ export default class Menu extends Page {
         section.classList.add('--active');
         console.log(section);
         // Make section visible so ScrollTrigger can measure
-        GSAP.set(section, { autoAlpha: 1, y: 0 });
+        GSAP.set(section, { autoAlpha: 1 });
 
         // Destroy old triggers before setting up the new one
         if (this.menuPin) this.menuPin.destroy();
@@ -57,14 +57,11 @@ export default class Menu extends Page {
         this.menuPin.setupSection(section);
 
 
-
-
-
         // Refresh ScrollTrigger after layout changes
         requestAnimationFrame(() => ScrollTrigger.refresh());
       } else {
         section.classList.remove('--active');
-        GSAP.set(section, { autoAlpha: 0, y: 0 });
+        GSAP.set(section, { autoAlpha: 0 });
       }
     });
 

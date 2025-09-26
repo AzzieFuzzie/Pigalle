@@ -19,6 +19,7 @@ export default class Navigation {
     this._events();
     this._initScroll();
     this._setupMobileAnimations();
+
   }
 
   _setupMobileAnimations() {
@@ -141,45 +142,70 @@ export default class Navigation {
       }
     });
   }
-
   _handleScroll() {
     const currentScroll = window.scrollY;
-    const scrollUpThreshold = 50;
-    const bgFadeStart = 80;
-    const bgFadeEnd = 200;
-    this.element.style.backgroundColor = "rgba(255,255,255,0)";
-    // Calculate progress
-    let progress = GSAP.utils.clamp(0, 1, (currentScroll - bgFadeStart) / (bgFadeEnd - bgFadeStart));
+    const scrollThreshold = 50;
+    const defaultColor = window.getComputedStyle(this.element).color;
+    // --- Background / text color ---
+    if (currentScroll === 0) {
+      // Get the default CSS color for this header
 
 
-    // Set background color
-    if (currentScroll < bgFadeStart) {
-      this.element.style.backgroundColor = "none";
-      this.element.style.color = "#fff";
-    } else {
-      const progress = GSAP.utils.clamp(0, 1, (currentScroll - bgFadeStart) / (bgFadeEnd - bgFadeStart));
-      this.element.style.backgroundColor = GSAP.utils.interpolate("#ffffff00", "#fff", progress);
-      this.element.style.color = GSAP.utils.interpolate("#fff", "#000", progress);
+      GSAP.to(this.element, {
+        backgroundColor: "transparent",
+        color: defaultColor, // use whatever is in CSS
+        duration: 0.3,
+        ease: "power1.out",
+      });
     }
 
-    // Update text & stroke color
-    this.element.style.color = GSAP.utils.interpolate("#fff", "#000", progress);
-    this._updateStrokeColor();
+    else if (currentScroll > this.lastScrollY + 30) {
+      // Scrolling down → white
+      GSAP.to(this.element, {
+        backgroundColor: "#fff",
+        color: defaultColor,
+        duration: 0.1,
+        ease: "power1.out",
+      });
+    }
+    else if (currentScroll < this.lastScrollY) {
+      // Scrolling up → white
+      GSAP.to(this.element, {
+        backgroundColor: "#fff",
+        color: "#000",
+        duration: 0.3,
+        ease: "power1.out",
+      });
+    }
 
-    // Hide/show nav on scroll
-    if (currentScroll > this.lastScrollY && currentScroll > bgFadeStart) {
-      GSAP.to(this.element, { yPercent: -100, duration: 0.5, ease: "power2.out" });
+    // --- Hide / show nav ---
+    if (currentScroll > this.lastScrollY) {
+      // going down → hide
+      GSAP.to(this.element, {
+        yPercent: -100,
+        duration: 1.2,
+        ease: "power2.out",
+      });
       this.lastHiddenScroll = currentScroll;
     } else if (
       this.lastHiddenScroll !== undefined &&
-      this.lastHiddenScroll - currentScroll > scrollUpThreshold
+      this.lastHiddenScroll - currentScroll > scrollThreshold
     ) {
-      GSAP.to(this.element, { yPercent: 0, duration: 0.5, ease: "power2.out" });
+      // going up enough → show
+      GSAP.to(this.element, {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power2.out",
+      });
       this.lastHiddenScroll = undefined;
     }
 
+    // only update once per cycle (not twice!)
     this.lastScrollY = currentScroll;
+
+    this._updateStrokeColor();
   }
+
 
   _updateStrokeColor() {
     if (this.isOpen) {
@@ -191,7 +217,10 @@ export default class Navigation {
     const bgColor = window.getComputedStyle(this.element).backgroundColor;
     const isLight = bgColor === "rgb(255, 255, 255)" || bgColor.includes("rgba(255, 255, 255"); // simple check
     const strokeColor = isLight ? "#000" : "#fff";
-    // GSAP.set(this.togglePath, { stroke: strokeColor });
+    if (this.togglePath) {
+      GSAP.set(this.togglePath, { stroke: strokeColor });
+
+    }
   }
 
 

@@ -23,8 +23,9 @@
   &__slide {
     flex: 0 0 calc(100% / 3);
     color: colors(accent-grey);
-    transition: color 0.3s ease-in-out, opacity 0.8s ease-in-out;
+    transition: color 0.1s ease-in-out, opacity 0.8s ease-in-out;
     opacity: 0.6;
+    will-change: transform;
 
     @include media("<phone") {
       flex: 0 0 100%;

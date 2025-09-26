@@ -23,6 +23,8 @@ import map from 'lodash/map';
 
 import { mapEach } from '@utils/dom';
 
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 export default class Page extends EventEmitter {
   constructor({ classes, element, elements }) {
     super();
@@ -163,6 +165,11 @@ export default class Page extends EventEmitter {
     //     }
     //   });
     // });
+
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    ScrollTrigger.refresh();
+
+    this.removeEventListeners();
   }
 
 

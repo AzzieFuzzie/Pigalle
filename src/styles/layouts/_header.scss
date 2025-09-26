@@ -4,6 +4,12 @@ header {
   // z-index: 100; // high enough to be above content
 }
 
+header a {
+  color: inherit;
+  /* inherit from the header */
+}
+
+
 header.contact,
 header.book,
 header.menu {

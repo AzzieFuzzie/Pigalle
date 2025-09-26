@@ -16,8 +16,11 @@ block content
             if category
               li
                 button(class=`h3 menu__category__label ${category === 'Appetizers' ? '--active' : ''}`, data-category=category)= category
-              if index !== prismic.menu.data.body.length - 1
-                li.menu__category__slash / 
+              - // find next slice that actually has a category
+              - const nextCategory = prismic.menu.data.body.slice(index + 1).find(s => typeMap[s.slice_type])
+              if nextCategory
+                li.menu__category__slash /
+
 
       // Menu Sections
       each slice in prismic.menu.data.body

@@ -21,11 +21,11 @@ export default function (eleventyConfig) {
       root: 'src',
       publicDir: 'public',
       build: {
-        // 👇 IMPORTANT: Match Eleventy output for Vercel
+
         outDir: path.resolve(process.cwd(), '_site'),
-        emptyOutDir: false, // don't wipe out Eleventy HTML
+        emptyOutDir: false,
         rollupOptions: {
-          input: {}, // prevents Vite from trying to bundle index.html
+          input: {},
         },
       },
       css: {

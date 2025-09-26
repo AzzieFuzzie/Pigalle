@@ -64,6 +64,8 @@
   &__halaal__image,
   &__team__image {
     margin-right: var(--margin-tiny);
+    aspect-ratio: 1/1;
+    max-width: 50px;
   }
 
   &__quality__button {

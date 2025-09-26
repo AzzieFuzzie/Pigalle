@@ -17,9 +17,11 @@ block content
         each slice in prismic.footer.data.body
           if slice.slice_type === 'contact'
             div.book__content
-              a.h4.book__phone(href='tel:+27 11 884 8899')= slice.primary.phone_number 
+              a.h4.book__phone(href='tel:+27118848899')
+                strong= slice.primary.phone_number
               span.book__separator /   
-              a.h4.book__email(href='mailto:info@pigalle.co.za')= slice.primary.email
+              a.h4.book__email(href='mailto:info@pigalle.co.za')
+                strong= slice.primary.email
 
       section.dineplan
         div.dineplan-widget-container
