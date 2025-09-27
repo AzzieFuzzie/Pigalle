@@ -6,7 +6,7 @@ GSAP.registerPlugin(ScrollTrigger);
 export default class PinLayer {
   constructor({ element }) {
     this.element = element;
-    console.log(this.element);
+
     this.scrollTrigger = null;
     this._animate();
   }

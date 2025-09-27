@@ -49,12 +49,14 @@
       height: 50vh;
       object-fit: cover;
       object-position: top;
-      z-index: 1;
+      // opacity: 0;
+      // /* Make ALL images start hidden (GSAP will control this) */
+      // z-index: 1;
 
-      &:first-child {
-        opacity: 1;
-        z-index: 2;
-      }
+      // &:first-child {
+      //   opacity: 1;
+      //   z-index: 2;
+      // }
 
       @include media('<phone') {
         aspect-ratio: 16 / 9;

@@ -4,17 +4,26 @@ header {
   // z-index: 100; // high enough to be above content
 }
 
-header a {
-  color: inherit;
-  /* inherit from the header */
-}
-
-
+/* Sets the default text color on the HEADER element itself for black-text pages */
 header.contact,
 header.book,
 header.menu {
-  position: static;
-  color: colors(black);
+  color: #000;
+  /* This sets the inherited color for the whole header, including the navigation */
+}
+
+/* Force the desktop links to be black (already working, but vital) */
+header.contact .navigation a,
+header.book .navigation a,
+header.menu .navigation a {
+  color: #000 !important;
+}
+
+/* Ensure the navigation icon path is black on load for these pages */
+header.contact .navigation__icon--toggle svg path,
+header.book .navigation__icon--toggle svg path,
+header.menu .navigation__icon--toggle svg path {
+  stroke: #000 !important;
 }
 
 // Absolute for homepage (or any template)
@@ -119,9 +128,16 @@ header.about {
         display: flex;
         flex-direction: column;
         gap: var(--margin-small);
+        overflow: hidden;
+
+        .mobile-links__wrapper {
+          overflow: hidden;
+        }
 
         a {
           color: #000;
+
+
         }
       }
 

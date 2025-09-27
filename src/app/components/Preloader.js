@@ -85,7 +85,7 @@ export default class Preloader extends Component {
   onLoaded() {
     return new Promise(resolve => {
       this.emit('completed');
-      console.log('loaded');
+      // console.log('loaded');
 
       const video = document.querySelector('.hero__video');
 
@@ -106,7 +106,7 @@ export default class Preloader extends Component {
       this.animateOut.call(() => {
         // Force play AFTER overlay has moved away
         if (video) {
-          console.log(video);
+
           video.setAttribute('muted', 'true');
           video.setAttribute('playsinline', 'true');
 

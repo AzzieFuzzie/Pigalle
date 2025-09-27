@@ -68,7 +68,7 @@ class App {
 
     GSAP.ticker.lagSmoothing(0);
 
-    console.log('Lenis initialized', this.lenis);
+    // console.log('Lenis initialized', this.lenis);
 
   }
 
@@ -99,7 +99,7 @@ class App {
   createContent() {
     this.content = document.querySelector('.content');
     this.template = this.content.getAttribute('data-template');
-    console.log('Initial template:', this.template);
+    // console.log('Initial template:', this.template);
   }
 
   createPages() {
@@ -169,7 +169,7 @@ class App {
       this.page.create();
 
       if (this.template === 'book') {
-        console.log('[SPA] Book template detected');
+        // console.log('[SPA] Book template detected');
         initDineplanSPA();
       }
 
@@ -341,4 +341,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-console.log('%c Developed by Muaaz', 'background: #000; color: #fff;');
+console.log('%cDesign by Calvin Developed by Muaaz', 'background: #000; color: #fff;');

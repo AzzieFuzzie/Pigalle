@@ -12,6 +12,6 @@ export default function initDineplanSPA() {
   // Check if Dineplan is ready
   if (window.Dineplan) {
     window.dispatchEvent(new Event('load'));
-    console.log('[SPA] Dineplan inline widget initialized');
+    // console.log('[SPA] Dineplan inline widget initialized');
   }
 }

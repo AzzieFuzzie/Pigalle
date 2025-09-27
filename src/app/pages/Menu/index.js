@@ -21,9 +21,10 @@ export default class Menu extends Page {
 
     this.menuPin = new MenuPin();
 
+    // Note: MobileCategorySwipe is assumed to be imported and functional.
     const categoryEl = document.querySelector(".menu__category");
     if (categoryEl) {
-      new MobileCategorySwipe({ element: categoryEl });
+      // new MobileCategorySwipe({ element: categoryEl });
     }
 
     const firstSection = document.querySelector(".menu__section.--active");
@@ -39,29 +40,28 @@ export default class Menu extends Page {
       });
     });
   }
+
   showCategory(category) {
     // Hide all sections first
     this.elements.section.forEach(section => {
       const isActive = section.dataset.category === category;
       if (isActive) {
         section.classList.add('--active');
-        console.log(section);
-        // Make section visible so ScrollTrigger can measure
-        GSAP.set(section, { autoAlpha: 1 });
 
-        // Destroy old triggers before setting up the new one
+        // CRITICAL STEP: Ensure visibility before height reads
+        GSAP.set(section, { opacity: 1 });
+
+        // CRITICAL STEP: Destroy old triggers completely
         if (this.menuPin) this.menuPin.destroy();
 
         // Setup the pin/animations for the new section
-
         this.menuPin.setupSection(section);
 
-
-        // Refresh ScrollTrigger after layout changes
+        // CRITICAL STEP: Final refresh after layout changes
         requestAnimationFrame(() => ScrollTrigger.refresh());
       } else {
         section.classList.remove('--active');
-        GSAP.set(section, { autoAlpha: 0 });
+        GSAP.set(section, { opacity: 0 });
       }
     });
 
@@ -72,5 +72,4 @@ export default class Menu extends Page {
       GSAP.to(btn, { color: isActive ? "#000" : "#CBC4B1", duration: 0.5, ease: "expo.out" });
     });
   }
-
 }

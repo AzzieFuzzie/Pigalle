@@ -32,7 +32,7 @@ nav.navigation(data-animation="navigation")
     .mobile-header
       div.navigation__logo
         a(href="/")
-          img.navigation__logo__image(data-src="/images/logo_mobile.svg", alt="Pigalle by Villamoura logo")
+          img.navigation__logo__image(data-src="/images/logo.svg", alt="Pigalle by Villamoura logo")
       //- .navigation__icon.navigation__icon--close
       //-   svg(
       //-     xmlns="http://www.w3.org/2000/svg" 
@@ -51,10 +51,14 @@ nav.navigation(data-animation="navigation")
       //-     )
 
     .mobile-links
-      a.h2(href="/book/") Book a Reservation
-      a.h2(href="/menu/") Menu
-      a.h2(href="/about/") Our Story
-      a.h2(href="/contact/") Contact
+      div.mobile-links__wrapper
+        a.h2(href="/book/") Book a Reservation
+      div.mobile-links__wrapper
+        a.h2(href="/menu/") Menu
+      div.mobile-links__wrapper
+        a.h2(href="/about/") Our Story
+      div.mobile-links__wrapper
+        a.h2(href="/contact/") Contact
 
     .mobile-socials
       each slice in prismic.footer.data.body

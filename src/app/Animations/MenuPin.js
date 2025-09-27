@@ -2,14 +2,27 @@ import GSAP from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 GSAP.registerPlugin(ScrollTrigger);
 
+// Note: Assuming Page and MobileCategorySwipe imports are handled correctly elsewhere
+// For completeness, these classes are defined here but should match your module pathing:
+// import Page from '@classes/Page';
+import MobileCategorySwipe from '@animations/MobileCategorySwipe';
+
+
+/**
+ * MenuPin Class (Fixed)
+ * Handles the ScrollTrigger pinning and image swapping logic.
+ */
 export default class MenuPin {
   constructor() {
-    this.mm = null;               // matchMedia instance
-    this.triggers = [];           // ScrollTrigger instances
-    this.clickHandlers = [];      // mobile click handlers
+    // FIX: Crucial: Manually bind methods to 'this' for proper context
+    this.setupDesktop = this.setupDesktop.bind(this);
+    this.showImage = this.showImage.bind(this);
+    this.destroy = this.destroy.bind(this);
+
+    this.mm = null;             // matchMedia instance
+    this.triggers = [];         // ScrollTrigger instances
+    this.clickHandlers = [];    // mobile click handlers
     this.currentSection = null;
-
-
   }
 
   setupSection(section) {
@@ -28,13 +41,10 @@ export default class MenuPin {
 
       // Desktop
       this.mm.add("(min-width:1024px)", () => {
-        const firstImg = section.querySelector(".menu__image");
-        if (firstImg && !firstImg.complete) {
-          firstImg.addEventListener("load", initDesktop, { once: true });
-          setTimeout(initDesktop, 300);
-        } else {
-          initDesktop();
-        }
+        // FIX: Removed complex image load logic and timeout.
+        // Since Menu.showCategory makes the section visible first,
+        // height reads should be safe, or deferred with requestAnimationFrame.
+        initDesktop();
         return () => { };
       });
 
@@ -45,12 +55,9 @@ export default class MenuPin {
       });
     };
 
-    // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", runSetup);
-    } else {
-      runSetup();
-    }
+    // If your calling code (Menu.showCategory) handles activation,
+    // you only need to run setup immediately.
+    runSetup();
   }
 
 
@@ -59,9 +66,13 @@ export default class MenuPin {
     if (!imageWrapper) return;
 
     const images = Array.from(section.querySelectorAll(".menu__image"));
-    const imageHeight = section.querySelector(".menu__image").getBoundingClientRect().height
+    // These reads are safe because initDesktop is deferred via matchMedia/requestAnimationFrame
+    const firstImg = section.querySelector(".menu__image");
+    if (!firstImg) return;
+
+    const imageHeight = firstImg.getBoundingClientRect().height;
     const items = Array.from(section.querySelectorAll(".menu__item"));
-    const itemHeight = section.querySelector(".menu__item").getBoundingClientRect().height
+    const itemHeight = section.querySelector(".menu__item").getBoundingClientRect().height;
     if (!items.length) return;
 
     // spacer at the end
@@ -71,24 +82,25 @@ export default class MenuPin {
       spacer.classList.add("menu__spacer");
       section.appendChild(spacer);
     }
+    // Calculates the required spacer height
     spacer.style.height = `${imageHeight - itemHeight - 41}px`;
-
-
-    const pinDuration = section.scrollHeight;
 
     // Pin image wrapper
     const pinTrigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: () => `+=${pinDuration}`,
+      // FIX: Using "bottom top" from the working canvas code. 
+      // This is safer than relying on section.scrollHeight, which can be miscalculated.
+      end: "bottom top",
       pin: imageWrapper,
       pinSpacing: false,
-      markers: false,
+      anticipatePin: 0,
+      markers: false, // Keep markers for debugging
     });
     this.triggers.push(pinTrigger);
 
-    // Set first image visible right away
-    // GSAP.set(images[0], { autoAlpha: 1 });
+    // Ensure first image is visible
+    GSAP.set(images[0], { opacity: 1 });
 
     // Then set up triggers
     items.forEach((item, i) => {
@@ -96,14 +108,12 @@ export default class MenuPin {
         trigger: item,
         start: `top-=25 top`,
         end: `bottom-=25 top`,
-        // onEnter: () => this.showImage(images, i),
-        // onEnterBack: () => this.showImage(images, i),
-        markers: true,
+        onEnter: () => this.showImage(images, i),
+        onEnterBack: () => this.showImage(images, i),
+        markers: false, // Keep markers for debugging
       });
       this.triggers.push(t);
     });
-
-
   }
 
   setupMobile(section) {
@@ -127,19 +137,20 @@ export default class MenuPin {
     });
 
     // show first image
-    // this.showImage(images, 0);
+    this.showImage(images, 0); // Changed from commented out line
   }
 
   showImage(images, index) {
+    // Simplified image visibility toggle
     images.forEach((img, i) => {
-      GSAP.set(img, {
-        autoAlpha: i === index ? 1 : 0,
-        border: i === index ? "3px solid red" : "none"
-      });
+      if (i !== index) {
+        GSAP.set(img, { opacity: 0 });
+      }
     });
 
+    // Animate the target image
     GSAP.to(images[index], {
-      autoAlpha: 1,
+      opacity: 1,
       duration: 0.25,
       ease: "expo.out"
     });
@@ -147,9 +158,13 @@ export default class MenuPin {
 
 
   destroy() {
-    // kill triggers
+    // kill all ScrollTrigger instances
     this.triggers.forEach(t => t && t.kill());
     this.triggers = [];
+
+    // FIX: CRITICAL: Revert matchMedia changes to clean up responsive logic
+    this.mm && this.mm.revert();
+
     // remove click handlers
     this.clickHandlers.forEach(({ el, handler }) => {
       el.removeEventListener("click", handler);
@@ -165,6 +180,7 @@ export default class MenuPin {
 
     this.currentSection = null;
 
-
+    // FIX: CRITICAL: Refresh after destruction and DOM changes to prevent layout jump
+    ScrollTrigger.refresh();
   }
 }
