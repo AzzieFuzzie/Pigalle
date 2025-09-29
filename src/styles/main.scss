@@ -1,27 +1,14 @@
 @use './base/reset';
 @use './base/fonts';
 @use './base/base';
-@use './base/grid';
-@use './base/flex';
 @use './base/sections';
 @use './base/spacing';
-@use './base/type-scale';
 @use './base/typography';
 @use './base/container';
 
-// Utils
-@use './utils/variables';
-@use './utils/functions';
-@use './utils/mixins';
-@use './utils/vendors';
-@use './utils/responsive';
-
 // Shared
-@use './shared/descriptions';
-@use './shared/links';
+
 @use './shared/pages';
-@use './shared/titles';
-@use './shared/vertical-titles';
 @use './shared/icons';
 
 // Components
