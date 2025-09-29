@@ -1,3 +1,12 @@
+@use '../base/type-scale' as *;
+@use '../base/flex' as *;
+@use '../base/grid' as *;
+@use '../utils/responsive' as *;
+@use '../shared/titles' as *;
+@use '../shared/links' as *;
+@use '../utils/functions' as *;
+
+
 header {
   min-width: 100vw;
   // position: sticky; // makes it stick to top

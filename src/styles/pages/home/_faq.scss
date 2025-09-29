@@ -1,3 +1,9 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../base/type-scale' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
+
 .faq {
   @include page-grid;
 

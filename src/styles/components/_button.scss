@@ -1,3 +1,8 @@
+@use '../base/type-scale' as *;
+@use '../base/flex' as *;
+@use '../utils/responsive' as *;
+@use '../shared/links' as *;
+
 .button,
 button,
 a {
@@ -26,8 +31,6 @@ a {
 }
 
 .button__label {
-  @extend %link;
-
+  @include link;
   margin: 0 var(--padding-xxtiny) var(--padding-xtiny) var(--padding-xxtiny);
-
 }

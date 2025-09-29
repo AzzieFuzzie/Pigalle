@@ -1,3 +1,8 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
+
 .hero {
   width: 100vw;
   height: 100dvh;

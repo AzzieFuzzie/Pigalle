@@ -1,11 +1,10 @@
-%link__wrapper {
+@mixin link-wrapper {
   display: inline-block;
-  // overflow: hidden;
   position: relative;
   vertical-align: top;
 }
 
-%link__line {
+@mixin link-line {
   background: currentColor;
   bottom: -15px;
   content: '';
@@ -14,49 +13,44 @@
   position: absolute;
   transition: transform 0.7s ease(ease-in-out);
   width: 100%;
-
 }
 
-%link__line--visible {
+@mixin link-line-visible {
   transform: scaleX(1);
   transform-origin: left center;
 }
 
-%link__line--hidden {
+@mixin link-line-hidden {
   transform: scaleX(0);
   transform-origin: right center;
 }
 
-%link {
-  @extend %link__wrapper;
-
-  display: inline-block;
+@mixin link {
+  @include link-wrapper;
 
   &:after {
-    @extend %link__line;
-    @extend %link__line--visible;
+    @include link-line;
+    @include link-line-visible;
   }
 
   &:hover {
     &:after {
-      @extend %link__line--hidden;
+      @include link-line-hidden;
     }
   }
 }
 
-%link--hidden {
-  @extend %link__wrapper;
-
-  display: inline-block;
+@mixin link-hidden {
+  @include link-wrapper;
 
   &:after {
-    @extend %link__line;
-    @extend %link__line--hidden;
+    @include link-line;
+    @include link-line-hidden;
   }
 
   &:hover {
     &:after {
-      @extend %link__line--visible;
+      @include link-line-visible;
     }
   }
 }

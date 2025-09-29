@@ -1,81 +1,79 @@
-@import './base/reset';
+// ------------------------------------
+// Base
+// ------------------------------------
+@use './base/reset';
+@use './base/fonts';
+@use './base/base';
+@use './base/grid';
+@use './base/flex';
+@use './base/sections';
+@use './base/spacing';
+@use './base/type-scale';
+@use './base/typography';
+@use './base/container';
 
 // ------------------------------------
 // Utils
 // ------------------------------------
-
-@import './utils/variables';
-@import './utils/functions';
-@import './utils/mixins';
-@import './utils/vendors';
-@import './utils/responsive';
+@use './utils/variables';
+@use './utils/functions';
+@use './utils/mixins';
+@use './utils/vendors';
+@use './utils/responsive';
 
 
 // ------------------------------------
 // Shared
 // ------------------------------------
 
-@import './shared/descriptions';
-@import './shared/links';
-@import './shared/pages';
-@import './shared/titles';
-@import './shared/vertical-titles';
-@import './shared/icons';
-
-// ------------------------------------
-// Base
-// ------------------------------------
-@import './base/fonts';
-@import './base/base';
-@import './base/grid';
-@import './base/flex';
-@import './base/sections';
-@import './base/spacing';
-@import './base/type-scale';
-@import './base/typography';
-@import './base/container';
+@use './shared/descriptions';
+@use './shared/links';
+@use './shared/pages';
+@use './shared/titles';
+@use './shared/vertical-titles';
+@use './shared/icons';
 
 
 // ------------------------------------
 // Components
 // ------------------------------------
 
-@import './components/preloader';
-@import './components/button';
-@import './components/marquee';
-@import './components/chat';
-@import './components/map';
-@import './components/transition';
+@use './components/preloader';
+@use './components/button';
+@use './components/marquee';
+@use './components/chat';
+@use './components/map';
+@use './components/transition';
 
 
 // ------------------------------------
-// layouts
+// Layouts
 // ------------------------------------
-@import './layouts/header';
-@import './layouts/footer';
+@use './layouts/header';
+@use './layouts/footer';
 
 
 // ------------------------------------
 // Pages
 // ------------------------------------
 
-@import './pages/home/hero';
-@import './pages/home/tagline';
-@import './pages/home/about';
-@import './pages/home/food';
-@import './pages/home/events';
-@import './pages/home/faq';
-@import './pages/home/reviews';
+@use './pages/home/hero';
+@use './pages/home/tagline';
+@use './pages/home/about';
+@use './pages/home/food';
+@use './pages/home/events';
+@use './pages/home/faq';
+@use './pages/home/reviews';
 
-@import './pages/menu/catergory';
-@import './pages/menu/menu-items';
+@use './pages/menu/catergory';
+@use './pages/menu/menu-items';
 
-@import './pages/story/intro';
-@import './pages/story/history';
-@import './pages/story/slider';
-@import './pages/story/quality';
+@use './pages/story/story-intro';
+@use './pages/story/history';
+@use './pages/story/slider';
+@use './pages/story/quality';
 
-@import './pages/contact/contact';
+@use './pages/contact/contact';
 
-@import './pages/book/intro';
-@import './pages/book/widget';
+@use './pages/book/intro';
+@use './pages/book/widget';

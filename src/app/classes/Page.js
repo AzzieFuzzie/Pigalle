@@ -16,7 +16,7 @@ import Parallax from "../Animations/Parallax";
 import Chat from "../Animations/Chat";
 
 import AsyncLoad from '@classes/AsyncLoad';
-import { Detection } from '@classes/Detection';
+// import { Detection } from '@classes/Detection';
 
 import each from 'lodash/each';
 import map from 'lodash/map';

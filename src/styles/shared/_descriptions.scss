@@ -1,4 +1,4 @@
-@import '../base/type-scale';
+@use '../base/type-scale' as *;
 
 %description-12 {
   @include fluid-type(500px, 1440px, 60rem, 100rem);

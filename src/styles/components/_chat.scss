@@ -1,3 +1,7 @@
+@use '../base/type-scale' as *;
+@use '../base/flex' as *;
+@use '../utils/responsive' as *;
+
 .whatsaap {
   position: fixed;
   bottom: var(--margin-xsmall);

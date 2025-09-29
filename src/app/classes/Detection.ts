@@ -1,101 +1,101 @@
-import UAParser from 'ua-parser-js';
+// import UAParser from 'ua-parser-js';
 
-enum DeviceType {
-  Desktop = 'desktop',
-  Phone = 'phone',
-  Tablet = 'tablet',
-}
+// enum DeviceType {
+//   Desktop = 'desktop',
+//   Phone = 'phone',
+//   Tablet = 'tablet',
+// }
 
-class DetectionManager {
-  private readonly parser: UAParser;
-  private readonly type: DeviceType;
-  private webGLAvailable: boolean = false;
-  private webPSupported: boolean = false;
+// class DetectionManager {
+//   private readonly parser: UAParser;
+//   private readonly type: DeviceType;
+//   private webGLAvailable: boolean = false;
+//   private webPSupported: boolean = false;
 
-  readonly isMobile: boolean;
-  readonly isPhone: boolean;
-  readonly isTablet: boolean;
-  readonly isDesktop: boolean;
-  readonly isMixBlendModeUnsupported: boolean;
+//   readonly isMobile: boolean;
+//   readonly isPhone: boolean;
+//   readonly isTablet: boolean;
+//   readonly isDesktop: boolean;
+//   readonly isMixBlendModeUnsupported: boolean;
 
-  constructor() {
-    this.parser = new UAParser();
-    this.type = this.determineDeviceType(this.parser.getDevice().type);
+//   constructor() {
+//     this.parser = new UAParser();
+//     this.type = this.determineDeviceType(this.parser.getDevice().type);
 
-    this.isMobile = this.type !== DeviceType.Desktop;
-    this.isPhone = this.type === DeviceType.Phone;
-    this.isTablet = this.type === DeviceType.Tablet;
-    this.isDesktop = this.type === DeviceType.Desktop;
+//     this.isMobile = this.type !== DeviceType.Desktop;
+//     this.isPhone = this.type === DeviceType.Phone;
+//     this.isTablet = this.type === DeviceType.Tablet;
+//     this.isDesktop = this.type === DeviceType.Desktop;
 
-    this.isMixBlendModeUnsupported =
-      typeof window.getComputedStyle(document.body).mixBlendMode ===
-      'undefined';
+//     this.isMixBlendModeUnsupported =
+//       typeof window.getComputedStyle(document.body).mixBlendMode ===
+//       'undefined';
 
-    this.setHTMLClass();
-  }
+//     this.setHTMLClass();
+//   }
 
-  private determineDeviceType(deviceType: string | undefined): DeviceType {
-    const width = window.innerWidth;
+//   private determineDeviceType(deviceType: string | undefined): DeviceType {
+//     const width = window.innerWidth;
 
-    // Treat small screens as mobile regardless of UA
-    if (width <= 1024) return DeviceType.Phone;
+//     // Treat small screens as mobile regardless of UA
+//     if (width <= 1024) return DeviceType.Phone;
 
-    if (deviceType === 'mobile') return DeviceType.Phone;
-    if (deviceType === 'tablet') return DeviceType.Tablet;
+//     if (deviceType === 'mobile') return DeviceType.Phone;
+//     if (deviceType === 'tablet') return DeviceType.Tablet;
 
-    return DeviceType.Desktop;
-  }
+//     return DeviceType.Desktop;
+//   }
 
 
-  private setHTMLClass(): void {
-    const htmlElement = document.documentElement;
-    htmlElement.classList.add(this.isMobile ? 'mobile' : 'desktop');
-  }
+//   private setHTMLClass(): void {
+//     const htmlElement = document.documentElement;
+//     htmlElement.classList.add(this.isMobile ? 'mobile' : 'desktop');
+//   }
 
-  private isWebGLAvailable(): boolean {
-    if (!this.webGLAvailable) {
-      const canvas = document.createElement('canvas');
-      this.webGLAvailable =
-        !!window.WebGLRenderingContext &&
-        !!(
-          canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
-        );
-    }
-    return this.webGLAvailable;
-  }
+//   private isWebGLAvailable(): boolean {
+//     if (!this.webGLAvailable) {
+//       const canvas = document.createElement('canvas');
+//       this.webGLAvailable =
+//         !!window.WebGLRenderingContext &&
+//         !!(
+//           canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+//         );
+//     }
+//     return this.webGLAvailable;
+//   }
 
-  isWebPSupported(): boolean {
-    if (this.webPSupported === false) {
-      const element = document.createElement('canvas');
-      if (element.getContext('2d')) {
-        this.webPSupported = element
-          .toDataURL('image/webp')
-          .startsWith('data:image/webp');
-      } else {
-        this.webPSupported = false;
-      }
-    }
-    return this.webPSupported;
-  }
+//   isWebPSupported(): boolean {
+//     if (this.webPSupported === false) {
+//       const element = document.createElement('canvas');
+//       if (element.getContext('2d')) {
+//         this.webPSupported = element
+//           .toDataURL('image/webp')
+//           .startsWith('data:image/webp');
+//       } else {
+//         this.webPSupported = false;
+//       }
+//     }
+//     return this.webPSupported;
+//   }
 
-  isAppBrowser(): boolean {
-    const ua = navigator.userAgent;
-    return /FBAN|FBAV|Twitter/.test(ua);
-  }
+//   isAppBrowser(): boolean {
+//     const ua = navigator.userAgent;
+//     return /FBAN|FBAV|Twitter/.test(ua);
+//   }
 
-  check({
-    onErrorWebGL,
-    onSuccess,
-  }: {
-    onErrorWebGL: () => void;
-    onSuccess: () => void;
-  }) {
-    if (!this.isWebGLAvailable()) {
-      onErrorWebGL();
-    } else {
-      onSuccess();
-    }
-  }
-}
+//   check({
+//     onErrorWebGL,
+//     onSuccess,
+//   }: {
+//     onErrorWebGL: () => void;
+//     onSuccess: () => void;
+//   }) {
+//     if (!this.isWebGLAvailable()) {
+//       onErrorWebGL();
+//     } else {
+//       onSuccess();
+//     }
+//   }
+// }
 
-export const Detection = new DetectionManager();
+// export const Detection = new DetectionManager();

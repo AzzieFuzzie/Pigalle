@@ -27,13 +27,7 @@ export default function (eleventyConfig) {
           input: {}, // prevents Vite from trying to bundle index.html
         },
       },
-      css: {
-        preprocessorOptions: {
-          scss: {
-            additionalData: `@import "@styles/utils/variables.scss";`,
-          },
-        },
-      },
+
       resolve: {
         alias: {
           '@styles': path.resolve(process.cwd(), 'src/styles'),

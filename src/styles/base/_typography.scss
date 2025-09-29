@@ -1,3 +1,7 @@
+@use 'type-scale' as *;
+@use '../utils/responsive' as responsive;
+@use '../utils/functions' as *;
+
 p,
 .p {
   font-family: font(lato);
@@ -43,7 +47,7 @@ h1,
 
   @include fluid-type(320px, 1440px, 40px, 90px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 100%;
   }
 }
@@ -57,7 +61,7 @@ h2,
 
   @include fluid-type(320px, 1440px, 28px, 50px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 110%;
   }
 }
@@ -70,7 +74,7 @@ h3,
 
   @include fluid-type(320px, 1440px, 24px, 36px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 110%;
   }
 }
@@ -83,7 +87,7 @@ h4,
 
   @include fluid-type(320px, 1440px, 26px, 30px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 120%;
   }
 }
@@ -96,7 +100,7 @@ h5,
 
   @include fluid-type(320px, 1440px, 18px, 24px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 130%;
   }
 }
@@ -109,7 +113,7 @@ h6,
   text-transform: uppercase;
   @include fluid-type(320px, 1440px, 16px, 16px);
 
-  @include media('<phone') {
+  @include responsive.media('<phone') {
     line-height: 130%;
   }
 }

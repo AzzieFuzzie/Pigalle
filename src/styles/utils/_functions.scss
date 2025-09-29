@@ -1,5 +1,6 @@
 @use 'sass:map';
 
+// Internal helper function for retrieving design tokens
 @function _superget($type, $key, $obj, $defs) {
   @if map.has-key($obj, $key) {
     @return map.get($obj, $key);
@@ -10,22 +11,23 @@
   }
 
   @else {
-    @error "#{$type} #{$key} wasn\"t found";
+    @error "#{$type} #{$key} wasn\'t found";
   }
 }
 
 // Z-INDEX
-$_z-indexes: (
+// Variables must be public ($) and use !default to be configurable via @forward
+$z-indexes: (
   ) !default;
 $_def-z-indexes: (
 );
 
 @function z($key) {
-  @return _superget('Z-Index', $key, $_z-indexes, $_def-z-indexes);
+  @return _superget('Z-Index', $key, $z-indexes, $_def-z-indexes);
 }
 
 // COLORS
-$_colors: (
+$colors: (
   ) !default;
 $_def-colors: (
   black: #000,
@@ -33,35 +35,35 @@ $_def-colors: (
 );
 
 @function colors($key) {
-  @return _superget('Colors', $key, $_colors, $_def-colors);
+  @return _superget('Colors', $key, $colors, $_def-colors);
 }
 
 // CONSTANTS
-$_constants: (
+$constants: (
   ) !default;
 $_def-constants: (
 );
 
 @function const($key) {
-  @return _superget('Constants', $key, $_constants, $_def-constants);
+  @return _superget('Constants', $key, $constants, $_def-constants);
 }
 
 // FONTS
-$_fonts: (
+$fonts: (
   ) !default;
 $_def-fonts: (
 );
 
 @function font($key) {
-  @return _superget('Fonts', $key, $_fonts, $_def-fonts);
+  @return _superget('Fonts', $key, $fonts, $_def-fonts);
 }
 
 // EASINGS
-$_easings: (
+$easings: (
   ) !default;
 $_def-easings: (
 );
 
 @function ease($key) {
-  @return _superget('Easings', $key, $_easings, $_def-easings);
+  @return _superget('Easings', $key, $easings, $_def-easings);
 }

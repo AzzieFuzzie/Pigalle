@@ -1,3 +1,8 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
+
 .menu__category {
   @include flex(row, center, center, wrap);
 

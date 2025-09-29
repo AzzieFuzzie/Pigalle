@@ -1,3 +1,7 @@
+@use '../base/type-scale' as *;
+@use '../utils/responsive' as *;
+@use 'descriptions' as *;
+
 %vertical-titles {
   left: 50%;
   position: absolute;

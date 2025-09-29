@@ -1,3 +1,5 @@
+@use '../utils/responsive';
+
 :root {
   /* Desktop / Default */
   --padding-xxtiny: 5px;
@@ -22,7 +24,7 @@
 }
 
 /* Tablet (~70% of desktop values) */
-@include media('<tablet') {
+@include responsive.media('<tablet') {
   :root {
     --padding-xxtiny: 4px;
     --padding-xtiny: 12px;
@@ -47,7 +49,7 @@
 }
 
 /* Phone (~50% of desktop values) */
-@include media('<phone') {
+@include responsive.media('<phone') {
   :root {
     --padding-xxtiny: 4px;
     --padding-xtiny: 8px;

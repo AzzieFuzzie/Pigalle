@@ -3,7 +3,7 @@ import AutoBind from 'auto-bind';
 import Stats from 'stats.js';
 import each from 'lodash/each';
 import FontFaceObserver from 'fontfaceobserver';
-import { Detection } from '@classes/Detection';
+// import { Detection } from '@classes/Detection';
 import Lenis from 'lenis';
 import GSAP from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,10 +29,9 @@ class App {
       this.createStats();
     }
 
-    Detection.check({
-      onErrorWebGL: this.createUnsupportedScreen,
-      onSuccess: this.init,
-    });
+
+    this.init()
+
 
     // Bind update loop
     this.update = this.update.bind(this);

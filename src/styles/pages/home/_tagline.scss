@@ -1,3 +1,8 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
+
 .tagline__card__wrapper {
   @include flex(column, center, center, nowrap);
   background-color: colors(grey);

@@ -1,3 +1,8 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
+
 .story__slider {
   @include page-grid; // 12-column grid
   gap: var(--margin-small); // space between images

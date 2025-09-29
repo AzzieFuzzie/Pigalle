@@ -1,3 +1,9 @@
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/mixins' as *;
+@use '../../utils/functions' as *;
+
 .dineplan {
   @include flex(column, center, center, nowrap);
   width: 100%;

@@ -12,7 +12,8 @@
   $max-vw-stripped: strip-unit($max-vw);
 
   // Output in the unit of font size (assumes both use same units, rem or px)
-  $font-unit: unit($min-font-size);
+  $font-unit: math.unit($min-font-size);
+
 
   font-size: $min-font-size;
 
