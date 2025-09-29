@@ -45,13 +45,7 @@ export default function (eleventyConfig) {
           "@pages": path.resolve(__dirname, "src/app/pages"),
         },
       },
-      css: {
-        preprocessorOptions: {
-          scss: {
-            additionalData: `@import "@styles/utils/variables.scss";`,
-          },
-        },
-      },
+
     },
   });
 
