@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
     "build": "npx eleventy --config=.eleventy.js",
-    "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
     "clean": "rimraf _site .11ty-vite"
   },
   "devDependencies": {
