@@ -1,5 +1,5 @@
 import Page from '@classes/Page';
-import PinSwapper from '@animations/PinSwapper';
+import PinSwapper from '@animations/PinSwapper.js';
 import MobileCategorySwipe from '@animations/MobileCategorySwipe';
 import GSAP from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
