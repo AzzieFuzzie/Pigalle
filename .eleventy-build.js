@@ -50,10 +50,12 @@ export default function (eleventyConfig) {
   });
 
   // --- Passthrough copy ---
-  eleventyConfig.addPassthroughCopy("public");
-  eleventyConfig.addPassthroughCopy("src/app");
-  eleventyConfig.addPassthroughCopy("src/fonts");
-  eleventyConfig.addPassthroughCopy("src/styles");
+  // Passthrough copy with destination folders
+  eleventyConfig.addPassthroughCopy({ "public": "/" });          // static assets
+  eleventyConfig.addPassthroughCopy({ "src/app": "app" });       // JS
+  eleventyConfig.addPassthroughCopy({ "src/styles": "styles" }); // CSS
+  eleventyConfig.addPassthroughCopy({ "src/fonts": "fonts" });   // Fonts
+
   eleventyConfig.setServerPassthroughCopyBehavior("copy");
 
   // --- HTML minify ---
