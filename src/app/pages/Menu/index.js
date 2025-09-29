@@ -1,5 +1,5 @@
 import Page from '@classes/Page';
-import MenuPin from '@animations/MenuPin';
+import PinSwapper from '@animations/PinSwapper';
 import MobileCategorySwipe from '@animations/MobileCategorySwipe';
 import GSAP from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,7 +19,7 @@ export default class Menu extends Page {
   create() {
     super.create();
 
-    this.menuPin = new MenuPin();
+    this.pinSwapper = new PinSwapper();
 
     // Note: MobileCategorySwipe is assumed to be imported and functional.
     const categoryEl = document.querySelector(".menu__category");

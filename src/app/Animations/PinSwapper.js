@@ -12,7 +12,7 @@ import MobileCategorySwipe from '@animations/MobileCategorySwipe';
  * MenuPin Class (Fixed)
  * Handles the ScrollTrigger pinning and image swapping logic.
  */
-export default class MenuPin {
+export default class PinSwapper {
   constructor() {
     // FIX: Crucial: Manually bind methods to 'this' for proper context
     this.setupDesktop = this.setupDesktop.bind(this);
