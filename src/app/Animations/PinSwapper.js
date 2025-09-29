@@ -2,19 +2,9 @@ import GSAP from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 GSAP.registerPlugin(ScrollTrigger);
 
-// Note: Assuming Page and MobileCategorySwipe imports are handled correctly elsewhere
-// For completeness, these classes are defined here but should match your module pathing:
-// import Page from '@classes/Page';
-import MobileCategorySwipe from '@animations/MobileCategorySwipe';
-
-
-/**
- * MenuPin Class (Fixed)
- * Handles the ScrollTrigger pinning and image swapping logic.
- */
 export default class PinSwapper {
   constructor() {
-    // FIX: Crucial: Manually bind methods to 'this' for proper context
+
     this.setupDesktop = this.setupDesktop.bind(this);
     this.showImage = this.showImage.bind(this);
     this.destroy = this.destroy.bind(this);
@@ -41,9 +31,7 @@ export default class PinSwapper {
 
       // Desktop
       this.mm.add("(min-width:1024px)", () => {
-        // FIX: Removed complex image load logic and timeout.
-        // Since Menu.showCategory makes the section visible first,
-        // height reads should be safe, or deferred with requestAnimationFrame.
+
         initDesktop();
         return () => { };
       });
@@ -55,8 +43,6 @@ export default class PinSwapper {
       });
     };
 
-    // If your calling code (Menu.showCategory) handles activation,
-    // you only need to run setup immediately.
     runSetup();
   }
 
