@@ -4,11 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prebuild": "mkdir -p .11ty-vite && rimraf _site",
-    "build:vercel": "pnpm run prebuild && npx eleventy --config=.eleventy-build.js",
-    "vercel-build": "pnpm run build:vercel",
-    "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
     "dev": "eleventy --config=.eleventy.js --serve --incremental",
+    "build": "npx eleventy --config=.eleventy.js",
+    "build:win": "powershell -ExecutionPolicy Bypass -File build.ps1",
     "clean": "rimraf _site .11ty-vite"
   },
   "devDependencies": {
