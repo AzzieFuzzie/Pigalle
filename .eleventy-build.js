@@ -3,17 +3,10 @@ import fs from "fs";
 import htmlmin from "html-minifier";
 import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
 import pluginPug from "@11ty/eleventy-plugin-pug";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-// --- __dirname polyfill for ES module ---
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export default function (eleventyConfig) {
   // --- Ensure temp folder exists ---
-  const tempFolder = path.resolve(__dirname, ".11ty-vite");
-  if (!fs.existsSync(tempFolder)) fs.mkdirSync(tempFolder, { recursive: true });
+  const tempFolder = ".11ty-vite";
 
   // --- Dev server port ---
   eleventyConfig.setServerOptions({ port: 3000 });
@@ -25,36 +18,28 @@ export default function (eleventyConfig) {
     tempFolderName: tempFolder,
     viteOptions: {
       root: "src",
-      publicDir: path.resolve(__dirname, "public"),
+      publicDir: path.resolve(process.cwd(), "public"),
       build: {
-        outDir: path.resolve(__dirname, "_site"),
+        outDir: path.resolve(process.cwd(), "_site"),
         emptyOutDir: false, // prevent conflicts on Vercel
-        rollupOptions: {
-          input: {}, // 11ty handles HTML inputs
-        },
       },
       resolve: {
         alias: {
-          "@styles": path.resolve(__dirname, "src/styles"),
-          "@app": path.resolve(__dirname, "src/app"),
-          "@utils": path.resolve(__dirname, "src/app/utils"),
-          "@components": path.resolve(__dirname, "src/app/components"),
-          "@shaders": path.resolve(__dirname, "src/app/shaders"),
-          "@classes": path.resolve(__dirname, "src/app/classes"),
-          "@animations": path.resolve(__dirname, "src/app/animations"),
-          "@pages": path.resolve(__dirname, "src/app/pages"),
+          "@styles": path.resolve(process.cwd(), "src/styles"),
+          "@app": path.resolve(process.cwd(), "src/app"),
+          "@utils": path.resolve(process.cwd(), "src/app/utils"),
+          "@components": path.resolve(process.cwd(), "src/app/components"),
+          "@classes": path.resolve(process.cwd(), "src/app/classes"),
+          "@animations": path.resolve(process.cwd(), "src/app/animations"),
+          "@pages": path.resolve(process.cwd(), "src/app/pages"),
         },
       },
-
     },
   });
 
   // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy("public");
-
   eleventyConfig.addPassthroughCopy("src/fonts");
-
-  eleventyConfig.setServerPassthroughCopyBehavior("copy");
 
   // --- HTML minify ---
   eleventyConfig.addTransform("htmlmin", (content, outputPath) => {
@@ -79,7 +64,5 @@ export default function (eleventyConfig) {
     passthroughFileCopy: true,
     htmlTemplateEngine: "pug",
     templateFormats: ["pug", "html"],
-
-
   };
 }
