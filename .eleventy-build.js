@@ -50,11 +50,9 @@ export default function (eleventyConfig) {
   });
 
   // --- Passthrough copy ---
-  // Passthrough copy with destination folders
-  eleventyConfig.addPassthroughCopy({ "public": "/" });          // static assets
-  eleventyConfig.addPassthroughCopy({ "src/app": "app" });       // JS
-  eleventyConfig.addPassthroughCopy({ "src/styles": "styles" }); // CSS
-  eleventyConfig.addPassthroughCopy({ "src/fonts": "fonts" });   // Fonts
+  eleventyConfig.addPassthroughCopy("public");
+
+  eleventyConfig.addPassthroughCopy("src/fonts");
 
   eleventyConfig.setServerPassthroughCopyBehavior("copy");
 
