@@ -1,6 +1,6 @@
-// ------------------------------------
+// All @use rules must be at the top
+
 // Base
-// ------------------------------------
 @use './base/reset';
 @use './base/fonts';
 @use './base/base';
@@ -12,20 +12,14 @@
 @use './base/typography';
 @use './base/container';
 
-// ------------------------------------
 // Utils
-// ------------------------------------
 @use './utils/variables';
 @use './utils/functions';
 @use './utils/mixins';
 @use './utils/vendors';
 @use './utils/responsive';
 
-
-// ------------------------------------
 // Shared
-// ------------------------------------
-
 @use './shared/descriptions';
 @use './shared/links';
 @use './shared/pages';
@@ -33,11 +27,7 @@
 @use './shared/vertical-titles';
 @use './shared/icons';
 
-
-// ------------------------------------
 // Components
-// ------------------------------------
-
 @use './components/preloader';
 @use './components/button';
 @use './components/marquee';
@@ -45,18 +35,11 @@
 @use './components/map';
 @use './components/transition';
 
-
-// ------------------------------------
 // Layouts
-// ------------------------------------
 @use './layouts/header';
 @use './layouts/footer';
 
-
-// ------------------------------------
 // Pages
-// ------------------------------------
-
 @use './pages/home/hero';
 @use './pages/home/tagline';
 @use './pages/home/about';
