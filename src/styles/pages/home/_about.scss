@@ -4,6 +4,7 @@
 
 .about__card {
   @include page-grid;
+  overflow: hidden;
   align-items: center;
 
 

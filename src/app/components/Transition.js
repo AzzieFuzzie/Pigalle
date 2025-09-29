@@ -27,7 +27,7 @@ export default class Transition {
       scaleY: 1,
       ease: "expo.inOut",
       duration: 0.8,
-      stagger: 0.15,
+      stagger: 0.2,
     });
   }
 

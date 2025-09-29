@@ -139,8 +139,13 @@ block content
                   h3.reviews__text= review.text
                   h6.reviews__name - #{review.author_name}
 
-        .reviews__dots
+        .reviews__dots(role="tablist" aria-label="Review Navigation")
           each review, index in reviewsToShow
-            button.reviews__dot(class=(index === 0 ? '--active' : ''))
+            button.reviews__dot(    
+              class=(index === 0 ? '--active' : ''),
+              role="tab",
+              aria-label="Go to review " + (index + 1),
+              aria-current=(index === 0 ? 'true' : 'false')
+            )
 
     include ./_includes/marquee

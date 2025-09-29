@@ -153,12 +153,12 @@ export default class Page extends EventEmitter {
     //     duration: 0.6,
     //     ease: "power2.in",
     //     onComplete: () => {
-    //       if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
-    //       if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
-    //       if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
-    //       if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
-    //       if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
-    //       if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
+    // if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
+    // if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
+    // if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
+    // if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
+    // // if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
+    // if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
 
     //       this.removeEventListeners();
     //       resolve();

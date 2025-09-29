@@ -4,7 +4,7 @@ export default function initDineplanSPA() {
 
   const widget = wrapper.querySelector('.dineplan-widget');
   if (!widget) return;
-  console.log(widget);
+
 
 
 

@@ -50,6 +50,7 @@ export default class Parallax extends Component {
   }
 
   destroy() {
+    console.log('killed');
     this.tween?.scrollTrigger?.kill();
     this.tween?.kill();
     this.tween = null;

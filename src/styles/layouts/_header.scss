@@ -26,6 +26,12 @@ header.menu .navigation__icon--toggle svg path {
   stroke: #000 !important;
 }
 
+
+header.home .navigation__icon--toggle svg path,
+header.about .navigation__icon--toggle svg path {
+  stroke: #fff !important;
+}
+
 // Absolute for homepage (or any template)
 header.home,
 header.about {
@@ -80,7 +86,7 @@ header.about {
       // transform: translateX(100%);
       visibility: hidden;
       // transition: transform 0.3s ease;
-      z-index: 10;
+      z-index: z(navigation);
       color: #000;
 
       @include media("<phone") {
@@ -107,6 +113,7 @@ header.about {
           max-height: 80px;
           width: auto;
           margin-bottom: var(--margin-xsmall);
+          z-index: 999;
         }
 
         // .navigation__icon {

@@ -1,5 +1,6 @@
 .events {
   @include page-grid;
+  overflow: hidden;
   min-height: 100vh;
   min-width: 100vw;
   margin: 0;

@@ -189,6 +189,8 @@ class App {
         ScrollTrigger.refresh();
       }
 
+      const header = document.querySelector('header');
+      if (header) header.className = this.template;
 
       if (this.transition) await this.transition.onLeave();
       await this.page.show();
@@ -198,8 +200,7 @@ class App {
       this.onResize();
       this.addLinkListeners();
 
-      const header = document.querySelector('header');
-      if (header) header.className = this.template;
+
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
@@ -341,4 +342,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-console.log('%cDesign by Calvin Developed by Muaaz', 'background: #000; color: #fff;');
+console.log('%cDesigned by Calvin, Developed by Muaaz', 'background: #f47120ff; color: #fff;');
