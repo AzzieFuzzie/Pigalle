@@ -1,13 +1,14 @@
-@use '../../base';
-@use '../../utils' as *;
-@use '../../shared' as *;
+@use '../../base/flex' as *;
+@use '../../base/grid' as *;
+@use '../../utils/responsive' as *;
+@use '../../utils/functions' as *;
 
 .contact {
 
 
 
   &__wrapper {
-    @include base.page-grid;
+    @include page-grid;
 
 
     @include media("<phone") {
