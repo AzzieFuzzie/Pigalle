@@ -1,16 +1,3 @@
-@use './base/reset';
-@use './base/fonts';
-@use './base/base';
-@use './base/sections';
-@use './base/spacing';
-@use './base/typography';
-@use './base/container';
-
-// Shared
-
-@use './shared/pages';
-@use './shared/icons';
-
 // Components
 @use './components/preloader';
 @use './components/button';

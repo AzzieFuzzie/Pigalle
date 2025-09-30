@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "eleventy --config=.eleventy.js --serve --incremental",
+    "dev": " eleventy --config=.eleventy.js --serve --incremental",
     "build": "npx eleventy --config=.eleventy.js",
     "clean": "rimraf _site .11ty-vite"
   },

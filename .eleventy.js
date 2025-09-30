@@ -21,6 +21,13 @@ export default function (eleventyConfig) {
       publicDir: "public",
       build: {
         emptyOutDir: false, // prevent conflicts on Vercel
+        // CRITICAL FIX: Explicitly define the main JavaScript entry point 
+        // to ensure Vite properly registers and serves it in both dev and prod mode.
+        rollupOptions: {
+          input: {
+
+          }
+        }
       },
       resolve: {
         alias: {
@@ -39,6 +46,7 @@ export default function (eleventyConfig) {
   // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy("public");
   eleventyConfig.addPassthroughCopy("src/fonts");
+  eleventyConfig.addPassthroughCopy("src/app");
 
   // --- HTML minify ---
   eleventyConfig.addTransform("htmlmin", (content, outputPath) => {

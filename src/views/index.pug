@@ -77,20 +77,20 @@ block content
               +svg-decorative('rosemary')
 
     // Private Events Section
-    each slice in prismic.home.data.body
-      if slice.slice_type === 'private_events_card'
-        section.section.section--small--padding.events__card__wrapper(data-animation='scale')
-          - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress', crop:'top' }, [400, 600, 800, 1200])
-          .events(
-            style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
-            srcset=backgroundImage.srcset
-          )
-            .events__content
-              h2.events__heading= slice.primary.heading[0].text
-              p.events__description= slice.primary.intro_text
-              a.events__button(href='/book/')
-                span.button__label.events__button__label= slice.primary.button_label
-          +svg-decorative('orange')
+    //- each slice in prismic.home.data.body
+    //-   if slice.slice_type === 'private_events_card'
+    //-     section.section.section--small--padding.events__card__wrapper(data-animation='scale')
+    //-       - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress', crop:'top' }, [400, 600, 800, 1200])
+    //-       .events(
+    //-         style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
+    //-         srcset=backgroundImage.srcset
+    //-       )
+    //-         .events__content
+    //-           h2.events__heading= slice.primary.heading[0].text
+    //-           p.events__description= slice.primary.intro_text
+    //-           a.events__button(href='/book/')
+    //-             span.button__label.events__button__label= slice.primary.button_label
+    //-       +svg-decorative('orange')
 
     // FAQ Section
     each slice in prismic.home.data.body
