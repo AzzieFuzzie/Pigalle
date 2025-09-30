@@ -1,5 +1,5 @@
 @use '../../base/flex' as *;
-@use '../../base/grid' as *;
+@use '../../base/grid';
 @use '../../utils/responsive' as *;
 @use '../../utils/functions' as *;
 
@@ -8,7 +8,7 @@
 
 
   &__wrapper {
-    @include page-grid;
+    @include grid.page-grid;
 
 
     @include media("<phone") {
