@@ -24,9 +24,7 @@ export default function (eleventyConfig) {
         // CRITICAL FIX: Explicitly define the main JavaScript entry point 
         // to ensure Vite properly registers and serves it in both dev and prod mode.
         rollupOptions: {
-          input: {
-
-          }
+          input: {}
         }
       },
       resolve: {
@@ -46,7 +44,6 @@ export default function (eleventyConfig) {
   // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy("public");
   eleventyConfig.addPassthroughCopy("src/fonts");
-  eleventyConfig.addPassthroughCopy("src/app");
 
   // --- HTML minify ---
   eleventyConfig.addTransform("htmlmin", (content, outputPath) => {
