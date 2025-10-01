@@ -17,15 +17,22 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyVitePlugin, {
     tempFolderName: ".11ty-vite",
     viteOptions: {
-      root: "src",
       publicDir: "public",
+      clearScreen: false,
+      server: {
+        mode: "development",
+        middlewareMode: true,
+      },
+      appType: "custom",
       build: {
-        emptyOutDir: false, // prevent conflicts on Vercel
-        // CRITICAL FIX: Explicitly define the main JavaScript entry point 
-        // to ensure Vite properly registers and serves it in both dev and prod mode.
+        mode: "production",
+        sourcemap: "true",
+        manifest: true,
         rollupOptions: {
-          input: {}
-        }
+          output: {
+            assetFileNames: "assets/[name].[hash][extname]",
+          },
+        },
       },
       resolve: {
         alias: {
@@ -44,6 +51,8 @@ export default function (eleventyConfig) {
   // --- Passthrough copy ---
   eleventyConfig.addPassthroughCopy("public");
   eleventyConfig.addPassthroughCopy("src/fonts");
+  eleventyConfig.addPassthroughCopy("src/app");
+  eleventyConfig.addPassthroughCopy("src/styles");
 
   // --- HTML minify ---
   eleventyConfig.addTransform("htmlmin", (content, outputPath) => {
