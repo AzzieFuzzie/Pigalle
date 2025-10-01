@@ -24,7 +24,7 @@ export default class Menu extends Page {
     // Note: MobileCategorySwipe is assumed to be imported and functional.
     const categoryEl = document.querySelector(".menu__category");
     if (categoryEl) {
-      // new MobileCategorySwipe({ element: categoryEl });
+      new MobileCategorySwipe({ element: categoryEl });
     }
 
     const firstSection = document.querySelector(".menu__section.--active");
