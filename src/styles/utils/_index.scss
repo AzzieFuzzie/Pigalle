@@ -1,6 +1,7 @@
+// src/styles/utils/_index.scss
+
 @forward './animation';
-@forward './functions';
 @forward './mixins';
 @forward './responsive';
-@forward './variables';
+@forward './variables'; // Variables are just forwarded
 @forward './vendors';

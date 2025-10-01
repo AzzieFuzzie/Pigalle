@@ -2,6 +2,7 @@
 @use '../base/flex' as *;
 @use '../utils/responsive' as *;
 @use '../utils/functions' as *;
+@use '../shared/links';
 
 .marquee--mobile {
   margin-bottom: var(--margin-tiny);

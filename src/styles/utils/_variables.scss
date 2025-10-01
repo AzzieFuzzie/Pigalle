@@ -45,9 +45,4 @@ $breakpoints: (
   'desktop': 1440px,
 );
 
-// Forward functions, configuring them with our definitive, public variables
-@forward './functions' with ($z-indexes: $z-indexes,
-  $colors: $colors,
-  $fonts: $fonts,
-  $constants: $constants,
-  $easings: $easings);
+// The original @forward was removed, which is correct.

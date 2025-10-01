@@ -1,6 +1,7 @@
 @use 'type-scale' as *;
 @use '../utils/responsive' as responsive;
 @use '../utils/functions' as *;
+@use '../shared/links';
 
 p,
 .p {

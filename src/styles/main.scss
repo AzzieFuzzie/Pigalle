@@ -1,15 +1,32 @@
-@use './utils/variables';
-@use './utils/functions';
-@use './utils/mixins';
-@use './utils/vendors';
-@use './utils/responsive';
+// src/styles/main.scss
 
-@use './shared/descriptions';
-@use './shared/links';
-@use './shared/pages';
-@use './shared/titles';
-@use './shared/vertical-titles';
-@use './shared/icons';
+// 1. UTILITIES (Load variables and configure functions)
+
+// Load utilities/variables (They are public via `./utils` namespace)
+// We need access to their values here to configure functions.
+@use './utils/variables';
+
+// Load and Configure functions. Use the public variables from the 'variables' module for configuration.
+// The `as *` allows you to call functions without a namespace (e.g., z(5) instead of functions.z(5)).
+@use './utils/functions' as * with ($z-indexes: variables.$z-indexes,
+  $colors: variables.$colors,
+  $fonts: variables.$fonts,
+  $constants: variables.$constants,
+  $easings: variables.$easings);
+
+// The remaining utilities that don't need configuration can be loaded here,
+// or left out, as they are likely auto-loaded by being a part of the `utils` folder.
+// Since you used `@use './utils';` before, let's keep the rest simple:
+
+// Load other utility modules. Since we already loaded variables and functions above,
+// we only need to load the rest of the utility files if they contain mixins or
+// other non-configurable content that needs to be globally available.
+
+// 2. Base (Global styles: reset, typography, grid, etc.)
+@use './base';
+
+// 3. Shared/Elements
+@use './shared';
 
 // Components
 @use './components/preloader';
