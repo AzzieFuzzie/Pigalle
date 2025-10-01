@@ -3,17 +3,17 @@ import EventEmitter from 'events';
 import GSAP from 'gsap';
 import Prefix from 'prefix';
 
-import PinLayer from "../Animations/PinLayer";
-import HeightImage from "../Animations/HeightImage.js";
-import TextReveal from "../Animations/TextReveal";
-import FAQAccordion from "../Animations/FAQAccordion.js";
-import Carousel from "../Animations/Carousel.js";
-import Scale from "../Animations/Scale";
-import Navigation from "../Animations/Navigation.js";
-import Slider from "../Animations/Slider";
-import Marquee from "../Animations/Marquee";
-import Parallax from "../Animations/Parallax";
-import Chat from "../Animations/Chat";
+import PinLayer from "../animations/PinLayer";
+import HeightImage from "../animations/HeightImage.js";
+import TextReveal from "../animations/TextReveal";
+import FAQAccordion from "../animations/FAQAccordion.js";
+import Carousel from "../animations/Carousel.js";
+import Scale from "../animations/Scale";
+import Navigation from "../animations/Navigation.js";
+import Slider from "../animations/Slider";
+import Marquee from "../animations/Marquee";
+import Parallax from "../animations/Parallax";
+import Chat from "../animations/Chat";
 
 import AsyncLoad from '@classes/AsyncLoad';
 // import { Detection } from '@classes/Detection';
