@@ -34,7 +34,7 @@
     right: 0;
     z-index: 1; // above video
     color: white;
-    max-width: clamp(50ch, 60%, 70ch);
+    max-width: clamp(90ch, 70%, 100ch);
     text-align: right;
     margin: 0 var(--margin-xtiny) var(--margin-xsmall) 0;
   }

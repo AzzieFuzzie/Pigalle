@@ -10,6 +10,11 @@
 
   background-color: colors(grey);
 
+  &__card__wrapper {
+    background-color: colors(grey);
+
+  }
+
   &__left {
     grid-column: 1 / span 6;
     justify-self: center;

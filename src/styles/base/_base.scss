@@ -1,5 +1,5 @@
 @use './type-scale';
-// @use '../utils/functions' as *;
+@use '../utils/functions' as *;
 
 *,
 *:after,
@@ -20,7 +20,7 @@ html {
   // position: fixed;
   text-rendering: optimizeSpeed;
   -webkit-overflow-scrolling: touch; // enables bounce on iOS
-
+  font-family: font(lato);
 }
 
 body {
