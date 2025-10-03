@@ -11,7 +11,11 @@
   margin: 0;
   padding: 0 var(--padding-small);
   place-items: center;
-  // filter: brightness(0.8) contrast(1.1) saturate(1.2) blur(0.3px);
+  filter:
+    brightness(0.6) // darkens the video by 50%
+    contrast(1.1)blur(0.5) // slightly boosts contrast
+    saturate(1.1); // optional: makes colors richer
+
 
   @include media('<phone') {
     margin: 0;
@@ -41,7 +45,8 @@
       justify-items: center;
       text-align: center;
       max-width: 50ch;
-      margin-top: var(--margin-xlarge);
+      margin-top: var(--margin-large);
+      margin-bottom: 0;
     }
   }
 

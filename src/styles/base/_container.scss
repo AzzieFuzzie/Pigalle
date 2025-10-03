@@ -5,13 +5,13 @@
   margin-right: var(--margin-xsmall);
 
   @include media('<tablet') {
-    margin-left: var(--margin-xtiny);
-    margin-right: var(--margin-xtiny);
+    margin-left: var(--margin-small);
+    margin-right: var(--margin-small);
   }
 
   @include media('<phone') {
-    margin-left: var(--margin-xxtiny);
-    margin-right: var(--margin-xxtiny);
+    margin-left: var(--margin-tiny);
+    margin-right: var(--margin-tiny);
   }
 }
 
@@ -20,12 +20,12 @@
   padding-right: var(--padding-xsmall);
 
   @include media('<tablet') {
-    margin-left: var(--margin-xtiny);
-    margin-right: var(--margin-xtiny);
+    padding-left: var(--padding-small);
+    padding-right: var(--padding-small);
   }
 
   @include media('<phone') {
-    margin-left: var(--margin-xxtiny);
-    margin-right: var(--margin-xxtiny);
+    padding-left: var(--padding-tiny);
+    padding-right: var(--padding-tiny);
   }
 }

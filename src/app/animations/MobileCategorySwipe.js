@@ -36,8 +36,7 @@ export default class MobileCategorySwipe {
       edgeResistance: 0.7,    // Higher = feels “tighter” at edges
       inertia: true,
       bounds: { minX: Math.min(containerWidth - totalWidth, 0), maxX: 0 },
-      dragResistance: 0,    // Lower = less resistance while dragging
-      throwProps: true,        // Smooth momentum
+      dragResistance: .3,    // Lower = less resistance while dragging
     });
 
   }
@@ -53,8 +52,8 @@ export default class MobileCategorySwipe {
         if (targetX > 0) targetX = 0;
         if (targetX < minX) targetX = minX;
 
-        gsap.to(this.wrapper, { x: targetX, duration: 0.3, ease: "power2.out" });
-      });
+        gsap.to(this.wrapper, { x: targetX, duration: 0.2, ease: "power3.out" });
+      })
     });
   }
 

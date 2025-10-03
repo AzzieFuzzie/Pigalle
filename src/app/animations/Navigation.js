@@ -120,7 +120,7 @@ export default class Navigation {
     GSAP.set(this.mobileLinks, { visibility: "visible" });
 
     // Keep the exact same animation sequence + timings as original
-    tl.to(this.mobileLinks, { xPercent: 0, opacity: 1, backgroundColor: "#EFEDEA" })
+    tl.to(this.mobileLinks, { xPercent: 0, backgroundColor: "#EFEDEA" })
       .fromTo(
         this.mobileLinks.querySelectorAll(".mobile-links__wrapper a"),
         { yPercent: 100 },

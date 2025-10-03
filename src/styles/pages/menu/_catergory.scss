@@ -5,7 +5,7 @@
 
 .menu__category {
   @include flex(row, center, center, wrap);
-
+  padding-top: var(--margin-small);
   color: colors(accent-grey);
 
   @include media('<tablet') {
@@ -15,7 +15,7 @@
   &__wrapper {
     @include flex(row, center, center, wrap);
 
-    max-width: 120ch;
+    max-width: 150ch;
     text-align: center;
 
     @include media('<tablet') {

@@ -65,7 +65,7 @@ export default class Page extends EventEmitter {
     });
 
     // Set initial state to invisible. The 'show' method will handle fading it in.
-    GSAP.set(this.element, { autoAlpha: 0 });
+    GSAP.set('#content', { autoAlpha: 0 });
   }
 
   createAnimations() {
@@ -144,7 +144,8 @@ export default class Page extends EventEmitter {
       // Create animations AFTER the page element is ready to be shown
       this.createAnimations();
 
-      GSAP.to(this.element, {
+      GSAP.to('#content', {
+
         autoAlpha: 1,
         duration: 0.6,
         ease: "power2.out",
@@ -162,7 +163,7 @@ export default class Page extends EventEmitter {
       // Destroy animations BEFORE starting the hide transition
       this.destroyAnimations();
 
-      GSAP.to(this.element, {
+      GSAP.to('#content', {
         autoAlpha: 0,
         duration: 0.6,
         ease: "power2.in",

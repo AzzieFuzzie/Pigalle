@@ -130,15 +130,15 @@ export default class PinSwapper {
     // Simplified image visibility toggle
     images.forEach((img, i) => {
       if (i !== index) {
-        GSAP.set(img, { opacity: 0 });
+        GSAP.set(img, { autoAlpha: 0 });
       }
     });
 
     // Animate the target image
     GSAP.to(images[index], {
-      opacity: 1,
-      duration: 0.25,
-      ease: "expo.out"
+      autoAlpha: 1,
+      duration: 0.3,
+      ease: "linear"
     });
   }
 
