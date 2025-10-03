@@ -15,13 +15,8 @@ import Marquee from "../animations/Marquee";
 import Parallax from "../animations/Parallax";
 import Chat from "../animations/Chat";
 
-import AsyncLoad from '@classes/AsyncLoad';
-// import { Detection } from '@classes/Detection';
-
 import each from 'lodash/each';
 import map from 'lodash/map';
-
-import { mapEach } from '@utils/dom';
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -68,10 +63,9 @@ export default class Page extends EventEmitter {
         this.elements[key] = Array.from(nodeList);
       }
     });
-    document.fonts.ready.then(() => {
-      this.createAnimations();
-    });
 
+    // Set initial state to invisible. The 'show' method will handle fading it in.
+    GSAP.set(this.element, { autoAlpha: 0 });
   }
 
   createAnimations() {
@@ -127,51 +121,62 @@ export default class Page extends EventEmitter {
     });
   }
 
-  show() {
-    // return new Promise((resolve) => {
-    //   // Start at opacity 0 before animating
-    //   GSAP.set(this.element, { autoAlpha: 0 });
+  destroyAnimations() {
+    // Kill all animations to prevent memory leaks and conflicts
+    if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
+    if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
+    if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
+    if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
+    if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
+    if (this.animationsNavigation) this.animationsNavigation.forEach(anim => anim.destroy?.());
+    if (this.animationsSlider) this.animationsSlider.forEach(anim => anim.destroy?.());
+    if (this.animationsTextReveal) this.animationsTextReveal.forEach(anim => anim.destroy?.());
+    if (this.animationsHeightImage) this.animationsHeightImage.forEach(anim => anim.destroy?.());
+    if (this.animationsPinLayer) this.animationsPinLayer.forEach(anim => anim.destroy?.());
+    if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
 
-    //   // Animate fade in
-    //   GSAP.to(this.element, {
-    //     autoAlpha: 1,
-    //     duration: 0.6,
-    //     ease: "power2.out",
-    //     onComplete: () => {
-    //       this.addEventListeners();
-    //       resolve();
-    //     }
-    //   });
-    // });
+    // A failsafe to kill any remaining ScrollTriggers attached to this page
+    ScrollTrigger.getAll().forEach(t => t.kill());
+  }
+
+  show() {
+    return new Promise((resolve) => {
+      // Create animations AFTER the page element is ready to be shown
+      this.createAnimations();
+
+      GSAP.to(this.element, {
+        autoAlpha: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          this.addEventListeners();
+          resolve();
+        }
+      });
+    });
   }
 
   hide() {
-    // return new Promise((resolve) => {
-    //   // Animate fade out
-    //   GSAP.to(this.element, {
-    //     autoAlpha: 0,
-    //     duration: 0.6,
-    //     ease: "power2.in",
-    //     onComplete: () => {
-    // if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
-    // if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
-    // if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
-    // if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
-    // // if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
-    // if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
+    return new Promise((resolve) => {
+      this.removeEventListeners();
+      // Destroy animations BEFORE starting the hide transition
+      this.destroyAnimations();
 
-    //       this.removeEventListeners();
-    //       resolve();
-    //     }
-    //   });
-    // });
-
-    ScrollTrigger.getAll().forEach(t => t.kill());
-    ScrollTrigger.refresh();
-
-    this.removeEventListeners();
+      GSAP.to(this.element, {
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: "power2.in",
+        onComplete: resolve
+      });
+    });
   }
 
+  onResize() {
+    // Refresh ScrollTrigger on resize to recalculate positions
+    if (this.elements && Object.keys(this.elements).length > 0) {
+      ScrollTrigger.refresh();
+    }
+  }
 
   addEventListeners() {
     window.addEventListener('resize', this.onResize);

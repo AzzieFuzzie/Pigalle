@@ -1,11 +1,2 @@
-// This file integrates the 'include-media' Node module for responsive design.
-// It loads the local $breakpoints and configures the external module, 
-// allowing other files (like _sections.scss) to access the 'media' mixin
-// via the 'responsive' namespace.
-
-// 1. Import the variables file to access the $breakpoints map
 @use 'variables';
-
-// 2. Forward the include-media library using the standard rule.
-// We are no longer using the 'with' clause, so no custom breakpoints are passed.
-@forward 'include-media/dist/include-media';
+@forward 'include-media/dist/include-media' with ($breakpoints: variables.$breakpoints);

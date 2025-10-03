@@ -19,13 +19,11 @@ export default class Preloader extends Component {
 
     this.createLoader();
 
-
     GSAP.from(this.element, {
       y: '-100%',
       duration: 1,
       ease: 'power3.out'
     });
-
   }
 
   createLoader() {
@@ -53,7 +51,6 @@ export default class Preloader extends Component {
     // Load videos
     each(this.elements.videos, video => {
       video.preload = 'auto';
-
       const onLoaded = () => this.onAssetLoaded(video);
 
       if (video.readyState >= 3) { // HAVE_FUTURE_DATA
@@ -64,7 +61,7 @@ export default class Preloader extends Component {
       }
     });
 
-    // Fallback: force complete after 3 seconds
+    // Fallback timer
     setTimeout(() => {
       if (this.loaded < this.total) {
         each([...this.elements.images, ...this.elements.videos], asset => {
@@ -85,42 +82,18 @@ export default class Preloader extends Component {
   onLoaded() {
     return new Promise(resolve => {
       this.emit('completed');
-      // console.log('loaded');
-
-      const video = document.querySelector('.hero__video');
 
       this.animateOut = GSAP.timeline({ delay: 0.5 });
+      this.animateOut.to(this.elements.number, { duration: 1.5, ease: 'expo.out' }, '-=1.4');
+      this.animateOut.to(this.element, { y: '-100%', duration: 1, ease: 'power3.out' });
 
-      this.animateOut.to(
-        this.elements.number,
-        { duration: 1.5, ease: 'expo.out' },
-        '-=1.4'
-      );
-
-      this.animateOut.to(this.element, {
-        y: '-100%',
-        duration: 1,
-        ease: 'power3.out',
-      });
-
+      // The problematic video logic has been REMOVED from here.
       this.animateOut.call(() => {
-        // Force play AFTER overlay has moved away
-        if (video) {
-
-          video.setAttribute('muted', 'true');
-          video.setAttribute('playsinline', 'true');
-
-          video.play().catch(err => {
-            console.log('Mobile requires user interaction to play video', err);
-          });
-        }
-
         this.destroy();
         resolve();
       });
     });
   }
-
 
   destroy() {
     if (this.element?.parentNode) {
