@@ -13,6 +13,7 @@
   position: absolute;
   transition: transform 0.7s ease-in-out;
   width: 100%;
+  pointer-events: none;
 }
 
 @mixin link-line-visible {
@@ -28,9 +29,22 @@
 @mixin link {
   @include link-wrapper;
 
+  // This pseudo-element creates the line below the link
   &:after {
     @include link-line;
     @include link-line-visible;
+  }
+
+  // This new pseudo-element covers the gap to make it non-clickable
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -14px;
+    /* Positioned just above the line */
+    height: 14px;
+    /* The size of the gap */
   }
 
   &:hover {
@@ -43,9 +57,22 @@
 @mixin link-hidden {
   @include link-wrapper;
 
+  // This pseudo-element creates the line below the link
   &:after {
     @include link-line;
     @include link-line-hidden;
+  }
+
+  // This new pseudo-element covers the gap to make it non-clickable
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: -14px;
+    /* Positioned just above the line */
+    height: 14px;
+    /* The size of the gap */
   }
 
   &:hover {
