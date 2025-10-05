@@ -11,10 +11,10 @@
   margin: 0;
   padding: 0 var(--padding-small);
   place-items: center;
-  filter:
-    brightness(0.6) // darkens the video by 50%
-    contrast(1.1)blur(0.5) // slightly boosts contrast
-    saturate(1.1); // optional: makes colors richer
+  // filter:
+  //   brightness(0.6) // darkens the video by 50%
+  //   contrast(1.1)blur(0.5) // slightly boosts contrast
+  //   saturate(1.1); // optional: makes colors richer
 
 
   @include media('<phone') {

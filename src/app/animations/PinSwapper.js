@@ -86,7 +86,7 @@ export default class PinSwapper {
     this.triggers.push(pinTrigger);
 
     // Ensure first image is visible
-    GSAP.set(images[0], { opacity: 1 });
+    GSAP.set(images[0], { autoAlpha: 1 });
 
     // Then set up triggers
     items.forEach((item, i) => {

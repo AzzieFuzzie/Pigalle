@@ -24,8 +24,8 @@ export default class PinLayer {
     });
   }
 
-  // destroy() {
-  //   this.scrollTrigger?.kill();
-  //   this.scrollTrigger = null;
-  // }
+  destroy() {
+    this.scrollTrigger?.kill();
+    this.scrollTrigger = null;
+  }
 }
