@@ -161,7 +161,10 @@ export default class Page extends EventEmitter {
     return new Promise((resolve) => {
       this.removeEventListeners();
       // Destroy animations BEFORE starting the hide transition
-      this.destroyAnimations();
+
+      GSAP.delayedCall(1, () => {
+        this.destroyAnimations();
+      });
 
       GSAP.to('#content', {
         autoAlpha: 0,
