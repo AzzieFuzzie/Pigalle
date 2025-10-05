@@ -9,7 +9,7 @@
   display: flex;
   z-index: 999;
   pointer-events: none;
-  /* so you can still click through */
+  will-change: transform;
 }
 
 .transition__col {

@@ -6,6 +6,7 @@
   z-index: 3;
   width: clamp(10vw, 15vw, 20vw); // changed from px to vw
   height: auto;
+  will-change: transform;
 
   // Tablet (make larger than desktop, more range)
   @include media('<tablet') {

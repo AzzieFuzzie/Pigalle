@@ -25,7 +25,7 @@ export default class Transition {
     this._disableScroll();
     return GSAP.to(this.cols, {
       scaleY: 1,
-      ease: "expo.inOut",
+      ease: "power2.inOut",
       duration: 0.8,
       stagger: 0.2,
     });
@@ -35,7 +35,7 @@ export default class Transition {
     this._disableScroll();
     return GSAP.to(this.cols, {
       scaleY: 0,
-      ease: "expo.inOut",
+      ease: "power2.inOut",
       duration: 0.8,
       stagger: 0.15,
       onComplete: () => this._enableScroll(),

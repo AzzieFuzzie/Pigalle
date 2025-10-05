@@ -20,7 +20,6 @@ export default class Menu extends Page {
   create() {
     super.create();
 
-    // Initialize PinSwapper, but don't set it up yet
     this.pinSwapper = new PinSwapper();
 
     const categoryEl = document.querySelector(".menu__category");
@@ -28,7 +27,6 @@ export default class Menu extends Page {
       new MobileCategorySwipe({ element: categoryEl });
     }
 
-    // Initial setup for the first active section
     const firstSection = document.querySelector(".menu__section.--active");
     if (firstSection) {
       this.pinSwapper.setupSection(firstSection);
@@ -43,22 +41,40 @@ export default class Menu extends Page {
   }
 
   showCategory(category) {
-    // --- START: CRITICAL FIX ---
-
-    // 1. Destroy the existing PinSwapper instance to remove old ScrollTriggers
     if (this.pinSwapper) {
       this.pinSwapper.destroy();
     }
 
-    // --- END: CRITICAL FIX ---
+    // --- START: MODIFICATION FOR FADE-IN ---
+
+    const activeSection = Array.from(this.elements.section).find(s => s.dataset.category === category);
 
     this.elements.section.forEach(section => {
-      const isActive = section.dataset.category === category;
-      section.classList.toggle('--active', isActive);
+      section.classList.remove('--active');
 
-      // Use autoAlpha for better performance as it also handles pointer-events
-      GSAP.set(section, { autoAlpha: isActive ? 1 : 0 });
+      // Animate out all non-active sections
+      if (section !== activeSection) {
+        GSAP.to(section, {
+          autoAlpha: 0,
+          duration: 0.4, // Fade-out duration
+          ease: 'power2.out'
+        });
+      }
     });
+
+    if (activeSection) {
+      activeSection.classList.add('--active');
+      // Animate in the active section
+      GSAP.to(activeSection, {
+        autoAlpha: 1,
+        duration: 0.4, // Fade-in duration
+        delay: 0.1,    // A slight delay to prevent flicker
+        ease: 'power2.in'
+      });
+    }
+
+    // --- END: MODIFICATION FOR FADE-IN ---
+
 
     // Update buttons
     this.elements.button.forEach(btn => {
@@ -71,20 +87,14 @@ export default class Menu extends Page {
       });
     });
 
-    // --- START: CRITICAL FIX ---
-
-    // 2. Find the newly activated section
-    const activeSection = Array.from(this.elements.section).find(s => s.classList.contains('--active'));
-
-    // 3. Re-initialize the PinSwapper on the new section
+    // Re-initialize the PinSwapper on the new section
     if (activeSection) {
       this.pinSwapper.setupSection(activeSection);
     }
 
-    // 4. Refresh ScrollTrigger AFTER the DOM has been updated.
-    // This ensures GSAP recalculates positions correctly.
-    ScrollTrigger.refresh();
-
-    // --- END: CRITICAL FIX ---
+    // Refresh ScrollTrigger after the DOM has been updated.
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
   }
 }

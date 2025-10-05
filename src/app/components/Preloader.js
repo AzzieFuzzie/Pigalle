@@ -22,7 +22,7 @@ export default class Preloader extends Component {
     GSAP.from(this.element, {
       y: '-100%',
       duration: 1,
-      ease: 'power3.out'
+      ease: 'power3.inOut'
     });
   }
 

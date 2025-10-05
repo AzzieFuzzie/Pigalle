@@ -52,7 +52,7 @@ export default class MobileCategorySwipe {
         if (targetX > 0) targetX = 0;
         if (targetX < minX) targetX = minX;
 
-        gsap.to(this.wrapper, { x: targetX, duration: 0.2, ease: "power3.out" });
+        gsap.to(this.wrapper, { x: targetX, duration: 0.2, ease: "power3.inOut" });
       })
     });
   }
