@@ -20,7 +20,7 @@ export default class PinLayer {
       pin: true,
       pinSpacing: false,
 
-      markers: true,
+      markers: false,
     });
   }
 

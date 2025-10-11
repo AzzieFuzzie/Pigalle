@@ -39,10 +39,10 @@ export default class TextReveal {
       stagger: 0.08,
       scrollTrigger: {
         trigger: this.el,
-        start: "top 90%",
+        start: "top 95%",
         end: "top 40%",
         scrub: 0.2,
-        markers: true
+        markers: false
       }
     });
   }

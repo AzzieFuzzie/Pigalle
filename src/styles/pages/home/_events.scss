@@ -11,6 +11,7 @@
   margin: 0;
   padding: 0 var(--padding-small);
   place-items: center;
+  will-change: transform;
   // filter:
   //   brightness(0.6) // darkens the video by 50%
   //   contrast(1.1)blur(0.5) // slightly boosts contrast
@@ -23,8 +24,9 @@
     min-width: 100vw;
   }
 
-  &__cards__wrapper {
-    will-change: transform;
+  &__card__wrapper {
+
+    position: relative;
   }
 
 
