@@ -200,19 +200,26 @@ class App {
     this.frame = requestAnimationFrame(this.update);
   }
 
+  /**
+   * Event Listeners
+   */
   addEventListeners() {
-    window.addEventListener('popstate', () => this.onChange({ url: window.location.pathname, push: false }));
-    window.addEventListener('resize', this.onResize);
-    window.addEventListener('mousedown', this.onTouchDown);
-    window.addEventListener('mousemove', this.onTouchMove);
-    window.addEventListener('mouseup', this.onTouchUp);
+    window.addEventListener('popstate', () => this.onChange({ url: window.location.pathname, push: false }), { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
+
+    window.addEventListener('mousedown', this.onTouchDown, { passive: true });
+    window.addEventListener('mousemove', this.onTouchMove, { passive: true });
+    window.addEventListener('mouseup', this.onTouchUp, { passive: true });
+
     window.addEventListener('touchstart', this.onTouchDown, { passive: true });
     window.addEventListener('touchmove', this.onTouchMove, { passive: true });
     window.addEventListener('touchend', this.onTouchUp, { passive: true });
+
+    window.addEventListener('wheel', this.onWheel, { passive: true });
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('focusin', this.onFocusIn);
+    window.oncontextmenu = this.onContextMenu;
   }
-
   addLinkListeners() {
     const links = document.querySelectorAll('a');
     each(links, link => {

@@ -17,19 +17,19 @@ each slice in prismic.home.data.body
 
 
 
-section.marquee--mobile
-  a.marquee__track--mobile(href="/book/")
-    .marquee__content--mobile(data-animation="marquee" data-direction="right")
-      each i in [0, 1]    
-        div.marquee__wrapper
-          - const marqueeText = 'Book Now'
-          - const repeatCount = 10
+//- section.marquee--mobile
+//-   a.marquee__track--mobile(href="/book/")
+//-     .marquee__content--mobile(data-animation="marquee" data-direction="right")
+//-       each i in [0, 1]    
+//-         div.marquee__wrapper
+//-           - const marqueeText = 'Book Now'
+//-           - const repeatCount = 10
 
-          - for (let i = 0; i < repeatCount; i++)
-            span.marquee__item
-              | #{marqueeText}
-              span.marquee__dot
-                | •
+//-           - for (let i = 0; i < repeatCount; i++)
+//-             span.marquee__item
+//-               | #{marqueeText}
+//-               span.marquee__dot
+//-                 | •
 
 
 

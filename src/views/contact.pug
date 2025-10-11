@@ -6,7 +6,7 @@ block variables
 
 block content
   .contact
-    section.section--medium--padding
+    section
       div.contact__wrapper
         each slice in prismic.footer.data.body
           if slice.slice_type === 'contact'
@@ -93,7 +93,7 @@ block content
                 h6.contact__address__label= prismic.contact.data.address_label[0].text
                 address
                   a(href="https://maps.google.com/?q=Pigalle+Restaurant-Sandton" target="_blank")
-                    p.h5.contact__address= slice.primary.address 
+                    p.h5.contact__address!= slice.primary.address.replace(/\n/g, '<br>')
       
               .div.map__wrapper
                 iframe(

@@ -74,14 +74,12 @@ export default class PinSwapper {
     // Pin image wrapper
     const pinTrigger = ScrollTrigger.create({
       trigger: section,
-      start: "top top",
-      // FIX: Using "bottom top" from the working canvas code. 
-      // This is safer than relying on section.scrollHeight, which can be miscalculated.
-      end: "bottom top",
+      start: `top-=30 top`,
+      end: `bottom top`,
       pin: imageWrapper,
       pinSpacing: false,
-      anticipatePin: 0,
-      markers: false, // Keep markers for debugging
+
+      markers: true, // Keep markers for debugging
     });
     this.triggers.push(pinTrigger);
 

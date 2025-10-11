@@ -71,6 +71,10 @@
   &__slider__counter {
     margin-left: auto;
     z-index: z(text);
+
+    span {
+      font-family: font('lato');
+    }
   }
 
   &__slider__controls {

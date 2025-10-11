@@ -8,23 +8,20 @@ export default class Scale extends Animation {
   }
 
   animateIn() {
-    // Kill previous tween if it exists
-    if (this.pulseTween) this.pulseTween.kill();
+    console.log('scale');
+
 
     this.pulseTween = GSAP.fromTo(
       this.element,
-      { scale: 0.8, y: 10, transformOrigin: 'center center' },
-      { scale: 1, y: 0, duration: 0.4, ease: 'linear.out', delay: 0.3 }
+      { scale: 0.8, transformOrigin: 'center center' },
+      { scale: 1, duration: 0.6, ease: 'linear', delay: 0.3 }
     );
   }
 
   animateOut() {
-    if (this.pulseTween) {
-      this.pulseTween.kill();
-      this.pulseTween = null;
-    }
 
-    GSAP.set(this.element, { scale: 1, y: 0 });
+
+    GSAP.set(this.element, { scale: 1, });
   }
 
   destroy() {
@@ -33,6 +30,6 @@ export default class Scale extends Animation {
     this.pulseTween = null;
 
     // Reset element to default state
-    GSAP.set(this.element, { scale: 1, y: 0 });
+    GSAP.set(this.element, { scale: 1, });
   }
 }

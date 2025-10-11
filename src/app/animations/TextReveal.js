@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 export default class TextReveal {
   constructor(element) {
     this.el = element;
-    this.colorInitial = "#6A6A6A"; // Outline color
+    this.colorInitial = "rgba(0, 0, 0, 0.10)"; // Outline color
     this.colorFinal = "#000";       // Final color
 
     this.init();
@@ -40,8 +40,9 @@ export default class TextReveal {
       scrollTrigger: {
         trigger: this.el,
         start: "top 90%",
-        end: "top 10%",
+        end: "top 40%",
         scrub: 0.2,
+        markers: true
       }
     });
   }

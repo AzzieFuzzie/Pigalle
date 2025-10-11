@@ -8,60 +8,88 @@ export default class Carousel {
     this.nextBTN = document.querySelector(buttons.next);
     this.prevBTN = document.querySelector(buttons.prev);
     this.slides = document.querySelectorAll(slider);
-    this.counterEl = document.querySelector(counter); // NEW
+    console.log(this.slides);
+    this.counterEl = document.querySelector(counter);
+
+    if (!this.nextBTN || !this.slides.length) return;
 
     this.currentIndex = 0;
+    this.isAnimating = false;
     this.wrapIndex = GSAP.utils.wrap(0, this.slides.length);
 
     this._initSlides();
-    this._updateCounter(); // initial counter
+    this._updateCounter();
     this._events();
   }
 
   _initSlides() {
     this.slides.forEach((slide, i) => {
+      // Hide all slides except the first one initially.
       GSAP.set(slide, {
         autoAlpha: i === 0 ? 1 : 0,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        ease: 'linear',
       });
     });
   }
 
-  _animateTo(index) {
+  /**
+   * The core animation logic with directional reveal.
+   * @param {number} index - The index of the slide to animate to.
+   * @param {number} direction - 1 for "next", -1 for "previous".
+   */
+  _animateTo(index, direction) {
+    if (this.isAnimating) return;
+    this.isAnimating = true;
+
     const prevSlide = this.slides[this.currentIndex];
     const nextSlide = this.slides[index];
 
-    GSAP.killTweensOf([prevSlide, nextSlide]);
+    // Get the inner image elements for the parallax effect.
+    const prevImage = prevSlide.querySelector('.food__image');
+    const nextImage = nextSlide.querySelector('.food__image');
 
-    GSAP.set(nextSlide, { autoAlpha: 0, zIndex: 2 });
-    GSAP.set(prevSlide, { zIndex: 1 });
-
+    // Create a GSAP timeline for perfect synchronization.
     const tl = GSAP.timeline({
       onComplete: () => {
-        GSAP.set(prevSlide, { zIndex: 0 });
-        GSAP.set(nextSlide, { zIndex: 1 });
-      }
+        // After the animation, hide the old slide and reset its properties.
+        GSAP.set(prevSlide, { autoAlpha: 0 });
+        this.isAnimating = false;
+      },
+      // Set default animation properties for all tweens in this timeline.
+      defaults: {
+        duration: 0.9, // A slightly longer, more elegant duration.
+        ease: 'power3.inOut',
+      },
     });
 
-    tl.to(prevSlide, { autoAlpha: 0, duration: 0.8, ease: 'power2.out' }, 0)
-      .to(nextSlide, { autoAlpha: 1, duration: 0.8, ease: 'power2.out' }, 0);
+    // 1. Prepare the slides for animation.
+    GSAP.set(prevSlide, { zIndex: 1 });
+    GSAP.set(nextSlide, { autoAlpha: 1, zIndex: 2 });
+
+    // 2. Animate OUT the current slide's container.
+    tl.to(prevSlide, { xPercent: -100 * direction }, 0);
+
+    // 3. Animate IN the next slide with a parallax reveal effect.
+    tl.from(nextSlide, { xPercent: 100 * direction }, 0)
+      .from(nextImage, {
+        // Move the image in the opposite direction of the container.
+        xPercent: -100 * direction,
+        // Add a subtle scale for more depth.
+        scale: 1.1,
+      }, 0);
 
     this.currentIndex = index;
-    this._updateCounter(); // update counter after slide change
+    this._updateCounter();
   }
 
+  // Pass a direction value to the core animation function.
   _animateNext() {
     const nextIndex = this.wrapIndex(this.currentIndex + 1);
-    this._animateTo(nextIndex);
+    this._animateTo(nextIndex, 1); // 1 indicates "forward".
   }
 
   _animatePrev() {
     const prevIndex = this.wrapIndex(this.currentIndex - 1);
-    this._animateTo(prevIndex);
+    this._animateTo(prevIndex, -1); // -1 indicates "backward".
   }
 
   _updateCounter() {
@@ -77,6 +105,9 @@ export default class Carousel {
     this.nextBTN.removeEventListener('click', this._animateNext);
     this.prevBTN.removeEventListener('click', this._animatePrev);
     GSAP.killTweensOf(this.slides);
+
+    // Kill tweens of inner images as well.
+    this.slides.forEach(slide => GSAP.killTweensOf(slide.querySelector('.food__image')));
 
     this.slides = null;
     this.nextBTN = null;

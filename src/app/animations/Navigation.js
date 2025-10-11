@@ -188,11 +188,11 @@ export default class Navigation {
       // 1. Instant Transparent Background and Text Color Reset
       // Use quickTo functions with duration 0 to achieve an immediate GSAP.set() effect.
       this.quickToY(0, 0); // Ensure header is shown instantly if it was hidden
-      this.quickToBgColor("transparent", 0);
+      // this.quickToBgColor("transparent", 0);
       this.quickToColor(colorTarget, 0);
       this.quickToDesktopColor(colorTarget, 0);
 
-      this.element.classList.remove('scrolled-down');
+      this.element.classList.remove('scroll-up');
 
       // 2. Instant Icon Stroke Color Reset
       this._updateStrokeColor();
@@ -204,6 +204,81 @@ export default class Navigation {
       this._updateStrokeColor();
     }
   }
+
+
+
+  _handleScroll() {
+    const currentScroll = window.scrollY;
+    // Define the threshold here. 20px is a good starting point.
+    const scrollThreshold = 20;
+
+    // Do not run scroll effects if the menu is open
+    if (this.isOpen) return;
+
+    // --- Directional Logic ---
+
+    // 1. Scrolling DOWN: Hide the navigation
+    if (currentScroll > this.lastScrollY && currentScroll > 50) { // Keep original 50px threshold for hiding
+      this.quickToY(-100);
+      this.lastHiddenScroll = currentScroll;
+    }
+    // 2. Scrolling UP: Show the navigation with the background
+    else if (currentScroll < this.lastScrollY) {
+      this.quickToY(0); // Show the nav
+
+      // Only add the background if we are below the top threshold
+      if (currentScroll > scrollThreshold) {
+        this.quickToBgColor("#fff");
+        this.quickToColor("#000");
+        this.quickToDesktopColor("#000");
+        this.element.classList.add('scroll-up');
+      }
+    }
+
+    // --- Reset Logic (The Improved Part) ---
+    // If we are within the threshold at the top of the page, reset to transparent.
+    if (currentScroll <= scrollThreshold) {
+      // Check if the nav has a background before animating it away
+      if (this.element.classList.contains('scroll-up')) {
+        let colorTarget = this.initialTextColor;
+
+        this.quickToBgColor("transparent");
+        this.quickToColor(colorTarget);
+        this.quickToDesktopColor(colorTarget);
+
+        this.element.classList.remove('scroll-up');
+      }
+    }
+
+    // Finally, update the scroll position and icon color for the next event
+    this.lastScrollY = currentScroll;
+    this._updateStrokeColor();
+  }
+  _updateStrokeColor(isOpening = false) {
+    if (!this.togglePath) return;
+
+    if (this.isOpen || isOpening) {
+      // Mobile menu is open: BG is light, so stroke is black.
+      GSAP.set(this.togglePath, { stroke: "#000" });
+      return;
+    }
+
+    // Rely on the class added by _handleScroll to know if the background is currently white.
+    const isScrolledDown = this.element.classList.contains('scroll-up');
+
+    let strokeColor;
+
+    if (isScrolledDown) {
+      // Scrolled down (white BG) -> Stroke is black
+      strokeColor = "#000";
+    } else {
+      // Transparent BG (Scroll Y=0) -> Stroke matches the page's default text color
+      strokeColor = this.initialTextColor;
+    }
+
+    GSAP.set(this.togglePath, { stroke: strokeColor });
+  }
+
 
   _events() {
     const toggleContainer = this.toggleContainer;
@@ -242,89 +317,5 @@ export default class Navigation {
         this.ticking = true;
       }
     }, { passive: true });
-  }
-
-  _handleScroll() {
-    const currentScroll = window.scrollY;
-    const scrollThreshold = 50;
-
-    // Do not run scroll effects if menu is open
-    if (this.isOpen) return;
-
-    // --- Background / Text Color ---
-    // 1. Scrolling at the very top (currentScroll === 0)
-    if (currentScroll === 0) {
-      if (this.element.classList.contains('scrolled-down')) {
-
-        let colorTarget = this.initialTextColor;
-
-        // CRITICAL FIX: Use quickTo functions with duration 0 for instant set
-        this.quickToBgColor("transparent", 0);
-        this.quickToColor(colorTarget, 0);
-        this.quickToDesktopColor(colorTarget, 0);
-
-        this.element.classList.remove('scrolled-down');
-      }
-    }
-    // 2. Scrolling past the top (transition to white header)
-    else if (!this.element.classList.contains('scrolled-down')) {
-      // Use quickTo functions for smooth animation (duration 0.3s defined in constructor)
-      this.quickToBgColor("#fff", 0.3);
-      this.quickToColor("#000", 0.3); // Header container color set to black
-
-      if (this.desktopLinks.length > 0) {
-        this.quickToDesktopColor("#000", 0.3);
-      }
-      this.element.classList.add('scrolled-down');
-    }
-
-    // --- Hide / Show Nav (Y-position) ---
-    // Going down -> hide (if scrolled past threshold)
-    if (currentScroll > this.lastScrollY && currentScroll > scrollThreshold) {
-      const currentYPercent = GSAP.getProperty(this.element, "yPercent");
-      if (currentYPercent !== -100) {
-        // Use quickToY (duration 0.6s defined in constructor)
-        this.quickToY(-100);
-      }
-      this.lastHiddenScroll = currentScroll;
-    }
-    // Going up -> show
-    else if (currentScroll < this.lastScrollY && currentScroll < this.lastHiddenScroll - scrollThreshold) {
-      const currentYPercent = GSAP.getProperty(this.element, "yPercent");
-      if (currentYPercent !== 0) {
-        // Use quickToY (duration 0.6s defined in constructor)
-        this.quickToY(0);
-      }
-    }
-
-    this.lastScrollY = currentScroll;
-
-    this._updateStrokeColor();
-  }
-
-
-  _updateStrokeColor(isOpening = false) {
-    if (!this.togglePath) return;
-
-    if (this.isOpen || isOpening) {
-      // Mobile menu is open: BG is light, so stroke is black.
-      GSAP.set(this.togglePath, { stroke: "#000" });
-      return;
-    }
-
-    // Rely on the class added by _handleScroll to know if the background is currently white.
-    const isScrolledDown = this.element.classList.contains('scrolled-down');
-
-    let strokeColor;
-
-    if (isScrolledDown) {
-      // Scrolled down (white BG) -> Stroke is black
-      strokeColor = "#000";
-    } else {
-      // Transparent BG (Scroll Y=0) -> Stroke matches the page's default text color
-      strokeColor = this.initialTextColor;
-    }
-
-    GSAP.set(this.togglePath, { stroke: strokeColor });
   }
 }

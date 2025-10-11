@@ -14,7 +14,7 @@
 
 .tagline {
   @include flex(column, center, center, wrap);
-  max-width: clamp(80ch, 60%, 100ch);
+  max-width: clamp(60ch, 50%, 85ch);
   text-align: center;
 
   &__heading {

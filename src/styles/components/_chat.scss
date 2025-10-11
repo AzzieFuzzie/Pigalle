@@ -34,6 +34,13 @@
 
 .whatsapp__icon {
   // padding-right: 10px;
+  width: 45px;
+  height: 45px;
+
+  @include media('<tablet') {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 

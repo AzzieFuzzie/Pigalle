@@ -33,13 +33,13 @@ block content
                 div.menu__image__wrapper
                   each item in slice.items
                     if item.image && item.image.url
-                      - const menuImage = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600])
+                      - const menuImage = imgix.imgix(item.image, { auto: 'compress',ar: '3:4' , fit: 'crop',crop: 'edges' })
                       img.menu__image(
                         data-src=menuImage.src
                         srcset=menuImage.srcset
                         sizes="(max-width: 600px) 90vw, (max-width: 1440px) 50vw, 600px"
                         alt=menuImage.alt
-                        loading="lazy"
+                       
                       )
 
               // Text items

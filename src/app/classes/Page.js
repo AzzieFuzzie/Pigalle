@@ -65,7 +65,7 @@ export default class Page extends EventEmitter {
     });
 
     // Set initial state to invisible. The 'show' method will handle fading it in.
-    GSAP.set('#content', { autoAlpha: 0 });
+    // GSAP.set('#content', { autoAlpha: 0 });
   }
 
   createAnimations() {
@@ -143,17 +143,17 @@ export default class Page extends EventEmitter {
     return new Promise((resolve) => {
       // Create animations AFTER the page element is ready to be shown
       this.createAnimations();
+      resolve();
+      // GSAP.to('#content', {
 
-      GSAP.to('#content', {
-
-        autoAlpha: 1,
-        duration: 0.6,
-        ease: "power2.out",
-        onComplete: () => {
-          this.addEventListeners();
-          resolve();
-        }
-      });
+      //   autoAlpha: 1,
+      //   duration: 0.6,
+      //   ease: "power2.out",
+      //   onComplete: () => {
+      //     this.addEventListeners();
+      //     resolve();
+      //   }
+      // });
     });
   }
 
@@ -165,13 +165,13 @@ export default class Page extends EventEmitter {
       GSAP.delayedCall(1, () => {
         this.destroyAnimations();
       });
-
-      GSAP.to('#content', {
-        autoAlpha: 0,
-        duration: 0.6,
-        ease: "power2.in",
-        onComplete: resolve
-      });
+      resolve()
+      // GSAP.to('#content', {
+      //   autoAlpha: 0,
+      //   duration: 0.6,
+      //   ease: "power2.in",
+      //   onComplete: resolve
+      // });
     });
   }
 

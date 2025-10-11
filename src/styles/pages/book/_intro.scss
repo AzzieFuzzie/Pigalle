@@ -39,7 +39,7 @@
 
 
   &__content {
-    @include flex(row, flex-start, flex-start, nowrap);
+    @include flex(row, flex-start, center, nowrap, );
 
     @include media("<phone") {
       @include flex(column, center, center, nowrap);

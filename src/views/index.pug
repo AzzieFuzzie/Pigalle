@@ -56,7 +56,7 @@ block content
             .food__right
               .image__wrapper
                 each item, index in slice.items
-                  - const sliderImage = imgix.imgix(item.slider_image, { auto:'compress', crop:'entropy', q:85 }, [400, 665, 1000])
+                  - const sliderImage = imgix.imgix(item.slider_image, { auto: 'compress', fit: 'crop', crop: 'edges', ar: '665:700' })
                   .slider__image(data-animation="carousel")
                     img.food__image(
                       data-src=sliderImage.src
@@ -79,18 +79,19 @@ block content
     // Private Events Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'private_events_card'
-        section.section.section--small--padding.events__card__wrapper(data-animation='scale')
+        section.section--small--padding.events__card__wrapper
           - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress', crop:'top' }, [400, 600, 800, 1200])
           .events(
             style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
             srcset=backgroundImage.srcset
+            data-animation='scale'
           )
             .events__content
               h2.events__heading= slice.primary.heading[0].text
               p.events__description= slice.primary.intro_text
               a.events__button(href='/book/')
                 span.button__label.events__button__label= slice.primary.button_label
-          +svg-decorative('orange')
+              +svg-decorative('orange')
 
     // FAQ Section
     each slice in prismic.home.data.body
@@ -116,7 +117,8 @@ block content
                           fill="black"
                           d="M0.261719 12.4793V10.8271H10.1748V0.914062H11.8269V10.8271H21.74V12.4793H11.8269V22.3923H10.1748V12.4793H0.261719Z"
                         )
-                    dd.faq__answer= item.answer
+                    dd.faq__answer
+                      p= item.answer
                     .faq__line
           .icon__wrapper
             +svg-decorative('wheat_plant')
