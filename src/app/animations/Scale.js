@@ -4,32 +4,40 @@ import GSAP from 'gsap';
 export default class Scale extends Animation {
   constructor({ element, elements }) {
     super({ element, elements });
-    this.pulseTween = null;
+    this.scaleTween = null;
+
+    // Set the initial state of the element to be invisible and slightly scaled down.
+    GSAP.set(this.element, { autoAlpha: 0, scale: 0.9 });
   }
 
   animateIn() {
-    console.log('scale');
+    // Kill any previously running animation on this element.
+    this.scaleTween?.kill();
 
+    // Animate the element to be fully visible and at its normal size.
+    this.scaleTween = GSAP.to(this.element, {
 
-    this.pulseTween = GSAP.fromTo(
-      this.element,
-      { scale: 0.8, transformOrigin: 'center center' },
-      { scale: 1, duration: 0.6, ease: 'linear', delay: 0.3 }
-    );
+      scale: 1,          // Scale to 100%
+      duration: 0.8,
+      ease: 'power3.out', // A smooth and natural ease-out
+      delay: 0.2,
+    });
   }
 
   animateOut() {
+    // Kill any previously running animation on this element.
+    this.scaleTween?.kill();
 
-
-    GSAP.set(this.element, { scale: 1, });
+    // Animate the element back to its initial invisible state.
+    this.scaleTween = GSAP.to(this.element, {
+      scale: 0.9,
+      duration: 0.5,
+      ease: 'power2.in',
+    });
   }
 
   destroy() {
-    // Kill any running tween to free memory
-    this.pulseTween?.kill();
-    this.pulseTween = null;
-
-    // Reset element to default state
-    GSAP.set(this.element, { scale: 1, });
+    // Final cleanup when the page is destroyed.
+    this.scaleTween?.kill();
   }
 }

@@ -58,20 +58,18 @@ export default class Transition {
       // On mobile, fade and slide the old content up and out.
       this.enterAnimation = () => GSAP.to(this.content, {
         autoAlpha: 0,
-        y: -20,
+        y: 20,
         duration: 0.5,
-        ease: 'power2.inOut',
+        ease: 'power3.inOut',
       });
 
       // Slide the new content in and then CLEAN UP the transform property.
-      this.leaveAnimation = () => GSAP.fromTo(this.content, {
-        autoAlpha: 0,
-        y: 20,
-      }, {
+      this.leaveAnimation = () => GSAP.to(this.content, {
+
         autoAlpha: 1,
         y: 0,
         duration: 0.5,
-        ease: 'power2.inOut',
+        ease: 'power3.inOut',
         clearProps: 'transform',
       });
     });
