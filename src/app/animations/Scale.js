@@ -7,7 +7,7 @@ export default class Scale extends Animation {
     this.scaleTween = null;
 
     // Set the initial state of the element to be invisible and slightly scaled down.
-    GSAP.set(this.element, { autoAlpha: 0, scale: 0.9 });
+    GSAP.set(this.element, { scale: 0.9 });
   }
 
   animateIn() {
