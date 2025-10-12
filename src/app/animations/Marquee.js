@@ -10,10 +10,17 @@ export default class Marquee extends Component {
     this._onResize = this._onResize.bind(this);
     this.wrapper = this.element.querySelector('.marquee__wrapper');
     this.direction = this.element.dataset.direction || "left";
-    this.init();
+
+    // Use a timeout to ensure the DOM is fully ready before initializing.
+    this.initTimeout = setTimeout(this.init.bind(this), 100);
+
+    window.addEventListener("resize", this._onResize);
   }
 
   init() {
+    // Clear any existing animations before creating new ones.
+    this.destroyAnimations();
+
     this.wrapperWidth = this.wrapper.getBoundingClientRect().width;
     const move = this.direction === "left" ? -this.wrapperWidth : this.wrapperWidth;
 
@@ -22,17 +29,15 @@ export default class Marquee extends Component {
       duration: 40,
       ease: "none",
       repeat: -1,
-      paused: true, // start paused
+      paused: true,
       modifiers: {
         x: (x) => {
-          const currentWidth = this.wrapper.getBoundingClientRect().width;
           const num = parseFloat(x);
-          return (num % -currentWidth) + "px";
+          return (num % -this.wrapperWidth) + "px";
         }
       }
     });
 
-    // ScrollTrigger controls play/pause
     this.scrollTrigger = ScrollTrigger.create({
       trigger: this.element,
       start: "top bottom",
@@ -42,17 +47,25 @@ export default class Marquee extends Component {
       onLeave: () => this.tween.pause(),
       onLeaveBack: () => this.tween.pause(),
     });
-
-    window.addEventListener("resize", this._onResize);
   }
 
   _onResize() {
-    this.wrapperWidth = this.wrapper.getBoundingClientRect().width;
+    // Debounce the resize event to avoid firing too often.
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(this.init.bind(this), 200); // Re-initialize after 200ms of no resizing.
+  }
+
+  destroyAnimations() {
+    // A dedicated function to safely kill GSAP instances.
+    this.tween?.kill();
+    this.scrollTrigger?.kill();
   }
 
   destroy() {
-    this.tween?.kill();
-    this.scrollTrigger?.kill();
+    // Complete cleanup when the page changes.
+    clearTimeout(this.initTimeout);
+    clearTimeout(this.resizeTimeout);
+    this.destroyAnimations();
     window.removeEventListener("resize", this._onResize);
   }
 }

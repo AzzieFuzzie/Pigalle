@@ -122,7 +122,31 @@ export default class Page extends EventEmitter {
     });
   }
 
+
+  show() {
+    return new Promise((resolve) => {
+      // Use a minimal timeout to allow the DOM to update before creating animations.
+      GSAP.delayedCall(0.01, () => {
+        this.createAnimations();
+        this.addEventListeners();
+        resolve();
+      });
+    });
+  }
+
+  hide() {
+    return new Promise((resolve) => {
+      this.removeEventListeners();
+      this.destroyAnimations();
+      resolve(); // Resolve immediately after starting destruction.
+    });
+  }
+
+  // MINOR FIX in destroyAnimations for better cleanup
   destroyAnimations() {
+    // A failsafe to kill any remaining ScrollTriggers attached to this page
+    ScrollTrigger.getAll().forEach(t => t.kill());
+
     // Kill all animations to prevent memory leaks and conflicts
     if (this.animationScale) this.animationScale.forEach(anim => anim.destroy?.());
     if (this.animationsParallax) this.animationsParallax.forEach(anim => anim.destroy?.());
@@ -135,52 +159,10 @@ export default class Page extends EventEmitter {
     if (this.animationsHeightImage) this.animationsHeightImage.forEach(anim => anim.destroy?.());
     if (this.animationsPinLayer) this.animationsPinLayer.forEach(anim => anim.destroy?.());
     if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
-
-    // A failsafe to kill any remaining ScrollTriggers attached to this page
-    ScrollTrigger.getAll().forEach(t => t.kill());
-  }
-
-  show() {
-    return new Promise((resolve) => {
-      // Create animations AFTER the page element is ready to be shown
-      this.createAnimations();
-      resolve();
-      // GSAP.to('#content', {
-
-      //   autoAlpha: 1,
-      //   duration: 0.6,
-      //   ease: "power2.out",
-      //   onComplete: () => {
-      //     this.addEventListeners();
-      //     resolve();
-      //   }
-      // });
-    });
-  }
-
-  hide() {
-    return new Promise((resolve) => {
-      this.removeEventListeners();
-      // Destroy animations BEFORE starting the hide transition
-
-      GSAP.delayedCall(1, () => {
-        this.destroyAnimations();
-      });
-      resolve()
-      // GSAP.to('#content', {
-      //   autoAlpha: 0,
-      //   duration: 0.6,
-      //   ease: "power2.in",
-      //   onComplete: resolve
-      // });
-    });
   }
 
   onResize() {
-    // Refresh ScrollTrigger on resize to recalculate positions
-    if (this.elements && Object.keys(this.elements).length > 0) {
-      ScrollTrigger.refresh();
-    }
+
   }
 
   addEventListeners() {

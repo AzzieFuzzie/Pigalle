@@ -12,25 +12,19 @@
   color: colors(gold);
   text-align: center;
   z-index: z(preloader);
-}
-
-.preloader__text {
-
-  span span {
 
 
-    display: block;
-    transform-origin: center center 0.5em;
+
+  &__wrapper {
+    position: relative;
+
   }
-}
 
-.preloader__number {
+  &__number {
 
-  bottom: 10%;
-  left: 50%;
-  overflow: hidden;
-  position: absolute;
-  transform: translateX(-50%);
+    position: absolute;
+    bottom: 20%;
+    right: 10%;
 
-  @include media('<phone') {}
+  }
 }
