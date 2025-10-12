@@ -125,20 +125,21 @@ export default class Page extends EventEmitter {
 
   show() {
     return new Promise((resolve) => {
-      // Use a minimal timeout to allow the DOM to update before creating animations.
-      GSAP.delayedCall(0.01, () => {
-        this.createAnimations();
-        this.addEventListeners();
-        resolve();
-      });
+      this.createAnimations();
+      this.addEventListeners();
+      resolve();
+
     });
   }
 
   hide() {
     return new Promise((resolve) => {
-      this.removeEventListeners();
-      this.destroyAnimations();
-      resolve(); // Resolve immediately after starting destruction.
+      GSAP.delayedCall(1, () => {
+        this.removeEventListeners();
+        this.destroyAnimations();
+      });
+
+      resolve();
     });
   }
 

@@ -81,6 +81,15 @@ block content
       if slice.slice_type === 'private_events_card'
         section.section--small--padding.events__card__wrapper
           - const backgroundImage = imgix.imgix(slice.primary.background_image, { auto: 'compress', crop:'top' }, [400, 600, 800, 1200])
+
+          img(
+            data-src=backgroundImage.src
+            srcset=backgroundImage.srcset
+            sizes="1px" 
+            style="display: none;" 
+            alt=""
+          )
+
           .events(
             style=`background-image: url('${backgroundImage.src}'); background-size: cover; background-position:center;`
             srcset=backgroundImage.srcset

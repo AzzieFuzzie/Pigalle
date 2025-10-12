@@ -7,6 +7,7 @@
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
+  gap: 0;
   z-index: 999;
   pointer-events: none;
 
@@ -14,6 +15,7 @@
 
 .transition__col {
   flex: 1;
+
   min-height: 100vh;
   background-color: colors(gold);
   will-change: transform;
