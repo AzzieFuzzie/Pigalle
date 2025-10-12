@@ -1,4 +1,8 @@
 nav.navigation(data-animation="navigation")
+  //- Performance: This div is for the background color animation. 
+  //- We animate its opacity instead of the header's backgroundColor for better performance.
+  .navigation__background
+
   div.navigation__logo
     a(href="/")
       img.navigation__logo__image(data-src="/images/logo.svg", alt="Pigalle by Villamoura logo")
@@ -26,30 +30,12 @@ nav.navigation(data-animation="navigation")
         d="M3 6H21M3 12H21M3 18H21"
       )
 
-
-
   // Mobile links
   .navigation__links.navigation__links--mobile(data-animation="navigation")
     .mobile-header
       div.navigation__logo.navigation__logo--mobile 
         a(href="/")
           img.navigation__logo__image(data-src="/images/logo.svg", alt="Pigalle by Villamoura logo")
-      //- .navigation__icon.navigation__icon--close
-      //-   svg(
-      //-     xmlns="http://www.w3.org/2000/svg" 
-      //-     fill="none" 
-      //-     viewBox="0 0 24 24" 
-      //-     height="24" 
-      //-     width="24"
-      //-   )
-      //-     path(
-      //-       stroke-linejoin="round"
-      //-       stroke-linecap="round"
-      //-       stroke-width="2"
-      //-       stroke="white"
-      //-       d="M4 4L20 20M20 4L4 20"
-
-      //-     )
 
     .mobile-links
       div.mobile-links__wrapper

@@ -6,296 +6,267 @@ GSAP.registerPlugin(MorphSVGPlugin);
 export default class Navigation {
   constructor({ element }) {
     this.element = element;
+    if (!this.element) return; // guard
+
+    // Core elements (matches your Pug/HTML)
+    this.background = this.element.querySelector('.navigation__background');
+    this.desktopLinks = this.element.querySelectorAll(".navigation__links--desktop a");
+    this.toggleContainer = this.element.querySelector(".navigation__icon--toggle");
+    this.togglePath = this.element.querySelector(".navigation__icon--toggle svg path");
+    this.mobileLinks = this.element.querySelector(".navigation__links--mobile");
+
+    // Page-specific color setup (keeps previous behavior)
+    const BLACK_TEXT_PAGES = ['contact', 'book', 'menu'];
+    this.isBlackTextPage = BLACK_TEXT_PAGES.some(cls =>
+      document.documentElement.classList.contains(cls)
+    );
+    this.initialTextColor = this.isBlackTextPage ? "#000" : "#fff";
+
+    // State
     this.isOpen = false;
-    this.isAnimating = false; // Guard to prevent erratic behavior during animation
+    this.isAnimating = false;
     this.lastScrollY = 0;
     this.ticking = false;
-    this.lastHiddenScroll = 0;
 
-    // Define classes that require black text for the default state (Scroll Y = 0)
-    const BLACK_TEXT_PAGES = ['contact', 'book', 'menu'];
-
-    let initialColor = "#fff"; // Default to white (for 'home', 'about', etc.)
-
-    // Check if the header element has any of the black-text classes
-    if (BLACK_TEXT_PAGES.some(cls => this.element.classList.contains(cls))) {
-      initialColor = "#000";
-    }
-
-    // Store the reliable color value
-    this.initialTextColor = initialColor;
-    this.desktopLinks = this.element.querySelectorAll(".navigation__links--desktop a");
-
-    // --- QUICKTO SETUP (PERFORMANCE CRITICAL) ---
-    // Create quick access functions once in the constructor. They are ultra-fast
-    // replacements for GSAP.to() that avoid creating new tween objects constantly.
-
-    // 1. Hide/Show Y-position (duration 0.6s carried over from previous code)
+    // GSAP helpers
     this.quickToY = GSAP.quickTo(this.element, "yPercent", { duration: 0.6, ease: "power2.out" });
-
-    // 2. Background and Color transitions (duration 0.3s)
-    this.quickToBgColor = GSAP.quickTo(this.element, "backgroundColor", { duration: 0.3, ease: "power1.out" });
-    this.quickToColor = GSAP.quickTo(this.element, "color", { duration: 0.3, ease: "power1.out" });
-
-    if (this.desktopLinks.length > 0) {
-      this.quickToDesktopColor = GSAP.quickTo(this.desktopLinks, "color", { duration: 0.3, ease: "power1.out" });
-    } else {
-      // Fallback for safety if no desktop links exist
-      this.quickToDesktopColor = () => { };
-    }
-    // --- END QUICKTO SETUP ---
-
-
-    // CRITICAL FIX: Clear any problematic inline color style from CSS conflicts.
-    this.element.style.color = '';
-
-    // 1. Set the initial background state to transparent.
-    GSAP.set(this.element, { backgroundColor: "transparent" });
-
-    // --- Apply initial text color immediately to prevent any flicker ---
-    GSAP.set(this.element, { color: this.initialTextColor });
-    if (this.desktopLinks.length > 0) {
-      GSAP.set(this.desktopLinks, { color: this.initialTextColor });
-    }
-    // -----------------------------------------------------------------------
-
-    this.togglePath = this.element.querySelector(".navigation__icon--toggle svg path");
     this.hamburgerPath = "M3 6H21M3 12H21M3 18H21";
     this.closePath = "M4 4L20 20M20 4L4 20";
 
     this.desktopMM = GSAP.matchMedia();
 
-    // Cache the toggle container (used by _events)
-    this.toggleContainer = this.element.querySelector(".navigation__icon--toggle");
+    // Bind handlers so we can add/remove listeners reliably
+    this._toggleHandler = this.toggleMenu.bind(this);
+    this._scrollHandler = this._onScroll.bind(this);
+    this._pageshowHandler = this._setInitialState.bind(this);
 
-    // Keep original call order to avoid changing behavior
+    // Setup
+    this._setInitialState();
+    this._setupMobileQuery();
     this._events();
     this._initScroll();
-    this._setupMobileAnimations();
 
-    // Set the initial icon stroke color immediately
+    // Reset state when page is shown (back/forward navigation)
+    window.addEventListener("pageshow", this._pageshowHandler, { passive: true });
+  }
+
+  // -------------------------
+  // INITIAL STATE
+  // -------------------------
+  _setInitialState() {
+    this.isOpen = false;
+    this.isAnimating = false;
+
     if (this.togglePath) {
-      GSAP.set(this.togglePath, { stroke: this.initialTextColor });
+      GSAP.set(this.togglePath, { attr: { d: this.hamburgerPath }, stroke: this.initialTextColor });
     }
+
+    // ensure mobile panel is off-screen and invisible to start
+    if (this.mobileLinks) {
+      // set xPercent and keep visible so we avoid white flash on first close
+      GSAP.set(this.mobileLinks, { xPercent: 100, visibility: "hidden", opacity: 1 });
+    }
+
+    // header color based on scroll
+    if (window.scrollY <= 20) {
+      this.element.classList.remove('scroll-up');
+    } else {
+      this.element.classList.add('scroll-up');
+    }
+
+    const isScrolled = this.element.classList.contains('scroll-up');
+    const targetTextColor = isScrolled ? '#000' : this.initialTextColor;
+
+    GSAP.set(this.element, { color: targetTextColor });
+    if (this.desktopLinks.length) GSAP.set(this.desktopLinks, { color: targetTextColor });
+    if (this.togglePath) GSAP.set(this.togglePath, { stroke: targetTextColor });
   }
 
-  _setupMobileAnimations() {
-    this.desktopMM.add(
-      {
-        isMobile: "(max-width: 768px)",
-      },
-      (context) => {
-        if (context.conditions.isMobile) {
-          this.mobileLinks = this.element.querySelector(".navigation__links--mobile");
-          // hide mobile nav by default
-          if (this.mobileLinks) {
-            GSAP.set(this.mobileLinks, { xPercent: 100, visibility: "hidden", backgroundColor: "#EFEDEA" });
-            // Cache the mobile link anchors for event binding & animation usage
-            this._mobileAnchors = this.mobileLinks.querySelectorAll(".mobile-links__wrapper a");
-          } else {
-            this._mobileAnchors = [];
-          }
-        }
+  // -------------------------
+  // matchMedia setup for mobile anchors
+  // -------------------------
+  _setupMobileQuery() {
+    this.desktopMM.add({ isMobile: "(max-width: 768px)" }, (context) => {
+      if (context.conditions.isMobile) {
+        // don't permanently store anchors here — we'll always refresh right before animation
+        // but keep a quick reference for event wiring when needed
+        this._mobileAnchors = this.mobileLinks ? this.mobileLinks.querySelectorAll(".mobile-links__wrapper a") : [];
       }
-    );
+    });
   }
 
+  // -------------------------
+  // ANIMATE IN / OUT
+  // -------------------------
   animateIn() {
-    if (!this.mobileLinks) return;
+    if (!this.mobileLinks || this.isAnimating) return;
+    this.isAnimating = true;
+    this.isOpen = true;
 
-    // Set the stroke color immediately when opening (should be black for light menu BG)
-    this._updateStrokeColor(true);
+    // Always refresh anchors to current DOM nodes (fixes disappearing links)
+    this._mobileAnchors = this.mobileLinks.querySelectorAll(".mobile-links__wrapper a");
 
-    // Ensure header background color is light/grey when menu is open
-    GSAP.set(this.element, { backgroundColor: "#EFEDEA", color: "#000" });
-    if (this.desktopLinks.length > 0) {
-      GSAP.set(this.desktopLinks, { color: "#000" });
-    }
+    // Make sure mobileLinks visible immediately to avoid seeing page flash
+    GSAP.set(this.mobileLinks, { visibility: "visible", opacity: 1 });
 
+    // timeline: slide panel in and animate anchors
     const tl = GSAP.timeline({
       defaults: { ease: "power3.out", duration: 0.6 },
-      onStart: () => { this.isAnimating = true; } // Start animating flag
+      onComplete: () => { this.isAnimating = false; }
     });
 
-    GSAP.set(this.mobileLinks, { visibility: "visible" });
+    // push header to scroll-up state and set icon color for contrast
+    this.element.classList.add('scroll-up');
+    if (this.togglePath) GSAP.set(this.togglePath, { stroke: "#000" });
 
-    // Keep the exact same animation sequence + timings as original
-    tl.to(this.mobileLinks, { xPercent: 0, backgroundColor: "#EFEDEA" })
-      .fromTo(
-        this.mobileLinks.querySelectorAll(".mobile-links__wrapper a"),
-        { yPercent: 100 },
-        { yPercent: 0, stagger: 0.05, onComplete: () => { this.isAnimating = false; } } // End animating flag
-      );
+    tl.to(this.mobileLinks, { xPercent: 0 })
+      .fromTo(this._mobileAnchors, { yPercent: 100 }, { yPercent: 0, stagger: 0.05 }, "<");
 
     this._disableScroll();
   }
 
   animateOut() {
-    if (!this.mobileLinks) return;
+    if (!this.mobileLinks || this.isAnimating) return;
+    this.isAnimating = true;
+    this.isOpen = false;
 
+    // timeline: animate anchors out, slide panel out, then hide it and restore state
     const tl = GSAP.timeline({
-      defaults: { ease: "power4.out", duration: 0.8 },
-      onStart: () => { this.isAnimating = true; }, // Start animating flag
+      defaults: { ease: "power4.out", duration: 0.6 },
       onComplete: () => {
-        GSAP.set(this.mobileLinks, { visibility: "hidden" });
+        // ensure visibility hidden only after panel moved off-screen and opacity restored
+        GSAP.set(this.mobileLinks, { visibility: "hidden", opacity: 1 });
         this._enableScroll();
-        this._restoreHeaderState(); // CRITICAL: Restore header state after animation finishes
-        this.isAnimating = false; // End animating flag
+        this._restoreHeaderState();
+        this.isAnimating = false;
+        // reset icon path to hamburger as safety
+        if (this.togglePath) GSAP.set(this.togglePath, { attr: { d: this.hamburgerPath } });
       }
     });
 
-    // Keep exact same sequence + timings as original
-    tl.to(
-      this.mobileLinks.querySelectorAll(".mobile-links__wrapper a"),
-      { yPercent: 100, duration: .8, stagger: 0.05 }
-    ).to(
-      this.mobileLinks,
-      { xPercent: 100 },
-      "<0.1" // Start menu slide slightly before link slide finishes
-    );
+    // fade anchors out slightly and move, then slide the panel and keep its background during collapse so no white flash
+    tl.to(this._mobileAnchors, { yPercent: 100, stagger: 0.05, duration: 0.35 }, 0)
+      .to(this.mobileLinks, { xPercent: 100, duration: 0.55 }, "<0.05");
   }
 
   toggleMenu() {
-    // PREVENT CONFLICT: Exit early if an animation is active
     if (this.isAnimating) return;
 
+    // Toggle and run appropriate animation + morph icon
+    this.isOpen = !this.isOpen;
+
     if (this.isOpen) {
-      this.animateOut();
-      GSAP.to(this.togglePath, {
-        duration: 0.4,
-        morphSVG: this.hamburgerPath,
-        ease: "power2.inOut",
-      });
-      this.isOpen = false;
-    } else {
       this.animateIn();
-      GSAP.to(this.togglePath, {
-        duration: 0.4,
-        morphSVG: this.closePath,
-        ease: "power2.inOut",
-      });
-      this.isOpen = true;
-    }
-  }
-  _restoreHeaderState() {
-    const scrollThreshold = 20; // Use the same threshold for consistency
-
-    // 1. Forcefully remove the inline background color set by the 'animateIn' function.
-    // This is the most important step. `clearProps` deletes the style from the element.
-    GSAP.set(this.element, { clearProps: "backgroundColor" });
-
-    // 2. Now that the inline style is gone, apply the correct state based on scroll position.
-    if (window.scrollY > scrollThreshold) {
-      // SCROLLED DOWN STATE:
-      // Let the CSS class handle the white background.
-      this.element.classList.add('scroll-up');
-      GSAP.set(this.element, { color: '#000' });
-      if (this.desktopLinks.length > 0) {
-        GSAP.set(this.desktopLinks, { color: '#000' });
-      }
+      if (this.togglePath) GSAP.to(this.togglePath, { duration: 0.4, morphSVG: this.closePath, ease: "power2.inOut" });
     } else {
-      // TOP OF PAGE STATE:
-      // Ensure the scroll class is removed so the background becomes transparent.
-      this.element.classList.remove('scroll-up');
-      GSAP.set(this.element, { color: this.initialTextColor });
-      if (this.desktopLinks.length > 0) {
-        GSAP.set(this.desktopLinks, { color: this.initialTextColor });
-      }
+      this.animateOut();
+      if (this.togglePath) GSAP.to(this.togglePath, { duration: 0.4, morphSVG: this.hamburgerPath, ease: "power2.inOut" });
     }
-
-    // 3. Finally, update the hamburger icon color. It will now be correct.
-    this._updateStrokeColor();
   }
 
+  // -------------------------
+  // SCROLL / HEADER STATE
+  // -------------------------
+  _restoreHeaderState() {
+    this._handleScroll(true);
+  }
 
-  _handleScroll() {
+  _handleScroll(forceUpdate = false) {
     const currentScroll = window.scrollY;
-    // Define the threshold here. 20px is a good starting point.
     const scrollThreshold = 20;
 
-    // Do not run scroll effects if the menu is open
-    if (this.isOpen) return;
+    if (this.isOpen && !forceUpdate) return;
 
-    // --- Directional Logic ---
-
-    // 1. Scrolling DOWN: Hide the navigation
-    if (currentScroll > this.lastScrollY && currentScroll > 50) { // Keep original 50px threshold for hiding
+    if (currentScroll > this.lastScrollY && currentScroll > 50) {
       this.quickToY(-100);
-      this.lastHiddenScroll = currentScroll;
-    }
-    // 2. Scrolling UP: Show the navigation with the background
-    else if (currentScroll < this.lastScrollY) {
-      this.quickToY(0); // Show the nav
-
-      // Only add the background if we are below the top threshold
-      if (currentScroll > scrollThreshold) {
-        this.quickToBgColor("#fff");
-        this.quickToColor("#000");
-        this.quickToDesktopColor("#000");
-        this.element.classList.add('scroll-up');
-      }
+    } else if (currentScroll < this.lastScrollY) {
+      this.quickToY(0);
     }
 
-    // --- Reset Logic (The Improved Part) ---
-    // If we are within the threshold at the top of the page, reset to transparent.
-    if (currentScroll <= scrollThreshold) {
-      // Check if the nav has a background before animating it away
-      if (this.element.classList.contains('scroll-up')) {
-        let colorTarget = this.initialTextColor;
-
-        this.quickToBgColor("transparent");
-        this.quickToColor(colorTarget);
-        this.quickToDesktopColor(colorTarget);
-
-        this.element.classList.remove('scroll-up');
-      }
+    if (currentScroll > scrollThreshold) {
+      this.element.classList.add('scroll-up');
+    } else {
+      this.element.classList.remove('scroll-up');
     }
 
-    // Finally, update the scroll position and icon color for the next event
     this.lastScrollY = currentScroll;
     this._updateStrokeColor();
   }
-  _updateStrokeColor(isOpening = false) {
-    if (!this.togglePath) return;
 
-    if (this.isOpen || isOpening) {
-      // Mobile menu is open: BG is light, so stroke is black.
+  _updateStrokeColor() {
+    if (!this.togglePath) return;
+    if (this.isOpen) {
       GSAP.set(this.togglePath, { stroke: "#000" });
       return;
     }
-
-    // Rely on the class added by _handleScroll to know if the background is currently white.
-    const isScrolledDown = this.element.classList.contains('scroll-up');
-
-    let strokeColor;
-
-    if (isScrolledDown) {
-      // Scrolled down (white BG) -> Stroke is black
-      strokeColor = "#000";
-    } else {
-      // Transparent BG (Scroll Y=0) -> Stroke matches the page's default text color
-      strokeColor = this.initialTextColor;
-    }
-
-    GSAP.set(this.togglePath, { stroke: strokeColor });
+    const isScrolled = this.element.classList.contains('scroll-up');
+    const targetColor = isScrolled ? '#000' : this.initialTextColor;
+    GSAP.set(this.togglePath, { stroke: targetColor });
   }
 
-
+  // -------------------------
+  // EVENTS
+  // -------------------------
   _events() {
-    const toggleContainer = this.toggleContainer;
-    const navLinks = this.element.querySelectorAll(".navigation__links--mobile a");
-
-    if (toggleContainer) {
-      toggleContainer.addEventListener("click", () => this.toggleMenu());
+    // Ensure we don't attach duplicate listeners: remove first if present
+    if (this.toggleContainer) {
+      try { this.toggleContainer.removeEventListener("click", this._toggleHandler); } catch (e) { }
+      this.toggleContainer.addEventListener("click", this._toggleHandler);
     }
 
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        if (this.isOpen) this.toggleMenu();
-      });
+    // Wire mobile anchors via matchMedia so we reattach on breakpoint change,
+    // but avoid cloning nodes — instead remove old listeners if set.
+    this.desktopMM.add({ isMobile: "(max-width: 768px)" }, (context) => {
+      if (context.conditions.isMobile && this.mobileLinks) {
+        // Refresh nodes
+        const anchors = this.mobileLinks.querySelectorAll(".mobile-links__wrapper a");
+
+        // Remove previous link handler if it existed
+        if (this._linkHandler && this._mobileAnchors) {
+          this._mobileAnchors.forEach(link => {
+            try { link.removeEventListener("click", this._linkHandler); } catch (e) { }
+          });
+        }
+
+        // create a stable handler and add listeners
+        this._linkHandler = (e) => {
+          // if link is clicked, close menu (if open)
+          if (this.isOpen && !this.isAnimating) {
+            // small delay to allow navigation to start before animating out (optional)
+            this.toggleMenu();
+          }
+        };
+
+        anchors.forEach(link => link.addEventListener("click", this._linkHandler));
+
+        // store current anchors for potential cleanup
+        this._mobileAnchors = anchors;
+      }
     });
   }
 
+  // -------------------------
+  // Scroll listener wrapper for RAF throttling
+  // -------------------------
+  _onScroll() {
+    if (!this.ticking) {
+      window.requestAnimationFrame(() => {
+        this._handleScroll();
+        this.ticking = false;
+      });
+      this.ticking = true;
+    }
+  }
+
+  _initScroll() {
+    // remove first to avoid duplicates, then add
+    try { window.removeEventListener("scroll", this._scrollHandler); } catch (e) { }
+    window.addEventListener("scroll", this._scrollHandler, { passive: true });
+  }
+
+  // -------------------------
+  // scroll lock helpers
+  // -------------------------
   _disableScroll() {
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
@@ -306,17 +277,25 @@ export default class Navigation {
     document.body.style.touchAction = "";
   }
 
-  _initScroll() {
-    // Set the listener to passive for performance
-    window.addEventListener("scroll", () => {
-      // Only process scroll if the menu is closed
-      if (!this.ticking && !this.isOpen) {
-        window.requestAnimationFrame(() => {
-          this._handleScroll();
-          this.ticking = false;
-        });
-        this.ticking = true;
-      }
-    }, { passive: true });
+  // -------------------------
+  // cleanup for SPA
+  // -------------------------
+  destroy() {
+    // remove DOM listeners
+    if (this.toggleContainer) {
+      try { this.toggleContainer.removeEventListener("click", this._toggleHandler); } catch (e) { }
+    }
+    try { window.removeEventListener("scroll", this._scrollHandler); } catch (e) { }
+    try { window.removeEventListener("pageshow", this._pageshowHandler); } catch (e) { }
+
+    // remove mobile anchors handlers
+    if (this._mobileAnchors && this._linkHandler) {
+      this._mobileAnchors.forEach(link => {
+        try { link.removeEventListener("click", this._linkHandler); } catch (e) { }
+      });
+    }
+
+    // kill GSAP tweens to avoid leaks
+    try { GSAP.killTweensOf(this.mobileLinks); } catch (e) { }
   }
 }

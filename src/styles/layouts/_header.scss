@@ -9,26 +9,20 @@
 
 header {
   min-width: 100vw;
-  // position: sticky; // makes it stick to top
-  // z-index: 100; // high enough to be above content
 }
 
-/* Sets the default text color on the HEADER element itself for black-text pages */
 header.contact,
 header.book,
 header.menu {
   color: #000;
-  /* This sets the inherited color for the whole header, including the navigation */
 }
 
-/* Force the desktop links to be black (already working, but vital) */
 header.contact .navigation a,
 header.book .navigation a,
 header.menu .navigation a {
   color: #000 !important;
 }
 
-/* Ensure the navigation icon path is black on load for these pages */
 header.contact .navigation__icon--toggle svg path,
 header.book .navigation__icon--toggle svg path,
 header.menu .navigation__icon--toggle svg path {
@@ -41,7 +35,6 @@ header.about .navigation__icon--toggle svg path {
   stroke: #fff !important;
 }
 
-// Absolute for homepage (or any template)
 header.home,
 header.about {
   position: absolute;
@@ -52,46 +45,66 @@ header.about {
 }
 
 .navigation {
-
-
   @extend %title-16;
   min-width: 100%;
   height: 80px;
   z-index: z(navigation);
   display: flex;
-  justify-content: space-between; // keeps desktop layout
+  justify-content: space-between;
   align-items: center;
   padding: var(--padding-xsmall) var(--padding-xsmall);
   margin-bottom: var(--margin-small);
   position: fixed;
   top: 0;
   left: 0;
+  //- Performance: Use will-change to hint browser about upcoming transform changes.
+  will-change: transform;
 
-  transition: background-color 0.4s ease;
+  //- Performance: We no longer transition background-color here.
+  //- The .navigation__background element handles the visual change.
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    //- Start with the background hidden.
+    opacity: 0;
+    z-index: -1;
+    //- Performance: Hint to the browser that opacity will be animated.
+    will-change: opacity;
+    //- Add a transition for smooth fade-in/out.
+    transition: opacity 0.4s ease;
+  }
 
   &.scroll-up {
-    background-color: #fff !important;
+    //- When scrolled, this class makes the text and links black.
     color: #000 !important;
 
-    // ADD THIS RULE
+    .navigation__background {
+      //- Show the background layer.
+      opacity: 1;
+    }
+
     a {
       color: #000 !important;
     }
-  }
 
-  &.scroll-down {
-    // background-color: transparent;
+    .navigation__icon--toggle svg path {
+      stroke: #000 !important;
+    }
   }
 
   &__links {
     &--desktop {
       display: flex;
       gap: var(--margin-xsmall);
-
-      color: #000;
+      color: inherit; //- Inherit color from parent .navigation
 
       @media (max-width: 768px) {
-        display: none; // hide desktop links on mobile
+        display: none;
       }
     }
 
@@ -107,6 +120,9 @@ header.about {
       visibility: hidden;
       z-index: z(navigation);
       color: #000;
+      background-color: #EFEDEA;
+      //- Performance: will-change for transform.
+      will-change: transform;
 
       @include media("<phone") {
         margin: 0;
@@ -116,13 +132,8 @@ header.about {
         margin: 0;
       }
 
-      // &.active {
-      //   transform: translateX(0);
-      //   visibility: visible;
-      // }
-
       .mobile-header {
-        grid-column: 1 / -1; // full width
+        grid-column: 1 / -1;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -134,23 +145,10 @@ header.about {
           margin-bottom: var(--margin-xsmall);
           z-index: 999;
         }
-
-        // .navigation__icon {
-        //   cursor: pointer;
-        //   display: flex;
-
-        //   svg {
-        //     width: 100%;
-        //     height: 100%;
-        //     transform: scale(1.846); // 24 / 13 ≈ 1.846 for your 13×13 SVGs
-        //     transform-origin: center;
-        //     color: colors(white);
-        //   }
-        // }
       }
 
       .mobile-links {
-        grid-column: 1 / -1; // full width
+        grid-column: 1 / -1;
         display: flex;
         flex-direction: column;
         gap: var(--margin-small);
@@ -162,15 +160,13 @@ header.about {
 
         a {
           color: #000;
-
-
         }
       }
 
       .mobile-socials {
-        grid-column: 1 / -1; // full width
+        grid-column: 1 / -1;
         display: flex;
-        justify-content: center; // centered
+        justify-content: center;
         gap: var(--margin-xsmall);
 
         a {
@@ -200,8 +196,6 @@ header.about {
         @include flex(row, flex-start, center, nowrap);
       }
 
-      .navigation__social__icon {}
-
       .social__item:not(:last-child) a svg {
         margin-right: var(--margin-tiny);
       }
@@ -214,13 +208,6 @@ header.about {
     gap: 0.3rem;
     cursor: pointer;
     z-index: 100;
-
-    // span {
-    //   width: 25px;
-    //   height: 3px;
-    //   background: #111010;
-    //   display: block;
-    // }
 
     @media (max-width: 768px) {
       display: flex;
