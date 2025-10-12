@@ -25,7 +25,7 @@ export default class PinLayer {
         end: "bottom top",
         pin: true,
         pinSpacing: false,
-        scrub: true,
+        // scrub: true,
         markers: false,
       },
     });
