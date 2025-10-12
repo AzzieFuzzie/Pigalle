@@ -5,10 +5,6 @@ export default function initDineplanSPA() {
   const widget = wrapper.querySelector('.dineplan-widget');
   if (!widget) return;
 
-
-
-
-
   // Check if Dineplan is ready
   if (window.Dineplan) {
     window.dispatchEvent(new Event('load'));

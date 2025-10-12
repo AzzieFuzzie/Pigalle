@@ -11,16 +11,18 @@ block content
         if slice.slice_type === 'intro_card'
           - if (slice.primary.background_image && slice.primary.background_image.url)
             - const aboutBackgroundImage = imgix.imgix(slice.primary.background_image,{ auto: 'compress', crop: 'entropy' }, [400, 800, 1200, 1600, 2000])
-            section.story__intro__wrapper(
-              style=`background-image: url('${aboutBackgroundImage.src}');background-size:cover; background-position: center;`
-              srcset=aboutBackgroundImage.srcset
-              sizes="100vw" 
-              data-animation="pin"
-              )
-              .story__intro
-                .story__intro__heading!= prismic.aboutHeadingsHTML[0]
+            section.story__intro__wrapper(data-animation="pin")
 
-          
+              //- The image is now a separate element inside the wrapper.
+              img.story__intro__image(
+                data-src=aboutBackgroundImage.src,
+                srcset=aboutBackgroundImage.srcset,
+                sizes="100vw",
+                alt=slice.primary.background_image.alt || "Pigalle Story Intro"
+              )
+              .story__intro 
+                .story__intro__heading!= prismic.aboutHeadingsHTML[0]
+                    
         if slice.slice_type === 'about_history'
           section.container--padding.section--small--padding.story__history
             div.story__history__wrapper

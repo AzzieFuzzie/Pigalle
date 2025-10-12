@@ -6,7 +6,6 @@
 
 .preloader {
   @extend %cover;
-  @include flex(column, flex-end, flex-end, nowrap);
   overflow: hidden;
   background: colors(grey);
   color: colors(gold);
@@ -23,8 +22,8 @@
   &__number {
 
     position: absolute;
-    bottom: 50%;
-    right: 50%;
+    bottom: var(--margin-small);
+    right: var(--margin-small);
 
   }
 }

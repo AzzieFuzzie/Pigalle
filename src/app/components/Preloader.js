@@ -73,7 +73,7 @@ export default class Preloader extends Component {
           if (!asset.complete && asset.readyState < 3) this.onAssetLoaded(asset);
         });
       }
-    }, 5000);
+    }, 8000);
   }
 
   onAssetLoaded(asset) {
