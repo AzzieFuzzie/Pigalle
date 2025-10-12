@@ -16,6 +16,8 @@ import About from '@pages/About';
 import Contact from '@pages/Contact';
 import Book from '@pages/Book';
 
+GSAP.registerPlugin(ScrollTrigger);
+
 class App {
   constructor() {
     AutoBind(this);
@@ -26,6 +28,7 @@ class App {
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
       this.createStats();
     }
+
 
     this.init();
     this.update = this.update.bind(this);
@@ -57,6 +60,13 @@ class App {
     });
 
     GSAP.ticker.lagSmoothing(0);
+
+    if (ScrollTrigger.isTouch === 1) {
+      ScrollTrigger.normalizeScroll(true);
+      ScrollTrigger.config({
+        ignoreMobileResize: true,
+      });
+    }
   }
 
 
