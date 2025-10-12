@@ -61,12 +61,7 @@ class App {
 
     GSAP.ticker.lagSmoothing(0);
 
-    // if (ScrollTrigger.isTouch === 1) {
-    //   ScrollTrigger.normalizeScroll(true);
-    //   ScrollTrigger.config({
-    //     ignoreMobileResize: true,
-    //   });
-    // }
+
   }
 
 
