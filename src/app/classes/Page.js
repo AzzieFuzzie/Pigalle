@@ -19,6 +19,7 @@ import each from 'lodash/each';
 import map from 'lodash/map';
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+GSAP.registerPlugin(ScrollTrigger);
 
 export default class Page extends EventEmitter {
   constructor({ classes, element, elements }) {
