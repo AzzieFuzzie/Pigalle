@@ -3,7 +3,7 @@
 @use '../utils/responsive' as *;
 @use '../utils/functions' as *;
 
-.whatsaap {
+.whatsapp {
   position: fixed;
   bottom: var(--margin-xsmall);
   right: var(--margin-xsmall);
@@ -44,7 +44,10 @@
 }
 
 
-span .whatsapp__text {
+.whatsapp__text {
   white-space: nowrap;
   font-weight: bold;
+  width: 0;
+  visibility: hidden; // Hides the element completely
+  opacity: 0;
 }

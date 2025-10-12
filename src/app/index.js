@@ -59,16 +59,22 @@ class App {
     GSAP.ticker.lagSmoothing(0);
   }
 
+
   createPreloader() {
-    document.body.style.visibility = "visible";
     this.preloader = new Preloader();
 
     if (this.lenis) this.lenis.stop();
 
+
     this.preloader.once('completed', () => {
       if (this.lenis) this.lenis.start();
+
       this.onPreloaded();
     });
+
+
+    document.body.style.visibility = "visible";
+
   }
 
   createTransition() {

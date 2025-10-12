@@ -177,34 +177,35 @@ export default class Navigation {
       this.isOpen = true;
     }
   }
-
   _restoreHeaderState() {
-    // This is called when the menu closes. It must be instant.
+    const scrollThreshold = 20; // Use the same threshold for consistency
 
-    // Check if we are at the very top of the page.
-    if (window.scrollY === 0) {
-      let colorTarget = this.initialTextColor;
+    // 1. Forcefully remove the inline background color set by the 'animateIn' function.
+    // This is the most important step. `clearProps` deletes the style from the element.
+    GSAP.set(this.element, { clearProps: "backgroundColor" });
 
-      // 1. Instant Transparent Background and Text Color Reset
-      // Use quickTo functions with duration 0 to achieve an immediate GSAP.set() effect.
-      this.quickToY(0, 0); // Ensure header is shown instantly if it was hidden
-      // this.quickToBgColor("transparent", 0);
-      this.quickToColor(colorTarget, 0);
-      this.quickToDesktopColor(colorTarget, 0);
-
-      this.element.classList.remove('scroll-up');
-
-      // 2. Instant Icon Stroke Color Reset
-      this._updateStrokeColor();
-
+    // 2. Now that the inline style is gone, apply the correct state based on scroll position.
+    if (window.scrollY > scrollThreshold) {
+      // SCROLLED DOWN STATE:
+      // Let the CSS class handle the white background.
+      this.element.classList.add('scroll-up');
+      GSAP.set(this.element, { color: '#000' });
+      if (this.desktopLinks.length > 0) {
+        GSAP.set(this.desktopLinks, { color: '#000' });
+      }
     } else {
-      // If the user closed the menu while scrolled down, trigger the scroll logic
-      // to transition back to the 'scrolled down' white header (animated).
-      this._handleScroll();
-      this._updateStrokeColor();
+      // TOP OF PAGE STATE:
+      // Ensure the scroll class is removed so the background becomes transparent.
+      this.element.classList.remove('scroll-up');
+      GSAP.set(this.element, { color: this.initialTextColor });
+      if (this.desktopLinks.length > 0) {
+        GSAP.set(this.desktopLinks, { color: this.initialTextColor });
+      }
     }
-  }
 
+    // 3. Finally, update the hamburger icon color. It will now be correct.
+    this._updateStrokeColor();
+  }
 
 
   _handleScroll() {

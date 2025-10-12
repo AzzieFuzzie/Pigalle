@@ -12,20 +12,27 @@ export default class PinLayer {
   }
 
   _animate() {
-    // const taglineWrapper = document.querySelector('.tagline__card__wrapper')
-    this.scrollTrigger = ScrollTrigger.create({
-      trigger: this.element,
-      start: "top top",
-      end: "bottom top",
-      pin: true,
-      pinSpacing: false,
+    // Create a GSAP tween that moves the element up while scrolling
+    this.tween = GSAP.to(this.element, {
+      // The animation you want to add
+      yPercent: -50, // Moves the element up by 50% of its own height. Adjust as you like.
+      ease: "linear",  // A linear ease works best with scrub
 
-      markers: false,
+      // Your ScrollTrigger settings are now attached to the tween
+      scrollTrigger: {
+        trigger: this.element,
+        start: "top top",
+        end: "bottom top",
+        pin: true,
+        pinSpacing: false,
+        scrub: true,
+        markers: false,
+      },
     });
   }
-
   destroy() {
-    this.scrollTrigger?.kill();
-    this.scrollTrigger = null;
+    this.tween?.kill();
+    this.tween = null;
+
   }
 }

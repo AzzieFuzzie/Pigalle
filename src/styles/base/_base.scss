@@ -42,6 +42,9 @@ body {
   overflow-y: auto;
 }
 
+body.preloader-active {
+  overflow: hidden !important;
+}
 
 html.lenis {
   overflow-x: hidden;

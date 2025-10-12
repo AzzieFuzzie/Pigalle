@@ -5,10 +5,9 @@
 
 
 .preloader {
-  overflow: hidden;
   @extend %cover;
-
   @include flex(column, flex-end, flex-end, nowrap);
+  overflow: hidden;
   background: colors(grey);
   color: colors(gold);
   text-align: center;
@@ -16,9 +15,6 @@
 }
 
 .preloader__text {
-
-
-  opacity: 0;
 
   span span {
 

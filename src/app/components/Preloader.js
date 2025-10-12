@@ -1,6 +1,7 @@
 import GSAP from 'gsap';
 import Component from '../classes/Component';
 import each from 'lodash/each';
+import { delay } from 'lodash';
 
 export default class Preloader extends Component {
   constructor() {
@@ -13,15 +14,17 @@ export default class Preloader extends Component {
       },
     });
 
-    // total assets = images + videos
     this.total = this.elements.images.length + this.elements.videos.length;
     this.loaded = 0;
 
+    // 1. Add a 'progress' object to animate its value
+    this.progress = { value: 0 };
+
     this.createLoader();
 
-    GSAP.from(this.element, {
-      y: '-100%',
-      duration: 1,
+    GSAP.to(this.element, {
+      autoAlpha: 1,
+      duration: 0.2,
       ease: 'power3.inOut'
     });
   }
@@ -31,6 +34,8 @@ export default class Preloader extends Component {
       this.onLoaded();
       return;
     }
+
+    // ... (rest of the createLoader function is unchanged)
 
     // Load images
     each(this.elements.images, image => {
@@ -68,26 +73,42 @@ export default class Preloader extends Component {
           if (!asset.complete && asset.readyState < 3) this.onAssetLoaded(asset);
         });
       }
-    }, 3000);
+    }, 5000);
   }
 
   onAssetLoaded(asset) {
     this.loaded++;
     const percent = this.loaded / this.total;
-    this.elements.number.innerHTML = `${Math.round(percent * 100)}%`;
 
-    if (percent >= 1) this.onLoaded();
+    // 2. Animate the progress value instead of setting it directly
+    GSAP.to(this.progress, {
+      value: percent,
+      duration: 0.3, // Controls the smoothness of the count
+      ease: 'power3.out',
+      onUpdate: () => {
+        this.elements.number.innerHTML = `${Math.round(this.progress.value * 100)}%`;
+      },
+      onComplete: () => {
+        // 3. Call onLoaded only when the final animation is complete
+        if (this.progress.value >= 1) {
+          this.onLoaded();
+        }
+      }
+    });
   }
 
   onLoaded() {
     return new Promise(resolve => {
       this.emit('completed');
 
-      this.animateOut = GSAP.timeline({ delay: 0.5 });
-      this.animateOut.to(this.elements.number, { duration: 1.5, ease: 'expo.out' }, '-=1.4');
-      this.animateOut.to(this.element, { y: '-100%', duration: 1, ease: 'power3.out' });
+      this.animateOut = GSAP.timeline();
+      this.animateOut.to(this.element, {
+        autoAlpha: 0,
+        duration: 1,
+        delay: 0.5,
+        ease: 'power3.out'
+      });
 
-      // The problematic video logic has been REMOVED from here.
       this.animateOut.call(() => {
         this.destroy();
         resolve();

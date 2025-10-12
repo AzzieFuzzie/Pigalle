@@ -8,9 +8,9 @@ export default class Chat extends Animation {
     this.element = element;
     this.wrapper = this.element.querySelector('.whatsapp__wrapper');
     this.icon = this.wrapper.querySelector('.whatsapp__icon');
-    this.text = this.wrapper.querySelector('.whatsaap__text');
+    this.text = this.wrapper.querySelector('.whatsapp__text');
 
-    GSAP.set(this.text, { width: 0, borderRadius: 20, gap: 0 });
+    GSAP.set(this.text, { width: 0, autoAlpha: 0, borderRadius: 20, gap: 0 });
     GSAP.set(this.wrapper, { gap: 0 });
 
     // Bind hover handlers
@@ -46,11 +46,11 @@ export default class Chat extends Animation {
     GSAP.killTweensOf([this.text, this.wrapper]);
     GSAP.to(this.text, {
       width: this.expandedWidth,
-
+      autoAlpha: 1,
       duration: 0.6,
       ease: 'expo.Out'
     });
-    GSAP.to(this.wrapper, { duration: 0.8, ease: 'expo.Out' });
+    GSAP.to(this.wrapper, { duration: 0.6, ease: 'expo.Out' });
   }
 
   _animateOut() {
@@ -58,6 +58,7 @@ export default class Chat extends Animation {
     GSAP.to(this.text, {
       width: 0,
       gap: 0,
+      autoAlpha: 0,
       duration: 0.4,
       ease: 'expo.Out'
     });
