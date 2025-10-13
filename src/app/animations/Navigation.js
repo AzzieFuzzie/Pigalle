@@ -94,7 +94,7 @@ export default class Navigation {
     if (this.togglePath) GSAP.set(this.togglePath, { stroke: "#000" });
 
     tl.to(this.mobileLinks, { xPercent: 0 })
-      .fromTo(this._mobileAnchors, { yPercent: 100 }, { yPercent: 0, stagger: 0.05 }, "<");
+      .fromTo(this._mobileAnchors, { yPercent: 100 }, { yPercent: 0, stagger: 0.05 }, "<0.4");
 
     this._disableScroll();
   }
