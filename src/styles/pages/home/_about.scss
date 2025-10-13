@@ -10,7 +10,7 @@
 .about__card {
   @include page-grid;
   align-items: center;
-  position: relative;
+
 
   &__heading {
     margin-bottom: var(--margin-tiny);
@@ -38,6 +38,7 @@
   &__left {
     grid-column: 1 / span 6;
     overflow: hidden;
+    position: relative;
 
     @include media('<phone') {
       grid-column: 1 / span 4;

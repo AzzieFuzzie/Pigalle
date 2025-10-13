@@ -116,8 +116,8 @@ export default class Page extends EventEmitter {
           next: '.btn__next',
           prev: '.btn__prev'
         },
-        slider: '.slider__image',
-        counter: '.food__slider__counter  span'
+        slider: '.carousel',
+        counter: '.carousel__slider__counter  span'
       });
     });
   }

@@ -36,7 +36,7 @@ block content
                   alt=aboutImage.alt
                 
                 )
-            +svg-decorative('mint')
+              +svg-decorative('mint')
             .about__card__right
               h6.about__card__heading= slice.primary.heading[0].text
               p.h4.about__card__description!= slice.primary.intro_text.replace(/\n/g, '<br>')
@@ -46,7 +46,7 @@ block content
     // Our Food Section
     each slice in prismic.home.data.body
       if slice.slice_type === 'our_food'
-        section.section.section--medium--padding.food__card__wrapper
+        section.section--medium--padding.food__card__wrapper
           .food
             .food__left
               h6.food__heading= slice.primary.heading[0].text
@@ -54,24 +54,25 @@ block content
               a.button(href='/menu/')
                 span.button__label= slice.primary.button_label
             .food__right
-              .image__wrapper
+              div.carousel
                 each item, index in slice.items
                   - const sliderImage = imgix.imgix(item.slider_image, { auto: 'compress', fit: 'crop', crop: 'edges', ar: '665:700' })
-                  .slider__image(data-animation="carousel")
-                    img.food__image(
-                      data-src=sliderImage.src
-                      srcset=sliderImage.srcset
-                      sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
-                      alt=sliderImage.alt
-                      
-                    )
+                  .carousel__slide
+                    .carousel__image__wrapper(data-animation="carousel")
+                      img.carousel__image(
+                        data-src=sliderImage.src
+                        srcset=sliderImage.srcset
+                        sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
+                        alt=sliderImage.alt
+                        
+                      )
 
-              .food__slider__controls
-                button.food__button 
-                  span.btn__prev.food__button__label prev 
-                button.food__button 
-                  span.btn__next.food__button__label next 
-                .food__slider__counter 
+              .carousel__controls
+                button.carousel__button 
+                  span.btn__prev.carousel__button__label prev 
+                button.carousel__button 
+                  span.btn__next.carousel__button__label next 
+                div.carousel__counter 
                   span 1/#{slice.items.length}
 
               +svg-decorative('rosemary')
