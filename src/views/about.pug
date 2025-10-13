@@ -26,7 +26,7 @@ block content
         if slice.slice_type === 'about_history'
           section.container--padding.section--small--padding.story__history
             div.story__history__wrapper
-              h2.story__history__heading= slice.primary.sub_heading[0].text
+              h2.story__history__heading(data-animation="text")= slice.primary.sub_heading[0].text
               p.story__history__description= slice.primary.description
               a.story__history__button(href='/book/')
                 span.button__label= slice.primary.button_label 
@@ -50,7 +50,7 @@ block content
         if slice.slice_type === 'about_quality_'
           section.section--small--padding.story__quality
             div.story__quality__wrapper
-              h2.story__quality__heading= slice.primary.sub_heading[0].text
+              h2.story__quality__heading(data-animation="text")= slice.primary.sub_heading[0].text
               div.story__quality__content 
                 //- Halaal
                 div.quality__halaal__wrapper
