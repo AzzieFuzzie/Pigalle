@@ -82,6 +82,8 @@ class App {
 
   }
 
+
+
   createTransition() {
     this.transition = new Transition({ lenis: this.lenis });
   }
@@ -93,6 +95,9 @@ class App {
     this.page.create();
     // Show the page (which now also creates its animations)
     this.page.show();
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 0);
   }
 
   createContent() {

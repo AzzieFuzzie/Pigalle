@@ -33,48 +33,59 @@
     grid-row: 1 / -1;
     position: relative;
 
-    @include media('<tablet') {
-      height: 45vh;
-    }
+
+
 
     @include media('<phone') {
       height: 50vh;
       grid-column: 1 / -1;
       grid-row: unset;
       width: 100%;
+
       margin-bottom: var(--margin-medium);
 
     }
+
+    @include media('<tablet') {
+      aspect-ratio: 16 / 9;
+      height: 50vh;
+    }
+
+    @include media('<phone') {
+      aspect-ratio: 16 / 9;
+      height: 50vh;
+    }
+
 
     .menu__image {
       position: absolute; // stack images
       top: 0;
       left: 0;
       width: 100%;
-      max-height: 60vh;
+      height: 60vh;
+
       aspect-ratio: 3/ 4;
       object-fit: cover;
-      // object-position: center;
-      // opacity: 0;
-      // /* Make ALL images start hidden (GSAP will control this) */
-      // z-index: 1;
 
-      // &:first-child {
-      //   opacity: 1;
-      //   z-index: 2;
-      // }
+
+      @include media('<tablet') {
+        aspect-ratio: 16 / 9;
+        height: 50vh;
+      }
 
       @include media('<phone') {
         aspect-ratio: 16 / 9;
+        height: 100%;
       }
     }
   }
+
 
   &__item {
     grid-column: 6 / span 6; // text on the right
     display: block;
     margin-bottom: var(--margin-xxtiny);
-
+    overflow: hidden;
 
     @include media('<phone') {
       grid-column: 1 / -1;

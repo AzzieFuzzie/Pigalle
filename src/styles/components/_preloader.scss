@@ -7,23 +7,15 @@
 .preloader {
   @extend %cover;
   overflow: hidden;
-  background: colors(grey);
+  background-color: colors(grey);
   color: colors(gold);
-  text-align: center;
-  z-index: z(preloader);
+  z-index: 9999; // THIS IS THE LINE THAT FIXES THE ANIMATIONS
 
-
-
-  &__wrapper {
-    position: relative;
-
-  }
+  position: relative; // Keep this for positioning children if needed
 
   &__number {
-
     position: absolute;
-    bottom: var(--margin-small);
-    right: var(--margin-small);
-
+    bottom: 20px;
+    right: 20px;
   }
 }

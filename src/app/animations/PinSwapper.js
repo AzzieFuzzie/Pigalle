@@ -101,9 +101,23 @@ export default class PinSwapper {
   }
 
   setupMobile(section) {
+    const imageWrapper = section.querySelector(".menu__image__wrapper");
+    if (!imageWrapper) return;
+
     const images = Array.from(section.querySelectorAll(".menu__image"));
     const items = Array.from(section.querySelectorAll(".menu__item"));
 
+    // Pin image wrapper
+    const pinTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: `top-=20 top`,
+      end: `bottom center`,
+      pin: imageWrapper,
+      pinSpacing: false,
+
+      markers: true, // Keep markers for debugging
+    });
+    this.triggers.push(pinTrigger);
     // remove previous handlers
     items.forEach(item => {
       if (item._menuPinHandler) {
