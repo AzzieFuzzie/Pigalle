@@ -9,13 +9,16 @@
   overflow: hidden;
   background-color: colors(grey);
   color: colors(gold);
-  z-index: 9999; // THIS IS THE LINE THAT FIXES THE ANIMATIONS
 
-  position: relative; // Keep this for positioning children if needed
+  z-index: 9999;
+
+  position: relative;
 
   &__number {
+    overflow: hidden;
     position: absolute;
     bottom: 20px;
     right: 20px;
+
   }
 }

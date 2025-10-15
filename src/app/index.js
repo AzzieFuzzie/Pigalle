@@ -72,9 +72,10 @@ class App {
 
 
     this.preloader.once('completed', () => {
-      if (this.lenis) this.lenis.start();
-
-      this.onPreloaded();
+      GSAP.delayedCall(1.6, () => {
+        if (this.lenis) this.lenis.start();
+        this.onPreloaded();
+      });
     });
 
 
@@ -88,6 +89,8 @@ class App {
     this.transition = new Transition({ lenis: this.lenis });
   }
 
+  // in src/app/index.js
+
   onPreloaded() {
     this.onResize();
 
@@ -95,11 +98,11 @@ class App {
     this.page.create();
     // Show the page (which now also creates its animations)
     this.page.show();
+
     setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 0);
+    }, 100); // 100ms is imperceptible but ensures stability.
   }
-
   createContent() {
     this.content = document.querySelector('.content');
     this.template = this.content.getAttribute('data-template');
