@@ -133,18 +133,41 @@ block content
           .icon__wrapper
             +svg-decorative('wheat_plant')
             +svg-decorative('seed_plant')
-            
+
+ 
     - var reviewsToShow = (google_reviews || []).filter(r => r.rating === 5).slice(0, 5)
+
     - if (reviewsToShow.length < 5)
-      - reviewsToShow = reviewsToShow.concat([{ text: "Hardcoded review 1", author_name: "John D." },{ text: "Hardcoded review 2", author_name: "Sarah M." },{ text: "Hardcoded review 3", author_name: "Alex R." }, { text: "Hardcoded review 4", author_name: "Lisa K." },{ text: "Hardcoded review 5", author_name: "Michael B." }].slice(0, 5 - reviewsToShow.length))
+      each slice in prismic.home.data.body
+        if slice.slice_type === 'review_card' 
+          
+          // 1. Create an empty list to hold your new reviews
+          - var prismicReviewsWithHardcodedNames = []
+          
+          // 2. Define your hardcoded names
+          - var hardcodedNames = ["John D.", "Sarah M.", "Alex R.", "Lisa K.", "Michael B."]
 
+          // 3. Loop through Prismic reviews and get the index (i)
+          each item, i in slice.items
+            
+            // 4. Check if a hardcoded name exists for this review
+            - if (hardcodedNames[i])
+              
+              // 5. Add the Prismic text + hardcoded name to your new list
+              - prismicReviewsWithHardcodedNames.push({ text: item.review, author_name: item.author_name })
 
+          // 6. NOW, concat the reviews you need.
+          //    This line is *outside* the 'each item' loop.
+          - reviewsToShow = reviewsToShow.concat(prismicReviewsWithHardcodedNames.slice(0, 5 - reviewsToShow.length))
+
+    // This section will now work correctly
     section.section--small--padding.reviews(data-animation='reviews_slider')
       .reviews__wrapper
         .reviews__track
           .reviews__quote__wrapper
             span.reviews__quote &ldquo;
           .reviews__slider
+            // This will now show [Google Reviews] + [Abdul's text as John D.], [Paul's text as Sarah M.], etc.
             each review in reviewsToShow
               .reviews__slide
                 .reviews__item
