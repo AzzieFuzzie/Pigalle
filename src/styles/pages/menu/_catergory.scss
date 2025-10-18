@@ -5,7 +5,9 @@
 
 .menu__category {
   @include flex(row, center, center, wrap);
-  padding-top: var(--margin-small);
+  margin-top: calc(var(--margin-medium) + 80px);
+  margin-bottom: var(--margin-medium);
+
   color: colors(accent-grey);
 
   @include media('<tablet') {

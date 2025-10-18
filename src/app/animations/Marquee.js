@@ -47,7 +47,7 @@ export default class Marquee extends Component {
       onEnterBack: () => this.tween.play(),
       onLeave: () => this.tween.pause(),
       onLeaveBack: () => this.tween.pause(),
-      markers: true,
+      markers: false,
     });
   }
 

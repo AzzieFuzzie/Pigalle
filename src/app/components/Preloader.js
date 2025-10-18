@@ -24,8 +24,8 @@ export default class Preloader extends Component {
 
     GSAP.to(this.element, {
       autoAlpha: 1,
-      duration: 0.2,
-      ease: 'power3.inOut'
+      duration: 0.75,
+
     });
   }
 
@@ -104,9 +104,9 @@ export default class Preloader extends Component {
       this.animateOut = GSAP.timeline();
       this.animateOut.to(this.element, {
         autoAlpha: 0,
-        duration: 1,
+        duration: 0.75,
         delay: 0.5,
-        ease: 'power3.out'
+
       });
 
       this.animateOut.call(() => {

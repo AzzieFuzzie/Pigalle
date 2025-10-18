@@ -4,8 +4,8 @@
 @use '../../utils/functions' as *;
 
 .contact {
-  padding-top: var(--margin-small);
-  padding-bottom: var(--margin-tiny);
+  margin-top: calc(var(--margin-small) + 80px);
+  margin-bottom: var(--margin-tiny);
 
 
   &__wrapper {

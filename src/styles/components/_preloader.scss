@@ -29,7 +29,7 @@
 }
 
 .preloader__number {
-
+  font-family: font(roslindale-regular);
 
   bottom: 7.3rem;
   left: 50%;
@@ -43,5 +43,6 @@
 }
 
 .preloader__number__text {
+  font-family: font(roslindale-regular);
   display: inline-block;
 }

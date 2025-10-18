@@ -8,15 +8,13 @@ html(lang="en")
       body {
         visibility: hidden;
         overflow: hidden;
-        background: #EFEDEA; 
       }
   
 
   body
     include ./preloader
     include ./transition
-    header(class=template) 
-      include ./navigation
+    include ./navigation
 
     #content.content(data-template=template)
       block content
