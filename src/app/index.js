@@ -39,7 +39,6 @@ class App {
     this.addEventListeners();
     this.addLinkListeners();
 
-    this.onResize();
     this.update();
     this.update = this.update.bind(this);
   }
@@ -95,7 +94,7 @@ class App {
   // in src/app/index.js
 
   onPreloaded() {
-    this.onResize();
+
 
     // Create the page elements for the first time
     this.page.create();
@@ -183,7 +182,7 @@ class App {
 
 
       this.addLinkListeners();
-      this.onResize();
+
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
@@ -197,9 +196,7 @@ class App {
     document.body.appendChild(this.stats.dom);
   }
 
-  onResize() {
-    if (this.page?.onResize) this.page.onResize();
-  }
+
 
   onKeyDown(event) {
     if (event.key === 'Tab') event.preventDefault();

@@ -27,12 +27,18 @@ header {
 
   &__links {
     &--desktop {
+
+
       display: flex;
       gap: var(--margin-xsmall);
 
-
       @media (max-width: 768px) {
         display: none;
+      }
+
+      a {
+        @include link-hidden;
+        line-height: 0
       }
     }
 

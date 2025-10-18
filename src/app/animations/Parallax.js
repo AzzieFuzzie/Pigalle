@@ -48,7 +48,6 @@ export default class Parallax extends Component {
           // Or try: start: "center bottom", // Start when center hits bottom
           end: "bottom top",
           scrub: 1.5,
-          invalidateOnRefresh: true,
           markers: false,
         }
       });
