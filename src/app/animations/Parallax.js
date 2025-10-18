@@ -19,7 +19,6 @@ export default class Parallax extends Component {
     const scaleMax = 1;
 
     GSAP.set(this.element, { yPercent: 0, scale: scaleMin, rotation: 0, transformOrigin: "center center" });
-
     // --- START: MOBILE OPTIMIZATION ---
 
     // Desktop Animation (large screens)
@@ -27,26 +26,30 @@ export default class Parallax extends Component {
       // Store the scale trigger so we can kill it later
       const scaleTrigger = ScrollTrigger.create({
         trigger: this.element,
-        start: "top bottom",
+        start: "top 90%",
         onEnter: () => {
           GSAP.to(this.element, {
             scale: scaleMax,
-            duration: 0.6,
-            ease: "expo.Inout"
+            duration: 0.75, // Slightly longer duration for scale
+            ease: "expo.out" // Smoother ease for scale
           });
         }
       });
 
+      // Inside the this.mm.add("(min-width: 1024px)", ...) block in Parallax.js
       const tween = GSAP.to(this.element, {
         yPercent: yRange,
         rotation: rotationRange,
         ease: "none",
         scrollTrigger: {
           trigger: this.element,
-          start: "top bottom",
+          start: "top 90%", // <--- FIX: Start when top hits 90% down viewport
+          // Or try: start: "top 80%",
+          // Or try: start: "center bottom", // Start when center hits bottom
           end: "bottom top",
-          scrub: 1,
-          invalidateOnRefresh: true
+          scrub: 1.5,
+          invalidateOnRefresh: true,
+          markers: false,
         }
       });
 

@@ -64,7 +64,7 @@ export default class Page extends EventEmitter {
         this.elements[key] = Array.from(nodeList);
       }
     });
-
+    this.createAnimations();
     // Set initial state to invisible. The 'show' method will handle fading it in.
     // GSAP.set('#content', { autoAlpha: 0 });
   }
@@ -122,8 +122,8 @@ export default class Page extends EventEmitter {
 
   show() {
     return new Promise((resolve) => {
-      this.createAnimations();
       this.addEventListeners();
+
       resolve();
 
     });

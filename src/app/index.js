@@ -70,12 +70,11 @@ class App {
 
 
     this.preloader.once('completed', () => {
-      GSAP.delayedCall(1.6, () => {
-        if (this.lenis) this.lenis.start();
-        this.onPreloaded();
-      });
-    });
 
+      if (this.lenis) this.lenis.start();
+      this.onPreloaded();
+
+    });
 
     document.body.style.visibility = "visible";
 
