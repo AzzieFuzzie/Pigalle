@@ -46,6 +46,9 @@ export default class Page extends EventEmitter {
     };
 
     this.transformPrefix = Prefix('transform');
+
+
+
   }
 
   create() {
@@ -119,32 +122,13 @@ export default class Page extends EventEmitter {
     });
   }
 
-  checkPassword() {
-    const password = prompt("Password:");
-    const correctPassword = "goodbyeFriday";
-
-    if (password === correctPassword) {
-      document.body.style.opacity = 1;
-    } else {
-      alert("Incorrect password.");
-      this.checkPassword();
-    }
-
-    window.onload = () => {
-      document.body.style.opacity = 0;
-      this.checkPassword();
-    };
-  }
-
-
-
 
   show() {
     return new Promise((resolve) => {
       this.addEventListeners();
 
       resolve();
-      this.checkPassword()
+
     });
   }
 
