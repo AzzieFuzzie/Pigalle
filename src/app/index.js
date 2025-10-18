@@ -45,7 +45,7 @@ class App {
     this.checkPassword()
   }
   checkPassword() {
-    const password = prompt("Password:");
+    const password = prompt("Enter Password:");
     const correctPassword = "goodbyeFriday";
 
     if (password === correctPassword) {
