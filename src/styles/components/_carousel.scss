@@ -2,6 +2,7 @@
 @use '../base/grid' as *;
 @use '../utils/responsive' as *;
 @use '../utils/functions' as *;
+@use '../shared/links' as *;
 
 .carousel {
   display: flex;
@@ -61,7 +62,8 @@
 
   &__button__label {
     margin-right: var(--margin-small);
-
+    @include link-hidden;
+    line-height: 0
   }
 
   &__counter {
