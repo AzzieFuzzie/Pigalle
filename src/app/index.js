@@ -24,6 +24,9 @@ class App {
     AutoBind(this);
     this.createLenis();
     this.createContent();
+    document.body.style.opacity = '0';
+
+    this.checkPassword();
 
     this.createPreloader();
     this.createNavigation();
@@ -41,24 +44,20 @@ class App {
 
     this.update();
     this.update = this.update.bind(this);
-
-    this.checkPassword()
   }
+
   checkPassword() {
     const password = prompt("Enter Password:");
-    const correctPassword = "goodbyeFriday";
+    const correctPassword = "goodbyeFriday"; // Your password
 
     if (password === correctPassword) {
-      document.body.style.opacity = 1;
+      // Show body if correct
+      document.body.style.opacity = '1';
     } else {
       alert("Incorrect password.");
+      // Keep prompting if wrong
       this.checkPassword();
     }
-
-    window.onload = () => {
-      document.body.style.opacity = 0;
-      this.checkPassword();
-    };
   }
 
 
