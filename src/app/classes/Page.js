@@ -9,7 +9,7 @@ import TextReveal from "../animations/TextReveal";
 import FAQAccordion from "../animations/FAQAccordion.js";
 import Carousel from "../animations/Carousel.js";
 import Scale from "../animations/Scale";
-import Navigation from "../animations/Navigation.js";
+// import Navigation from "../animations/Navigation.js";
 import Slider from "../animations/Slider";
 import Marquee from "../animations/Marquee";
 import Parallax from "../animations/Parallax";
@@ -32,7 +32,7 @@ export default class Page extends EventEmitter {
       ...elements,
 
       animationScale: '[data-animation="scale"]',
-      animationNavigation: '[data-animation="navigation"]',
+      // animationNavigation: '[data-animation="navigation"]',
       animationSlider: '[data-animation="reviews_slider"]',
       animationCarousel: '[data-animation="carousel"]',
       animationFAQ: '[data-animation="faq"]',
@@ -74,9 +74,6 @@ export default class Page extends EventEmitter {
       return new Scale({ element });
     });
 
-    this.animationsNavigation = map(this.elements.animationNavigation, (element) => {
-      return new Navigation({ element });
-    });
 
     this.animationsSlider = map(this.elements.animationSlider, (element) => {
       return new Slider({ element });

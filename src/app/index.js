@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from './components/Preloader';
 import Transition from './components/Transition';
 import initDineplanSPA from './utils/dineplan';
+import Navigation from './animations/Navigation'
 
 import Home from '@pages/Home';
 import Menu from '@pages/Menu';
@@ -83,6 +84,9 @@ class App {
 
   }
 
+  createNavigation() {
+    this.navigation = new Navigation()
+  }
 
 
   createTransition() {

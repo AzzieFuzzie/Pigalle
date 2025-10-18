@@ -36,16 +36,18 @@ export default class Marquee extends Component {
           return (num % -this.wrapperWidth) + "px";
         }
       }
+
     });
 
     this.scrollTrigger = ScrollTrigger.create({
       trigger: this.element,
-      start: "top bottom",
+      start: "top-=50 bottom",
       end: "bottom top",
       onEnter: () => this.tween.play(),
       onEnterBack: () => this.tween.play(),
       onLeave: () => this.tween.pause(),
       onLeaveBack: () => this.tween.pause(),
+      markers: true,
     });
   }
 

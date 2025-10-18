@@ -5,6 +5,7 @@
 // Load utilities/variables (They are public via `./utils` namespace)
 // We need access to their values here to configure functions.
 @use './utils/variables';
+@use './utils/vendors';
 
 // Load and Configure functions. Use the public variables from the 'variables' module for configuration.
 // The `as *` allows you to call functions without a namespace (e.g., z(5) instead of functions.z(5)).

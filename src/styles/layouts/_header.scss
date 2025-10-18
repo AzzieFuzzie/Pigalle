@@ -72,7 +72,7 @@ header.about {
     background-color: #fff;
     //- Start with the background hidden.
     opacity: 0;
-    z-index: -1;
+
     //- Performance: Hint to the browser that opacity will be animated.
     will-change: opacity;
     //- Add a transition for smooth fade-in/out.

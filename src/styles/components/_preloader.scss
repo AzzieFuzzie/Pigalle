@@ -2,23 +2,46 @@
 @use '../base/flex' as *;
 @use '../utils/responsive' as *;
 @use '../utils/mixins' as *;
-
+@use '../utils/functions' as *;
 
 .preloader {
+  @extend %center;
   @extend %cover;
-  overflow: hidden;
+
   background-color: colors(grey);
-  color: colors(gold);
+  color: colors(black);
+  text-align: center;
+  z-index: z(preloader);
+}
 
-  z-index: 9999;
+.preloader__text {
 
-  position: relative;
 
-  &__number {
-    overflow: hidden;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+  max-width: 67rem;
+  opacity: 0;
 
+  span span {
+
+
+    display: inline-block;
+    transform-origin: center center 0.5em;
   }
+}
+
+.preloader__number {
+
+
+  bottom: 7.3rem;
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  transform: translateX(-50%);
+
+  @include media('<phone') {
+    font-size: 2.4rem;
+  }
+}
+
+.preloader__number__text {
+  display: inline-block;
 }
