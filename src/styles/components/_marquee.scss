@@ -21,7 +21,7 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: 0; // spacing inside wrapper only
-  will-change: transform;
+
   margin: var(--margin-xxtiny) 0;
 }
 
@@ -51,7 +51,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0; // remove gap here; spacing is handled inside wrapper
-  will-change: transform;
+
 }
 
 .marquee__wrapper {
