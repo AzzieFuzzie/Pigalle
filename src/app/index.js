@@ -23,47 +23,34 @@ class App {
   constructor() {
     AutoBind(this);
     this.createLenis();
-    this.createContent();
-    // document.body.style.opacity = '0';
-
-    // this.checkPassword();
-
     this.createPreloader();
-    this.createNavigation();
     this.isTransitioning = false;
 
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
       this.createStats();
     }
 
+
+    this.init();
+    this.update = this.update.bind(this);
+  }
+
+  init() {
+    this.createContent();
+    this.createNavigation()
     this.createTransition();
     this.createPages();
 
     this.addEventListeners();
     this.addLinkListeners();
 
+    this.onResize();
     this.update();
-    this.update = this.update.bind(this);
   }
-
-  checkPassword() {
-    const password = prompt("Enter Password:");
-    const correctPassword = "goodbyeFriday"; // Your password
-
-    if (password === correctPassword) {
-      // Show body if correct
-      document.body.style.opacity = '1';
-    } else {
-      alert("Incorrect password.");
-      // Keep prompting if wrong
-      this.checkPassword();
-    }
-  }
-
 
   createLenis() {
     this.lenis = new Lenis({
-
+      // smoothWheel: true,
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
     });
@@ -81,16 +68,18 @@ class App {
 
 
   createPreloader() {
-    if (this.lenis) this.lenis.stop();
     this.preloader = new Preloader();
+
+    if (this.lenis) this.lenis.stop();
 
 
     this.preloader.once('completed', () => {
-
-      if (this.lenis) this.lenis.start();
-      this.onPreloaded();
-
+      GSAP.delayedCall(1.6, () => {
+        if (this.lenis) this.lenis.start();
+        this.onPreloaded();
+      });
     });
+
 
     document.body.style.visibility = "visible";
 
@@ -111,16 +100,16 @@ class App {
   // in src/app/index.js
 
   onPreloaded() {
-
+    this.onResize();
 
     // Create the page elements for the first time
     this.page.create();
     // Show the page (which now also creates its animations)
     this.page.show();
 
-    // setTimeout(() => {
-    //   ScrollTrigger.refresh();
-    // }, 100); // 100ms is imperceptible but ensures stability.
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100); // 100ms is imperceptible but ensures stability.
   }
   createContent() {
     this.content = document.querySelector('.content');
@@ -167,8 +156,6 @@ class App {
       this.content.setAttribute('data-template', this.template);
       this.content.innerHTML = divContent.innerHTML;
 
-      this.navigation.onChange(this.template)
-
       this.page = this.pages[this.template];
       if (!this.page) {
         console.warn(`No page found for template: ${this.template}, redirecting home`);
@@ -176,30 +163,34 @@ class App {
         return this.onChange({ url: '/', push: true });
       }
 
-
+      // 4. Create the new page's elements (it's still invisible at this point)
       this.page.create();
 
       if (this.template === 'book') {
         initDineplanSPA();
       }
 
-
+      // Logic to scroll to the top of the page is RESTORED here.
       if (this.lenis) {
         document.documentElement.scrollTop = 0; // For modern browsers
         document.body.scrollTop = 0; // For older browsers (e.g., Safari)
         this.lenis.scrollTo(0, { immediate: true }); // For the Lenis instance
       }
 
+      const header = document.querySelector('header');
+      if (header) header.className = this.template;
 
+      // 5. Play the 'leave' part of the main page transition
       if (this.transition) await this.transition.onLeave();
 
-
-      ScrollTrigger.refresh();
+      // 6. Show the new page (fading it in and creating its animations)
       await this.page.show();
 
+      // 7. CRITICAL: Refresh ScrollTrigger AFTER everything is visible and stable.
+      ScrollTrigger.refresh();
 
       this.addLinkListeners();
-
+      this.onResize();
 
     } catch (err) {
       console.error(`Failed to load page ${url}:`, err);
@@ -213,7 +204,9 @@ class App {
     document.body.appendChild(this.stats.dom);
   }
 
-
+  onResize() {
+    if (this.page?.onResize) this.page.onResize();
+  }
 
   onKeyDown(event) {
     if (event.key === 'Tab') event.preventDefault();

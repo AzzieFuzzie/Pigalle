@@ -9,7 +9,7 @@ import TextReveal from "../animations/TextReveal";
 import FAQAccordion from "../animations/FAQAccordion.js";
 import Carousel from "../animations/Carousel.js";
 import Scale from "../animations/Scale";
-// import Navigation from "../animations/Navigation.js";
+
 import Slider from "../animations/Slider";
 import Marquee from "../animations/Marquee";
 import Parallax from "../animations/Parallax";
@@ -67,7 +67,7 @@ export default class Page extends EventEmitter {
         this.elements[key] = Array.from(nodeList);
       }
     });
-    this.createAnimations();
+
     // Set initial state to invisible. The 'show' method will handle fading it in.
     // GSAP.set('#content', { autoAlpha: 0 });
   }
@@ -125,8 +125,8 @@ export default class Page extends EventEmitter {
 
   show() {
     return new Promise((resolve) => {
+      this.createAnimations();
       this.addEventListeners();
-
       resolve();
 
     });
@@ -154,7 +154,7 @@ export default class Page extends EventEmitter {
     if (this.animationsCarousel) this.animationsCarousel.forEach(anim => anim.destroy?.());
     if (this.animationsFAQ) this.animationsFAQ.forEach(anim => anim.destroy?.());
     if (this.animationsChat) this.animationsChat.forEach(anim => anim.destroy?.());
-    if (this.animationsNavigation) this.animationsNavigation.forEach(anim => anim.destroy?.());
+
     if (this.animationsSlider) this.animationsSlider.forEach(anim => anim.destroy?.());
     if (this.animationsTextReveal) this.animationsTextReveal.forEach(anim => anim.destroy?.());
     if (this.animationsHeightImage) this.animationsHeightImage.forEach(anim => anim.destroy?.());
