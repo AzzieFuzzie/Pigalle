@@ -163,7 +163,7 @@ export default class Page extends EventEmitter {
   }
 
   onResize() {
-    ScrollTrigger.refresh();
+
   }
 
   addEventListeners() {

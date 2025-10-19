@@ -6,68 +6,111 @@ GSAP.registerPlugin(ScrollTrigger);
 
 export default class Marquee extends Component {
   constructor({ element, elements }) {
-    super({ element, elements });
+    super({ element, elements }); // Pass arguments to base class
+
+    // Bind 'this' context for methods used as callbacks or event listeners
     this._onResize = this._onResize.bind(this);
+    this.init = this.init.bind(this); // Bind init for use in timeouts
+
+    this.element = element;
     this.wrapper = this.element.querySelector('.marquee__wrapper');
-    this.direction = this.element.dataset.direction || "left";
+    this.direction = this.element.dataset.direction || "left"; // Default to "left"
 
-    // Use a timeout to ensure the DOM is fully ready before initializing.
-    this.initTimeout = setTimeout(this.init.bind(this), 100);
+    this.tween = null; // Initialize tween/ScrollTrigger properties
+    this.scrollTrigger = null;
+    this.resizeTimeout = null; // For debouncing resize
 
-    window.addEventListener("resize", this._onResize);
+    // --- Performance Optimization: Add will-change via JS ---
+    // More targeted than adding it globally via CSS
+    GSAP.set(this.element, { willChange: 'transform' });
+
+    // Initialize after a short delay to ensure DOM measurements are accurate
+    // Consider using requestAnimationFrame for even better timing
+    this.initTimeout = setTimeout(this.init, 100);
+
+    window.addEventListener("resize", this._onResize, { passive: true }); // Use passive listener
   }
 
   init() {
-    // Clear any existing animations before creating new ones.
+    // Clear any previous animations and ScrollTriggers before recreating
     this.destroyAnimations();
 
+    // Ensure wrapper exists before proceeding
+    if (!this.wrapper) {
+      console.error("Marquee wrapper not found for element:", this.element);
+      return;
+    }
+
+    // --- Dynamic Duration Calculation ---
     this.wrapperWidth = this.wrapper.getBoundingClientRect().width;
     const move = this.direction === "left" ? -this.wrapperWidth : this.wrapperWidth;
+    const pixelsPerSecond = 150; // Adjust this value to control speed (increased for example)
+    // Prevent division by zero and handle cases where width might be 0 initially
+    const dynamicDuration = this.wrapperWidth > 0 ? this.wrapperWidth / pixelsPerSecond : 10; // Default duration if width is 0
 
+    // --- Create GSAP Tween ---
     this.tween = GSAP.to(this.element, {
       x: `${move}px`,
-      duration: 40,
+      duration: dynamicDuration,
       ease: "none",
       repeat: -1,
-      paused: true,
-      modifiers: {
-        x: (x) => {
-          const num = parseFloat(x);
-          return (num % -this.wrapperWidth) + "px";
-        }
-      }
-
+      paused: true, // Start paused, ScrollTrigger will control playback
+      overwrite: true // Prevent overlapping tweens on fast re-init
     });
 
+    // --- Create ScrollTrigger ---
     this.scrollTrigger = ScrollTrigger.create({
       trigger: this.element,
-      start: "top-=50 bottom",
-      end: "bottom top",
-      onEnter: () => this.tween.play(),
-      onEnterBack: () => this.tween.play(),
-      onLeave: () => this.tween.pause(),
-      onLeaveBack: () => this.tween.pause(),
-      markers: false,
+      start: "top bottom+=50", // Start slightly later when entering viewport
+      end: "bottom top-=50",   // End slightly earlier when leaving viewport
+      // Play/Pause callbacks
+      onEnter: () => this.tween?.play(), // Use optional chaining
+      onEnterBack: () => this.tween?.play(),
+      onLeave: () => this.tween?.pause(),
+      onLeaveBack: () => this.tween?.pause(),
+      // --- FIX for stopping after resize ---
+      // onRefreshInit ensures the correct play/pause state is set immediately
+      // after ScrollTrigger recalculates positions (on init and resize).
+      onRefreshInit: (self) => {
+        if (self.isActive) {
+          this.tween?.play();
+        } else {
+          this.tween?.pause();
+        }
+      },
+      // invalidateOnRefresh: true // Usually good for scrub, less critical here but doesn't hurt
+      markers: false, // Keep markers off for production
     });
   }
 
   _onResize() {
-    // Debounce the resize event to avoid firing too often.
+    // Debounce the resize handler to limit how often init() is called
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(this.init.bind(this), 200); // Re-initialize after 200ms of no resizing.
+    // Re-initialize after a short delay once resizing stops
+    this.resizeTimeout = setTimeout(this.init, 250); // Increased debounce delay slightly
   }
 
   destroyAnimations() {
-    // A dedicated function to safely kill GSAP instances.
-    this.tween?.kill();
+    // Safely kill the tween and ScrollTrigger instance
     this.scrollTrigger?.kill();
+    this.tween?.kill();
+    this.scrollTrigger = null;
+    this.tween = null;
   }
 
   destroy() {
-    // Complete cleanup when the page changes.
+    // Complete cleanup: clear timeouts, remove listeners, destroy animations
     clearTimeout(this.initTimeout);
     clearTimeout(this.resizeTimeout);
-    this.destroyAnimations();
     window.removeEventListener("resize", this._onResize);
+    this.destroyAnimations();
+
+    GSAP.set(this.element, { willChange: 'auto' });
+
+    // Nullify references (optional, helps garbage collection)
+    this.element = null;
+    this.wrapper = null;
+    // Call super.destroy() if the base Component class has a destroy method
+    // super.destroy(); 
   }
 }

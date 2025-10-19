@@ -57,7 +57,7 @@
 
   &__controls {
     margin-top: var(--margin-xtiny);
-    @include flex(row, flex-start, space-between, nowrap)
+    @include flex(row, space-between, center, nowrap)
   }
 
   &__button__label {
