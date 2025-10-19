@@ -24,9 +24,9 @@ class App {
     AutoBind(this);
     this.createLenis();
     this.createContent();
-    // document.body.style.opacity = '0';
+    document.body.style.opacity = '0';
 
-    // this.checkPassword();
+    this.checkPassword();
 
     this.createPreloader();
     this.createNavigation();
