@@ -81,7 +81,7 @@ export default class Slider {
 
   startAutoplay() {
     this.autoplay = gsap.to({}, {
-      duration: 7,
+      duration: 4,
       repeat: -1,
       onRepeat: () => this.goToSlide((this.currentIndex + 1) % this.total),
     });
