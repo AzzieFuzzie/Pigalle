@@ -57,7 +57,8 @@ export default class Menu extends Page {
         GSAP.to(section, {
           autoAlpha: 0,
           duration: 0.4, // Fade-out duration
-          ease: 'power2.out'
+          ease: 'power2.out',
+
         });
       }
     });
@@ -69,7 +70,8 @@ export default class Menu extends Page {
         autoAlpha: 1,
         duration: 0.4, // Fade-in duration
         delay: 0.1,    // A slight delay to prevent flicker
-        ease: 'power2.in'
+        ease: 'power2.in',
+
       });
     }
 
