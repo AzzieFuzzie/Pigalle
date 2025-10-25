@@ -11,7 +11,7 @@ block content
         each slice in prismic.book.data.body
           if slice.slice_type === 'book'
             h1.book__heading=slice.primary.heading[0].text
-            p.book__description__1=slice.primary.description_1
+            p.book__description__1(data-animation='paragraph')=slice.primary.description_1
             //- p.book__description__2=slice.primary.description_2
 
         each slice in prismic.footer.data.body

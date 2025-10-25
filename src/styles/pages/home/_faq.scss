@@ -7,9 +7,10 @@
 .faq {
   @include page-grid;
 
+
   &__section {
     position: relative;
-
+    background-color: colors(grey);
   }
 
   &__container {
@@ -52,22 +53,52 @@
     flex-wrap: wrap;
     flex: 1 1 auto;
     text-align: left; // make sure text inside spans is left-aligned
+    margin: var(--margin-xtiny) 0;
   }
 
   &__question__text span {
-    display: inline; // remove block + min-width:100%
+    display: inline; // remove block + min-width:100%\
+
   }
 
 
   &__answer {
     padding-right: var(--margin-tiny);
-    margin-top: var(--margin-tiny);
+    margin: var(--margin-xtiny) 0;
   }
 
-  &__line {
-    background-color: colors(accent-grey);
-    height: 1px;
-    margin: var(--margin-tiny) 0;
+  // &__line {
+  //   background-color: colors(accent-grey);
+  //   height: 1px;
+  //   margin: var(--margin-tiny) 0;
+  // }
+  &__item {
+    position: relative;
+
+
+    // Define the line's styles, initial state, and transition here
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: colors(accent-grey);
+      height: 1px;
+
+
+      transform: scaleX(0);
+
+
+      transform-origin: center left;
+
+    }
+
+
+    &.animate-line-scale::after {
+      transform: scaleX(1);
+      transition: transform 1.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+    }
   }
 
   &__icon {
@@ -76,5 +107,7 @@
     width: 20px;
     height: 20px;
   }
+
+
 
 }

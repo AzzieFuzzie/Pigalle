@@ -4,15 +4,18 @@ import GSAP from 'gsap';
 export default class Scale extends Animation {
   constructor({ element, elements }) {
     super({ element, elements });
-    this.scaleTween = null;
 
-    // Set the initial state of the element to be invisible and slightly scaled down.
-    GSAP.set(this.element, { scale: 0.9 });
+
+    this.scaleTween = GSAP.set(this.element, {
+      scale: 0.9,
+      duration: 0.5,
+      ease: 'power2.in',
+    });
+
   }
 
   animateIn() {
-    // Kill any previously running animation on this element.
-    this.scaleTween?.kill();
+
 
     // Animate the element to be fully visible and at its normal size.
     this.scaleTween = GSAP.to(this.element, {
@@ -25,15 +28,9 @@ export default class Scale extends Animation {
   }
 
   animateOut() {
-    // Kill any previously running animation on this element.
-    this.scaleTween?.kill();
 
-    // Animate the element back to its initial invisible state.
-    this.scaleTween = GSAP.to(this.element, {
-      scale: 0.9,
-      duration: 0.5,
-      ease: 'power2.in',
-    });
+
+
   }
 
   destroy() {

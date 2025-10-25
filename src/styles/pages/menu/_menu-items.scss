@@ -84,7 +84,7 @@
   &__item {
     grid-column: 6 / span 6; // text on the right
     display: block;
-    margin-bottom: var(--margin-xxtiny);
+
     overflow: hidden;
 
     @include media('<phone') {
@@ -98,7 +98,7 @@
   }
 
   &__name {
-    margin-bottom: var(--margin-xtiny);
+    margin-bottom: var(--margin-xxtiny);
   }
 
   &__flex__wrapper {
@@ -127,7 +127,7 @@
     display: block;
     height: 1px;
     background-color: colors(accent-grey);
-    margin: var(--margin-xtiny) 0 var(--margin-tiny) 0;
+    margin: var(--margin-xsmall) 0 var(--margin-xsmall) 0;
   }
 
   // .menu__text__wrapper:last-child .menu__line {

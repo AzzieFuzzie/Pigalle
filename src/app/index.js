@@ -30,7 +30,6 @@ class App {
       this.createStats();
     }
 
-
     this.init();
     this.update = this.update.bind(this);
   }
@@ -62,8 +61,6 @@ class App {
     });
 
     GSAP.ticker.lagSmoothing(0);
-
-
   }
 
 
@@ -72,17 +69,14 @@ class App {
 
     if (this.lenis) this.lenis.stop();
 
-
     this.preloader.once('completed', () => {
-      GSAP.delayedCall(1.6, () => {
-        if (this.lenis) this.lenis.start();
-        this.onPreloaded();
-      });
+
+      if (this.lenis) this.lenis.start();
+      this.onPreloaded();
+
     });
 
-
     document.body.style.visibility = "visible";
-
   }
 
   createNavigation() {
@@ -92,25 +86,21 @@ class App {
     })
   }
 
-
   createTransition() {
     this.transition = new Transition({ lenis: this.lenis });
   }
 
-  // in src/app/index.js
-
   onPreloaded() {
     this.onResize();
 
-    // Create the page elements for the first time
-    this.page.create();
-    // Show the page (which now also creates its animations)
     this.page.show();
+    this.page.create();
 
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100); // 100ms is imperceptible but ensures stability.
+    if (this.lenis) {
+      this.lenis.scrollTo(0, { immediate: true });
+    }
   }
+
   createContent() {
     this.content = document.querySelector('.content');
     this.template = this.content.getAttribute('data-template');
@@ -163,18 +153,16 @@ class App {
         return this.onChange({ url: '/', push: true });
       }
 
-      // 4. Create the new page's elements (it's still invisible at this point)
-      this.page.create();
 
       if (this.template === 'book') {
         initDineplanSPA();
       }
 
-      // Logic to scroll to the top of the page is RESTORED here.
+      // Logic to scroll to the top of the page
       if (this.lenis) {
-        document.documentElement.scrollTop = 0; // For modern browsers
-        document.body.scrollTop = 0; // For older browsers (e.g., Safari)
-        this.lenis.scrollTo(0, { immediate: true }); // For the Lenis instance
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        this.lenis.scrollTo(0, { immediate: true });
       }
 
       const header = document.querySelector('header');
@@ -183,10 +171,12 @@ class App {
       // 5. Play the 'leave' part of the main page transition
       if (this.transition) await this.transition.onLeave();
 
-      // 6. Show the new page (fading it in and creating its animations)
+      // 6. Show the new page (this now creates animations + refreshes ST)
       await this.page.show();
+      this.page.create();
 
       // 7. CRITICAL: Refresh ScrollTrigger AFTER everything is visible and stable.
+      // This is still a good "safety net" refresh.
       ScrollTrigger.refresh();
 
       this.addLinkListeners();
@@ -211,6 +201,7 @@ class App {
   onKeyDown(event) {
     if (event.key === 'Tab') event.preventDefault();
   }
+
 
   onFocusIn(event) {
     event.preventDefault();
@@ -247,6 +238,7 @@ class App {
     window.addEventListener('focusin', this.onFocusIn);
     window.oncontextmenu = this.onContextMenu;
   }
+
   addLinkListeners() {
     const links = document.querySelectorAll('a');
     each(links, link => {
@@ -257,6 +249,7 @@ class App {
         link.onclick = event => {
           event.preventDefault();
           this.onChange({ url: link.href });
+
         };
       }
     });

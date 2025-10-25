@@ -48,7 +48,9 @@
 
 
 
-  &__image__wrapper {}
+  &__image__wrapper {
+    overflow: hidden;
+  }
 
   &__image {
     aspect-ratio: 665 / 700;

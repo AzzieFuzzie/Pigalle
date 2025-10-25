@@ -9,7 +9,7 @@ block content
   .home(class=`template-${template}`)
     .home__wrapper
       section.hero(data-animation="pin")
-        .hero__text!= prismic.homeHeadingsHTML[0]
+        .hero__text(data-animation="paragraph")!= prismic.homeHeadingsHTML[0]
         video.hero__video(autoplay muted loop playsinline poster="/images/poster_video.jpg")
           source(src="/reels/background_reel.mp4" type="video/mp4")
 
@@ -18,8 +18,8 @@ block content
           section.tagline__card__wrapper.section--large--padding
             .tagline
               h2(data-animation="text").tagline__heading= slice.primary.tagline[0].text
-              a.button(href='/book/')
-                span.button__label= slice.primary.button_label
+              a.button(href='/book/' data-animation="fade")
+                span.button__label=slice.primary.button_label
 
     // About Section
     each slice in prismic.home.data.body
@@ -34,7 +34,7 @@ block content
                   srcset=aboutImage.srcset
                   sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                   alt=aboutImage.alt
-                
+                  data-animation="image_reveal"
                 )
               +svg-decorative('mint')
             .about__card__right
@@ -98,8 +98,8 @@ block content
           )
             .events__content
               h2.events__heading= slice.primary.heading[0].text
-              p.events__description= slice.primary.intro_text
-              a.events__button(href='/book/')
+              p.events__description(data-animation='paragraph')= slice.primary.intro_text
+              a.events__button(href='/book/' data-animation="fade" )
                 span.button__label.events__button__label= slice.primary.button_label
           +svg-decorative('orange')
 
@@ -112,7 +112,7 @@ block content
               h2.faq__heading= slice.primary.heading[0].text
               dl.faq__accordian(data-animation="faq")
                 each item in slice.items
-                  .faq__item
+                  .faq__item(data-animation="line")
                     button.faq__question(data-animation="faq")
                       dt.faq__question__text
                         span= item.question

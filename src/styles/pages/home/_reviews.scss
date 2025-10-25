@@ -5,8 +5,11 @@
 @use '../../utils/functions' as *;
 
 .reviews {
+  background-color: colors(grey);
+
   @include media("<phone") {
     margin: 0 var(--margin-xsmall);
+
   }
 
 

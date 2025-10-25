@@ -27,8 +27,8 @@ block content
           section.container--padding.section--small--padding.story__history
             div.story__history__wrapper
               h2.story__history__heading(data-animation="text")= slice.primary.sub_heading[0].text
-              p.story__history__description= slice.primary.description
-              a.story__history__button(href='/book/')
+              p.story__history__description(data-animation="paragraph")= slice.primary.description
+              a.story__history__button(href='/book/'  data-animation="fade")
                 span.button__label= slice.primary.button_label 
 
         if slice.slice_type === 'image_slider'
@@ -57,14 +57,15 @@ block content
                   img.story__halaal__image(
                     src="/images/halaal.png"
                   )
-                  p.story__quality__halaal__description= slice.primary.halaal_description
+                  p.story__quality__halaal__description(data-animation="paragraph")= slice.primary.halaal_description
                 //- Team
                 div.quality__team__wrapper
                   img.story__team__image(
                     src="/images/chef.png"
                   )
-                  p.story__quality__team__description= slice.primary.team_description
+                  p.story__quality__team__description(data-animation="paragraph")= slice.primary.team_description
 
-                a.story__quality__button(href='/menu/')
+              a.story__history__button(href='/book/'  )
+                a.story__quality__button(href='/menu/' data-animation="fade" )
                   span.button__label= slice.primary.button_label 
   include ./_includes/chat 

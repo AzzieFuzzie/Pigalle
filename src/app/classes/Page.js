@@ -9,6 +9,10 @@ import TextReveal from "../animations/TextReveal";
 import FAQAccordion from "../animations/FAQAccordion.js";
 import Carousel from "../animations/Carousel.js";
 import Scale from "../animations/Scale";
+import Paragraph from "../animations/Paragraph";
+import ImageReveal from "../animations/ImageReveal.js";
+import Fade from "../animations/Fade.js";
+import Line from "../animations/Line.js";
 
 import Slider from "../animations/Slider";
 import Marquee from "../animations/Marquee";
@@ -32,7 +36,7 @@ export default class Page extends EventEmitter {
       ...elements,
 
       animationScale: '[data-animation="scale"]',
-      // animationNavigation: '[data-animation="navigation"]',
+      animationParagraph: '[data-animation="paragraph"]',
       animationSlider: '[data-animation="reviews_slider"]',
       animationCarousel: '[data-animation="carousel"]',
       animationFAQ: '[data-animation="faq"]',
@@ -42,12 +46,12 @@ export default class Page extends EventEmitter {
       animationChat: '[data-animation="chat"]',
       animationTextHighlight: '[data-animation="fill"]',
       animationTextReveal: '[data-animation="text"]',
-      animationHeightImage: '[data-animation="height"]',
+      animationFade: '[data-animation="fade"]',
+      animationImageReveal: '[data-animation="image_reveal"]',
+      animationLine: '[data-animation="line"]',
     };
 
     this.transformPrefix = Prefix('transform');
-
-
 
   }
 
@@ -68,15 +72,13 @@ export default class Page extends EventEmitter {
       }
     });
 
-    // Set initial state to invisible. The 'show' method will handle fading it in.
-    // GSAP.set('#content', { autoAlpha: 0 });
+    this.createAnimations(); // <-- DELETED FROM HERE
   }
 
   createAnimations() {
     this.animationScale = map(this.elements.animationScale, (element) => {
       return new Scale({ element });
     });
-
 
     this.animationsSlider = map(this.elements.animationSlider, (element) => {
       return new Slider({ element });
@@ -92,6 +94,10 @@ export default class Page extends EventEmitter {
 
     this.animationsParallax = map(this.elements.animationParallax, (element) => {
       return new Parallax({ element });
+    });
+
+    this.animationParagraph = map(this.elements.animationParagraph, (element) => {
+      return new Paragraph({ element });
     });
 
     this.animationsPinLayer = map(this.elements.animationPinLayer, (element) => {
@@ -110,6 +116,19 @@ export default class Page extends EventEmitter {
       return new Chat({ element });
     });
 
+    this.animationsImageReveal = map(this.elements.animationImageReveal, (element) => {
+      return new ImageReveal({ element });
+    });
+
+    this.animationsFade = map(this.elements.animationFade, (element) => {
+      return new Fade({ element });
+    });
+
+    this.animationsLine = map(this.elements.animationLine, (element) => {
+      return new Line({ element });
+    });
+
+
     this.animationsCarousel = map(this.elements.animationCarousel, (element) => {
       return new Carousel({
         buttons: {
@@ -117,7 +136,7 @@ export default class Page extends EventEmitter {
           prev: '.btn__prev'
         },
         slider: '.carousel',
-        counter: '.carousel__slider__counter  span'
+        counter: '.carousel__slider__counter  span'
       });
     });
   }
@@ -125,10 +144,11 @@ export default class Page extends EventEmitter {
 
   show() {
     return new Promise((resolve) => {
-      this.createAnimations();
+      // <-- MOVED HERE: Create animations *after* page is visible
+
+
       this.addEventListeners();
       resolve();
-
     });
   }
 
@@ -143,7 +163,6 @@ export default class Page extends EventEmitter {
     });
   }
 
-  // MINOR FIX in destroyAnimations for better cleanup
   destroyAnimations() {
     // A failsafe to kill any remaining ScrollTriggers attached to this page
     ScrollTrigger.getAll().forEach(t => t.kill());
@@ -160,10 +179,11 @@ export default class Page extends EventEmitter {
     if (this.animationsHeightImage) this.animationsHeightImage.forEach(anim => anim.destroy?.());
     if (this.animationsPinLayer) this.animationsPinLayer.forEach(anim => anim.destroy?.());
     if (this.animationsMarquee) this.animationsMarquee.forEach(anim => anim.destroy?.());
+    if (this.animationParagraph) this.animationParagraph.forEach(anim => anim.destroy?.()); // <-- ADDED MISSING ANIMATION
   }
 
   onResize() {
-
+    ScrollTrigger.refresh(); // <-- ADDED THIS to fix resize issues
   }
 
   addEventListeners() {

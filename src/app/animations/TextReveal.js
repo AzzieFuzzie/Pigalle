@@ -40,7 +40,7 @@ export default class TextReveal {
       scrollTrigger: {
         trigger: this.el,
         start: "top 95%",
-        end: "top 40%",
+        end: "top 60%",
         scrub: 0.2,
         markers: false
       }
