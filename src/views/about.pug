@@ -37,11 +37,11 @@ block content
               div.story__slider__item
                 - const imgData = imgix.imgix(item.image, { auto: 'compress', crop: 'entropy' }, [400, 600, 800,1200])
                 img.story__slider__image(
-                  data-animation= "height"
                   data-src=imgData.src
                   srcset=imgData.srcset
                   sizes="(max-width: 768px) 100vw, 33vw"
                   alt=item.alt || "Slider image"
+                  data-animation="image_reveal_horizontal"
             
                 )
             +svg-decorative('tomato')

@@ -27,7 +27,7 @@ export default class Animation extends Component { // <-- Add 'extends Component
   createObserver() {
     const options = {
       rootMargin: '0px',
-      threshold: 0.1,
+      threshold: 0,
     }
 
     // 1. Check for a valid target

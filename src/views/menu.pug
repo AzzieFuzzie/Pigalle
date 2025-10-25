@@ -44,11 +44,11 @@ block content
 
               // Text items
               each item in slice.items
-                div.menu__item
+                div.menu__item(data-animation="line")
                   div.menu__text__wrapper
                     p.h3.menu__name= item.name
                     div.menu__flex__wrapper
                       p.menu__description= item.description
                       p.menu__price= item.price
-                    span.menu__line
+                    
   include ./_includes/chat                    

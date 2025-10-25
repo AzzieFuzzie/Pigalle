@@ -13,20 +13,20 @@ export default class Fade extends Animation {
 
   animateIn() {
 
-    console.log(this.element);
+
 
     GSAP.to(this.element, {
 
       autoAlpha: 1, // The "to" state
       duration: 0.4,
-      ease: 'power3.inOut',
+      ease: 'sine.out',
       delay: 0.4
     })
 
   }
 
   animateOut() {
-    console.log(this.element);
+
     // GSAP.set(this.element, {
     //   autoAlpha: 0,
     // })

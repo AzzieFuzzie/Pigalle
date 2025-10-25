@@ -97,8 +97,13 @@
     display: block;
   }
 
-  &__name {
-    margin-bottom: var(--margin-xxtiny);
+  // Selects any .menu__item that comes after another .menu__item
+  .menu__item+.menu__item {
+
+    // Then apply the margin to the .menu__name inside it
+    .menu__name {
+      margin: var(--margin-xsmall) 0 var(--margin-xxtiny) 0;
+    }
   }
 
   &__flex__wrapper {
@@ -114,6 +119,8 @@
   &__description {
     max-width: 45%;
 
+    margin-bottom: var(--margin-xsmall);
+
     @include media('<phone') {
       max-width: 100%;
     }
@@ -123,11 +130,41 @@
     font-weight: bold;
   }
 
-  .menu__line {
-    display: block;
-    height: 1px;
-    background-color: colors(accent-grey);
-    margin: var(--margin-xsmall) 0 var(--margin-xsmall) 0;
+  // .menu__line {
+  //   display: block;
+  //   height: 1px;
+  //   background-color: colors(accent-grey);
+  //   margin: var(--margin-xsmall) 0 var(--margin-xsmall) 0;
+  // }
+
+  &__item {
+    position: relative;
+
+
+    // Define the line's styles, initial state, and transition here
+    &::after {
+      content: '';
+
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: colors(accent-grey);
+      height: 1px;
+
+
+      transform: scaleX(0);
+
+
+      transform-origin: center left;
+
+    }
+
+
+    &.animate-line-scale::after {
+      transform: scaleX(1);
+      transition: transform 1.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    }
   }
 
   // .menu__text__wrapper:last-child .menu__line {

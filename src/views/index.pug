@@ -34,7 +34,7 @@ block content
                   srcset=aboutImage.srcset
                   sizes="(max-width: 600px) 650px, (max-width: 1440px) 50vw, 700px"
                   alt=aboutImage.alt
-                  data-animation="image_reveal"
+                  data-animation="image_reveal_horizontal"
                 )
               +svg-decorative('mint')
             .about__card__right
@@ -57,7 +57,7 @@ block content
               div.carousel
                 each item, index in slice.items
                   - const sliderImage = imgix.imgix(item.slider_image, { auto: 'compress', fit: 'crop', crop: 'edges', ar: '665:700' })
-                  .carousel__slide
+                  .carousel__slide(data-animation="image_reveal_vertical")
                     .carousel__image__wrapper(data-animation="carousel")
                       img.carousel__image(
                         data-src=sliderImage.src

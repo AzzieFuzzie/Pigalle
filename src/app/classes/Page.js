@@ -4,13 +4,13 @@ import GSAP from 'gsap';
 import Prefix from 'prefix';
 
 import PinLayer from "../animations/PinLayer";
-import HeightImage from "../animations/HeightImage.js";
 import TextReveal from "../animations/TextReveal";
 import FAQAccordion from "../animations/FAQAccordion.js";
 import Carousel from "../animations/Carousel.js";
 import Scale from "../animations/Scale";
 import Paragraph from "../animations/Paragraph";
-import ImageReveal from "../animations/ImageReveal.js";
+import ImageRevealVertical from "../animations/ImageRevealVertical.js";
+import ImageRevealHorizontal from "../animations/ImageRevealHorizontal.js";
 import Fade from "../animations/Fade.js";
 import Line from "../animations/Line.js";
 
@@ -47,7 +47,8 @@ export default class Page extends EventEmitter {
       animationTextHighlight: '[data-animation="fill"]',
       animationTextReveal: '[data-animation="text"]',
       animationFade: '[data-animation="fade"]',
-      animationImageReveal: '[data-animation="image_reveal"]',
+      animationImageRevealVertical: '[data-animation="image_reveal_vertical"]',
+      animationImageRevealHorizontal: '[data-animation="image_reveal_horizontal"]',
       animationLine: '[data-animation="line"]',
     };
 
@@ -116,8 +117,12 @@ export default class Page extends EventEmitter {
       return new Chat({ element });
     });
 
-    this.animationsImageReveal = map(this.elements.animationImageReveal, (element) => {
-      return new ImageReveal({ element });
+    this.animationsImageRevealVertical = map(this.elements.animationImageRevealVertical, (element) => {
+      return new ImageRevealVertical({ element });
+    });
+
+    this.animationsImageRevealHorizontal = map(this.elements.animationImageRevealHorizontal, (element) => {
+      return new ImageRevealHorizontal({ element });
     });
 
     this.animationsFade = map(this.elements.animationFade, (element) => {

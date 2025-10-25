@@ -26,6 +26,9 @@ class App {
     this.createPreloader();
     this.isTransitioning = false;
 
+    if (window.history.scrollRestoration) {
+      window.history.scrollRestoration = "manual";
+    }
     if (import.meta.env.DEV && window.location.search.includes('fps')) {
       this.createStats();
     }
