@@ -115,7 +115,7 @@ export default class PinSwapper {
       pin: imageWrapper,
       pinSpacing: false,
 
-      markers: true, // Keep markers for debugging
+      markers: false, // Keep markers for debugging
     });
     this.triggers.push(pinTrigger);
     // remove previous handlers

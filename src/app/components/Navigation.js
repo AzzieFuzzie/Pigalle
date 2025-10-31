@@ -8,7 +8,9 @@ export default class Navigation extends Component {
       element: '.navigation',
       elements: {
         links: '.navigation__links--desktop a',
-        logo: '.navigation__logo__image'
+        mobile: '.navigation__links--mobile',
+        mobileLinks: '.mobile-links__wrapper a',
+        logo: '.navigation__logo__image',
       },
     });
 
@@ -18,101 +20,134 @@ export default class Navigation extends Component {
     this.currentScroll = this.lenis.scroll;
     this.previousScroll = this.lenis.scroll;
 
-    // --- Add this flag ---
     this.ticking = false;
 
     this.lenis.on('scroll', this.onScroll.bind(this));
+
+    // --- FIX: Select the button here in the constructor ---
+    this.btnOpen = document.querySelector('.navigation__icon');
+    console.log(this.btnOpen);
+    // Call this *after* this.btnOpen is defined
+    this.mobileListeners();
   }
 
   onChange(template) {
-
     this.template = template;
     if (template === 'about' || template === 'home') {
       GSAP.to(this.element, {
         backgroundColor: 'transparent',
         duration: 0.5,
-
       });
       GSAP.to(this.elements.links, {
         color: COLOR_WHITE,
         autoAlpha: 1,
         duration: 0.75,
-
       });
     } else {
       GSAP.to(this.element, {
         backgroundColor: 'transparent',
         duration: 0.5,
-
       });
       GSAP.to(this.elements.links, {
         color: COLOR_BLACK,
         autoAlpha: 1,
         duration: 0.75,
-
       });
     }
   }
 
-  // --- Modify this function ---
   onScroll(e) {
     this.previousScroll = this.currentScroll;
     this.currentScroll = e.scroll;
 
-    // Throttle the execution using requestAnimationFrame
     if (!this.ticking) {
       window.requestAnimationFrame(() => {
-        // Run your existing logic inside the animation frame
         this.checkScrollTop(this.template);
-        this.ticking = false; // Reset the flag after execution
+        this.ticking = false;
       });
-      this.ticking = true; // Set the flag to prevent scheduling again until done
+      this.ticking = true;
     }
   }
-  // --- End modification ---
 
   checkScrollTop(template) {
     const scrollY = this.currentScroll;
     const prevY = this.previousScroll;
 
     // --- AT TOP ---
-    if (scrollY <= 5) { // Use a small threshold instead of === 0 for reliability
+    if (scrollY <= 5) {
       this.onChange(template);
-      // Ensure nav stays visible when at top
       GSAP.to(this.element, { y: '0%', duration: 0.2 });
     }
     // --- SCROLLING DOWN ---
-    else if (scrollY > prevY && scrollY > 50) { // Add a threshold (e.g., 50px)
+    else if (scrollY > prevY && scrollY > 50) {
       GSAP.to(this.element, {
         y: '-100%',
-        duration: 0.4, // Slightly smoother hide
-
+        duration: 0.4,
       });
-      // Optionally fade out links faster when hiding
       GSAP.to(this.elements.links, {
         autoAlpha: 0,
         duration: 0.2,
-
       });
     }
     // --- SCROLLING UP ---
-    else if (scrollY < prevY && scrollY > 5) { // Check against the threshold
+    else if (scrollY < prevY && scrollY > 5) {
       GSAP.to(this.element, {
         y: '0%',
         backgroundColor: COLOR_WHITE,
         duration: 0.5,
-
       });
 
       GSAP.to(this.elements.links, {
         autoAlpha: 1,
         color: COLOR_BLACK,
-        duration: 0.5, // Match background duration
-        stagger: 0.05, // Keep subtle stagger
+        duration: 0.5,
+        stagger: 0.05,
         ease: 'power2.out',
-        delay: 0.1, // Shorten delay
-
+        delay: 0.1,
       });
     }
+  }
+
+  // --- REVISED MOBILE METHODS ---
+
+  openMobile() {
+    // this.btnOpen is now defined in the constructor
+
+    this.elements.mobile.setAttribute('aria-expanded', true);
+    console.log('opened');
+    this.lenis.stop()
+  }
+
+  closeMobile() {
+
+    this.elements.mobile.setAttribute('aria-expanded', false);
+    console.log('closed');
+    this.lenis.start()
+  }
+
+  // New toggle handler
+  onMobileClick() {
+    const isExpanded = this.elements.mobile.getAttribute('aria-expanded') === 'true';
+    console.log('open');
+    if (isExpanded) {
+      this.closeMobile();
+
+    } else {
+      this.openMobile();
+
+    }
+  }
+
+  mobileListeners() {
+    // Check if the button exists before adding a listener
+    if (this.btnOpen) {
+      // Pass the function reference, not the result of calling it
+      // Use .bind(this) to maintain the correct 'this' context
+      this.btnOpen.addEventListener('click', this.onMobileClick.bind(this));
+    } else {
+      console.warn('Mobile navigation icon (.navigation__icon) not found.');
+    }
+
+    this.elements.mobileLinks.addEventListener('click', this.closeMobile())
   }
 }

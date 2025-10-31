@@ -24,7 +24,7 @@ export default class ImageRevealHorizontal extends Component {
         trigger: this.element, // <-- Triggers on THIS element
         start: 'top 90%',
         toggleActions: 'play none none none',
-        markers: true,
+        markers: false,
       }
     });
   }

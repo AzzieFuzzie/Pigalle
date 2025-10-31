@@ -51,18 +51,28 @@ header {
       height: 100vh;
       padding: var(--padding-xsmall) var(--padding-xsmall);
       margin: 0;
-      visibility: hidden;
       z-index: z(navigation);
       color: colors(black);
       background-color: colors(grey);
-      will-change: transform;
+      will-change: translate, visibility;
 
-      @include media("<phone") {
-        margin: 0;
+      // --- FIX: Default state for all mobile/tablet views ---
+      visibility: hidden;
+      translate: 100vw 0;
+      // Delay hiding visibility on close, but show instantly on open
+      transition: translate 0.5s ease-in-out, visibility 0s 0.5s;
+
+      // Hide this menu on desktop
+      @media (min-width: 769px) {
+        display: none;
       }
 
-      @include media("<tablet") {
-        margin: 0;
+      // --- FIX: Activated state ---
+      // This is toggled by your JavaScript
+      &[aria-expanded='true'] {
+        visibility: visible; // <-- Make it visible
+        translate: 0; // <-- Move it on-screen
+        transition: translate 0.5s ease-in-out; // Transition in
       }
 
       .mobile-header {
