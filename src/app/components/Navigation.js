@@ -147,7 +147,13 @@ export default class Navigation extends Component {
     } else {
       console.warn('Mobile navigation icon (.navigation__icon) not found.');
     }
+    this.elements.mobileLinks.forEach(link => {
 
-    this.elements.mobileLinks.addEventListener('click', this.closeMobile())
+      // 1. Add the listener to the individual 'link'
+      // 2. Pass the function reference 'this.closeMobile.bind(this)'
+      link.addEventListener('click', this.closeMobile.bind(this));
+
+    });
+
   }
 }
