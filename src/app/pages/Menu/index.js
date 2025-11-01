@@ -66,12 +66,13 @@ export default class Menu extends Page {
     if (activeSection) {
       activeSection.classList.add('--active');
       // Animate in the active section
-      GSAP.to(activeSection, {
-        autoAlpha: 1,
-        duration: 0.4, // Fade-in duration
-        delay: 0.1,    // A slight delay to prevent flicker
+      GSAP.fromTo(activeSection, {
+        autoAlpha: 0  // <-- Force it to start from 0
+      }, {
+        autoAlpha: 1,       // <-- Animate to 1
+        duration: 0.4,
+        delay: 0.1,
         ease: 'power2.in',
-
       });
     }
 

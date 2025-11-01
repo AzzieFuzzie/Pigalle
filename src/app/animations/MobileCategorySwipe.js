@@ -36,7 +36,8 @@ export default class MobileCategorySwipe {
       edgeResistance: 0.7,    // Higher = feels “tighter” at edges
       inertia: true,
       bounds: { minX: Math.min(containerWidth - totalWidth, 0), maxX: 0 },
-      dragResistance: .3,    // Lower = less resistance while dragging
+      zIndexBoost: false,
+      dragResistance: .2,    // Lower = less resistance while dragging
     });
 
   }

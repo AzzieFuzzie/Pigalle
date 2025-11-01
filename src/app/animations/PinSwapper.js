@@ -37,10 +37,10 @@ export default class PinSwapper {
       });
 
       // Mobile
-      this.mm.add("(max-width:1023px)", () => {
-        requestAnimationFrame(() => this.setupMobile(section));
-        return () => { };
-      });
+      // this.mm.add("(max-width:1023px)", () => {
+      //   requestAnimationFrame(() => this.setupMobile(section));
+      //   return () => { };
+      // });
     };
 
     runSetup();

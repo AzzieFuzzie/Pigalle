@@ -112,7 +112,16 @@ export default class Navigation extends Component {
 
   openMobile() {
     // this.btnOpen is now defined in the constructor
-
+    GSAP.fromTo(this.elements.mobileLinks, {
+      y: "100%",
+    },
+      {
+        y: "0%",
+        duration: .75,
+        ease: 'expo.out',
+        stagger: 0.1,
+        delay: 0.4,
+      })
     this.elements.mobile.setAttribute('aria-expanded', true);
     console.log('opened');
     this.lenis.stop()

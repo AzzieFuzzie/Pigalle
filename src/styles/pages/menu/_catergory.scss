@@ -5,8 +5,8 @@
 
 .menu__category {
   @include flex(row, center, center, wrap);
-  margin-top: calc(var(--margin-medium) + 80px);
-  margin-bottom: var(--margin-medium);
+  margin-top: calc(var(--margin-xsmall) + 80px);
+  margin-bottom: var(--margin-small);
 
   color: colors(accent-grey);
 
@@ -16,7 +16,7 @@
 
   &__wrapper {
     @include flex(row, center, center, wrap);
-
+    padding: var(--padding-tiny) 0;
     max-width: 150ch;
     text-align: center;
 
